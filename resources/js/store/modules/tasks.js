@@ -4,12 +4,21 @@ export default {
         tasks: [],
     },
     getters: {},
-    mutations: {},
+    mutations: {
+        allTasks: (state, tasks) => {
+            state.tasks = tasks
+        },
+
+
+
+    },
     actions: {
-        async getAllTasks({ commit }) {
+        async getAllTasks({
+            commit
+        }) {
             try {
                 const response = await axios.get('/api/tasks')
-                console.log(response)
+                commit('allTasks', response.data.tasks)
             } catch (err) {
                 console.log(err)
             }
