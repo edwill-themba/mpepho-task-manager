@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
 {
@@ -11,15 +12,13 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $tasks = DB::table('users')
+            ->join('tasks', 'users.id', '=', 'tasks.id')
+            ->select('tasks.*', 'users.name', 'users.email')
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return response()->json(['tasks' => $tasks], 200);
     }
 
     /**
@@ -34,14 +33,6 @@ class TaskController extends Controller
      * Display the specified resource.
      */
     public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
     {
         //
     }

@@ -6,6 +6,8 @@
 
 <script>
 export default {
-  name: "Tasks"
+  name: "Tasks",
+  methods: {},
+  created() {}
 };
 </script>
