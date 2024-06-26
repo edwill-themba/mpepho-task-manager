@@ -24,7 +24,10 @@ Route::post('register', [AuthController::class, 'register']);
 
 Route::post('login', [AuthController::class, 'login']);
 
-Route::get('tasks', [TaskController::class, 'index']);
+Route::prefix('users')->group(function () {
+    Route::get('tasks', [TaskController::class, 'index']);
+});
+
 
 Route::middleware('auth:sanctum')->group(function () {
 

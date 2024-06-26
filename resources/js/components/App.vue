@@ -30,6 +30,23 @@ header {
   background: #111111;
 }
 body {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: poppins, Helvetica, Arial, sans-serif;
+  background: #111111;
+  color: #e4e4e4;
+  overflow: hidden;
+}
+.wrapper {
+  width: 100%;
+  height: 100%;
+}
+.wrapper-container {
+  width: 90%;
+  height: 100%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
+  position: relative;
 }
 </style>

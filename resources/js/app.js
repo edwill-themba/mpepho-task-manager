@@ -16,7 +16,6 @@ import {
 import store from './store/index'
 
 library.add(fas)
-
 createApp(App)
     .use(router)
     .use(store)

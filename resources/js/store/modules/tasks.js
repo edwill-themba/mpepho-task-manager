@@ -1,9 +1,14 @@
 import axios from 'axios'
+
 export default {
     state: {
         tasks: [],
     },
-    getters: {},
+    getters: {
+        getTasks(state) {
+            return state.tasks
+        }
+    },
     mutations: {
         allTasks: (state, tasks) => {
             state.tasks = tasks
@@ -13,15 +18,23 @@ export default {
 
     },
     actions: {
-        async getAllTasks({
+        /**
+         * Gets all the users tasks
+         * @param {*} commits 
+         */
+        getAllTasks({
             commit
         }) {
-            try {
-                const response = await axios.get('/api/tasks')
-                commit('allTasks', response.data.tasks)
-            } catch (err) {
-                console.log(err)
-            }
+            return new Promise((resolve, reject) => {
+                axios.get('api/users/tasks')
+                    .then((response) => {
+                        commit('allTasks', response.data.tasks)
+                        resolve(response)
+                    })
+                    .catch((error) => {
+                        reject(error)
+                    })
+            })
         }
     },
 
