@@ -49,4 +49,74 @@ body {
   margin: auto;
   position: relative;
 }
+.frm-register-login {
+  width: 350px;
+  height: auto;
+  padding: 15px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.frm-register-login .account {
+  margin: 10px;
+  font-size: 14px;
+  text-align: center;
+  color: blue;
+  cursor: pointer;
+}
+.input-group {
+  width: 80%;
+  height: auto;
+  padding: 5px;
+  margin-right: 30px;
+  position: relative;
+  border-bottom: 2px solid #111111;
+}
+.input-group:nth-child(2) {
+  margin-top: 20px;
+}
+.input-group:nth-child(3) {
+  margin-top: 20px;
+}
+.input-group:nth-child(4) {
+  margin-top: 20px;
+}
+.input-group .frm-input {
+  width: 70%;
+  height: 35px;
+  background: transparent;
+  border: none;
+  outline: none;
+  margin-left: 10px;
+  font-size: 15px;
+}
+.input-group p {
+  position: absolute;
+  margin: 5px auto;
+  color: red;
+  padding: 2px;
+}
+.btn-register-login {
+  margin-top: 35px;
+  width: 85%;
+  height: 35px;
+  background: #111111;
+  color: #e4e4e4;
+  font-size: 17px;
+  font-weight: 400;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.btn-register-login:hover {
+  border: 2px solid #111111;
+  color: #111111;
+  background: transparent;
+}
+@media (max-width: 900px) {
+  .frm-register-login {
+    margin-left: 40px;
+  }
+}
 </style>

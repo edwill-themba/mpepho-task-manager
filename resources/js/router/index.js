@@ -6,6 +6,9 @@ import Tasks from '../components/views/Tasks.vue'
 import SignIn from '../components/views/SignIn.vue'
 import Dashboard from '../components/views/Dashboard.vue'
 import SignOut from '../components/views/SignOut.vue'
+import store from '../store/index'
+
+
 
 const routes = [{
         path: '/',
@@ -20,12 +23,18 @@ const routes = [{
     {
         path: '/dashboard',
         name: 'Dashboard',
-        component: Dashboard
+        component: Dashboard,
+        meta: {
+            requiresAuth: true
+        }
     },
     {
         path: '/signout',
         name: 'SignOut',
-        component: SignOut
+        component: SignOut,
+        meta: {
+            requiresAuth: true
+        }
     }
 ];
 
@@ -33,6 +42,34 @@ const routes = [{
 const router = createRouter({
     history: createWebHistory(),
     routes
+})
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (!store.getters.isLoggin) {
+            next({
+                path: '/signin',
+                query: {
+                    redirect: to.fullPath
+                }
+            })
+        } else {
+            next()
+        }
+    } else if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (store.getters.isLoggin) {
+            next({
+                path: '/dashboard',
+                query: {
+                    redirect: to.fullPath
+                }
+            })
+        } else {
+            next()
+        }
+    } else {
+        next()
+    }
 })
 
 export default router

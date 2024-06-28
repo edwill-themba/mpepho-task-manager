@@ -56,9 +56,12 @@ export default {
   cursor: pointer;
   padding-right: 4px;
 }
-@media (max-width: 768) {
+@media (max-width: 768px) {
   .search-area {
-    width: 200px;
+    width: 280px;
+  }
+  .frm-search {
+    height: 20px;
   }
   .search-input {
     font-size: 14px;

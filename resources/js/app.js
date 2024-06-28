@@ -15,6 +15,7 @@ import {
 } from '@fortawesome/vue-fontawesome'
 import store from './store/index'
 
+
 library.add(fas)
 createApp(App)
     .use(router)

@@ -5,9 +5,9 @@
             <!-- main menu if is a big screen -->
              <ul class="menu" v-if="!mobile">
                 <li><router-link to="/">Tasks</router-link></li>
-                <li><router-link to="/signin">Sign In</router-link></li>
-                <li><router-link to="/dashboard">Dashboard</router-link></li>
-                <li><router-link to="/signout">Sign Out</router-link></li>
+                <li><router-link to="/signin" v-if="!isLoggin">Sign In</router-link></li>
+                <li><router-link to="/dashboard" v-if="isLoggin">Dashboard</router-link></li>
+                <li><router-link to="/signout" v-if="isLoggin">Sign Out</router-link></li>
              </ul>
              <!-- open this menu if is mobile or small screen -->
              <transition name="nav-mobile" class="mobile-nav" v-if="mobile">
@@ -34,6 +34,11 @@ export default {
   components: {
     SearchForm,
     MobileMenu
+  },
+  computed: {
+    isLoggin() {
+      return this.$store.getters.isLoggin;
+    }
   },
   data() {
     return {
