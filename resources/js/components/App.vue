@@ -114,6 +114,50 @@ body {
   color: #111111;
   background: transparent;
 }
+.tasks-list {
+  height: 100%;
+  width: 90%;
+  margin: auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.tasks-list .box {
+  width: 280px;
+  height: auto;
+  padding: 5px;
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  border-radius: 6px;
+  color: #111111;
+  border: none;
+}
+.box h6 {
+  font-size: 15px;
+  color: #111111;
+  font-weight: 800;
+  width: 100%;
+  text-decoration: underline;
+  text-transform: uppercase;
+}
+.box span {
+  font-size: 13px;
+  font-weight: bold;
+}
+.low {
+  background: limegreen;
+}
+.medium {
+  background: orange;
+}
+.high {
+  background: red;
+}
 @media (max-width: 900px) {
   .frm-register-login {
     margin-left: 40px;

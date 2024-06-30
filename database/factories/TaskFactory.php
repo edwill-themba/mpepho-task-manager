@@ -20,7 +20,8 @@ class TaskFactory extends Factory
             'task_name' => $this->faker->sentence($nbWords = 3, $variableNbWords = true),
             'task_date' => $this->faker->dateTimeBetween($startDate = '1 days', $endDate = '6 months', $timezone = null),
             'priority' => $this->faker->randomElement(['high', 'medium', 'low']),
-            'supervisor_id' => null
+            'supervisor_id' => null,
+            'status' => 'incomplete'
         ];
     }
 }

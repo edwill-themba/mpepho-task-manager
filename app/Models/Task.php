@@ -18,6 +18,7 @@ class Task extends Model
         'task_name',
         'task_date',
         'priority',
+        'status'
     ];
 
     /**

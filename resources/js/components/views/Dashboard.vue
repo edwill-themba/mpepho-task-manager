@@ -1,25 +1,36 @@
 <template>
-    <div>
-        Dashboard working
+    <div class="dashboard">
+       <div class="sidebar">
+         <Sidebar />
+      </div>
+       <div class="main-content">
+         <Content/>
+       </div>
     </div>
 </template>
 
 
 <script>
+import Sidebar from "./dashboard-components/Sidebar.vue";
+import Content from "./dashboard-components/Content.vue";
 export default {
   name: "Dashboard",
+  components: {
+    Sidebar,
+    Content
+  },
   data() {
     return {
-      user_name: null,
-      user_email: null
+      userName: null,
+      userEmail: null
     };
   },
   created() {
     this.$store
       .dispatch("getCurrentUser")
       .then(response => {
-        this.user_name = response.data.name;
-        this.user_email = response.data.email;
+        this.userName = response.data.name;
+        this.userEmail = response.data.email;
         console.log(this.user_name, this.user_email);
       })
       .catch(error => {
@@ -31,4 +42,47 @@ export default {
 </script>
 
 <style scoped>
+.dashboard {
+  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+  margin: -20px;
+  position: absolute;
+  background: #111111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.sidebar {
+  width: 30%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background: #111111;
+  position: fixed;
+}
+.main-content {
+  width: 70%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  position: fixed;
+  color: #111111;
+}
+
+@media (max-width: 800px) {
+  .sidebar {
+    width: 20%;
+  }
+  .main-content {
+    width: 80%;
+  }
+}
 </style>
