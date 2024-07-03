@@ -1,17 +1,36 @@
 <template>
     <div class="sidebar-content">
-       <div class="view-my-task">
+        <h2>Dashboard</h2>
+       <ul class="view-my-task">
+        <li>
          <span><FontAwesomeIcon icon="list" /></span>
-          <h3>{{ viewTask ? 'VIEW MY TASKS' : 'HIDE MY TASKS'}}</h3>
-       </div>
-       <div class="add-task">
-         <span><FontAwesomeIcon icon="plus" /></span>
+          <h3>VIEW MY TASKS</h3>
+       </li>
+       <li v-on:click="activate">
+         <span><FontAwesomeIcon icon="plus"  /></span>
           <h3>ADD NEW TASK</h3>
-       </div>
-       <div class="logout-area" v-on:click="signOut">
-          <span><FontAwesomeIcon icon="arrow-left" /></span> 
-           <p>Sign Out</p>
-       </div>
+       </li>
+        <li>
+         <span><FontAwesomeIcon icon="user" /></span>
+          <h3>VIEW EMPLOYEES</h3>
+       </li>
+        <li class="complete">
+         <span><FontAwesomeIcon icon="list" /></span>
+          <h3>COMPLETE TASKS</h3>
+       </li>
+        <li class="incomplete">
+         <span><FontAwesomeIcon icon="list" /></span>
+          <h3>INCOMPLETE TASK</h3>
+       </li>
+        <li v-on:click="goBack">
+          <span><FontAwesomeIcon icon="home" /></span> 
+          <p>Home</p>
+       </li>
+       <li  v-on:click="signOut">
+          <span><FontAwesomeIcon icon="power-off"  /></span> 
+          <p>Sign Out</p>
+       </li>
+       </ul>
     </div>
 </template>
 
@@ -19,13 +38,17 @@
 export default {
   name: "Sidebar",
   data() {
-    return {
-      viewTask: true
-    };
+    return {};
   },
   methods: {
     signOut: function() {
       this.$router.push({ path: "/signout" });
+    },
+    goBack: function() {
+      this.$router.push({ path: "/" });
+    },
+    activate: function() {
+      this.$store.dispatch("activateAddTask", true);
     }
   }
 };
@@ -42,63 +65,53 @@ export default {
   padding: 10px;
   margin: 30px;
 }
+.sidebar-content h2 {
+  color: purple;
+}
 /** view my task **/
 .view-my-task {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
   cursor: pointer;
   margin-top: 20px;
 }
-.view-my-task h3 {
+.view-my-task li {
+  list-style: none;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+  margin-top: 25px;
+}
+
+.view-my-task li h3 {
   margin-left: 15px;
   font-size: 20px;
 }
-/** add new task **/
-.add-task {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  margin-top: 20px;
+.view-my-task .incomplete span {
+  color: orangered;
 }
-.add-task h3 {
-  margin-left: 15px;
-  font-size: 20px;
+.view-my-task .complete span {
+  color: green;
 }
-/** logout area **/
-.logout-area {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  margin-top: 20px;
-}
-.logout-area span {
+
+.view-my-task li p {
   font-size: 17px;
-  border-radius: 50%;
-  text-align: center;
-  background: #111111;
-  color: #fff;
+  margin-left: 10px;
 }
-.logout-area p {
-  margin-left: 15px;
-  font-size: 17px;
-}
-.logout-area:hover {
+.view-my-task li:hover {
   color: coral;
 }
 @media (max-width: 800px) {
-  .logout-area p {
+  .view-my-task li p {
     display: none;
   }
-  .view-my-task h3 {
+  .view-my-task li h3 {
     display: none;
   }
-  .add-task h3 {
+  .sidebar-content h2 {
     display: none;
   }
 }

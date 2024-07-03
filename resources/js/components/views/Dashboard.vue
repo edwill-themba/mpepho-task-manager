@@ -1,4 +1,5 @@
 <template>
+  <div>
     <div class="dashboard">
        <div class="sidebar">
          <Sidebar />
@@ -7,17 +8,23 @@
          <Content/>
        </div>
     </div>
+    <!-- add task -->
+    <AddTask />
+    <!-- end add task -->
+  </div>
 </template>
 
 
 <script>
 import Sidebar from "./dashboard-components/Sidebar.vue";
 import Content from "./dashboard-components/Content.vue";
+import AddTask from "./forms/AddTask.vue";
 export default {
   name: "Dashboard",
   components: {
     Sidebar,
-    Content
+    Content,
+    AddTask
   },
   data() {
     return {
@@ -31,7 +38,7 @@ export default {
       .then(response => {
         this.userName = response.data.name;
         this.userEmail = response.data.email;
-        console.log(this.user_name, this.user_email);
+        //console.log(this.user_name, this.user_email);
       })
       .catch(error => {
         console.log(error);

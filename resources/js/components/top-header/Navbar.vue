@@ -5,9 +5,10 @@
             <!-- main menu if is a big screen -->
              <ul class="menu" v-if="!mobile">
                 <li><router-link to="/">Tasks</router-link></li>
-                <li><router-link to="/signin" v-if="!isLoggin">Sign In</router-link></li>
-                <li><router-link to="/dashboard" v-if="isLoggin">Dashboard</router-link></li>
-                <li><router-link to="/signout" v-if="isLoggin">Sign Out</router-link></li>
+                <li v-if="!isLoggin"><router-link to="/signin">Sign In</router-link></li>
+                <li v-if="isLoggin"><router-link to="/dashboard">Dashboard</router-link></li>
+                <li v-if="isLoggin" class="username">{{ currentUserName }}</li>
+                <li v-if="isLoggin"><router-link to="/signout" >Sign Out</router-link></li>
              </ul>
              <!-- open this menu if is mobile or small screen -->
              <transition name="nav-mobile" class="mobile-nav" v-if="mobile">
@@ -38,6 +39,9 @@ export default {
   computed: {
     isLoggin() {
       return this.$store.getters.isLoggin;
+    },
+    currentUserName() {
+      return this.$store.getters.currentName;
     }
   },
   data() {
@@ -97,6 +101,11 @@ export default {
 .menu li {
   list-style: none;
   margin-left: 10px;
+}
+.menu .username {
+  color: green;
+  font-size: 17px;
+  font-weight: 500;
 }
 .menu li a {
   color: #e4e4e4;

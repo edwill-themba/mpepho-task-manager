@@ -1,6 +1,6 @@
 <template>
     <div class="tasks-list">
-       <div  v-for="task in tasks" :key="task.id">
+       <div  v-for="task in  paginatedTasks" :key="task.id">
          <div :class="task.priority" class="box">
             <h6>{{ task.task_name }}</h6>
             <p>{{task.name}}</p>
@@ -16,9 +16,12 @@
 //import luxon from "luxon";
 export default {
   name: "TaskItem",
-  props: ["tasks"],
+  props: ["paginatedTasks"],
   data() {
     return {};
+  },
+  created() {
+    console.log(this.paginatedTasks);
   }
 };
 </script>

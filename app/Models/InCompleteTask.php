@@ -4,9 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
 
-class Task extends Model
+class InCompleteTask extends Model
 {
     use HasFactory;
     /**
@@ -22,13 +21,5 @@ class Task extends Model
     ];
 
     protected $timestamp = true;
-
-    /**
-     * Get the tasks of the user 
-     */
-    public function user()
-    {
-        return $this->belongsTo('App\Models\User');
-    }
 
 }

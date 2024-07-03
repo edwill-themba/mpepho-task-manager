@@ -15,6 +15,7 @@ export default {
 };
 </script>
 
+
 <style>
 * {
   margin: 0;
@@ -158,9 +159,19 @@ body {
 .high {
   background: red;
 }
+
 @media (max-width: 900px) {
   .frm-register-login {
     margin-left: 40px;
+  }
+  .tasks-list {
+    overflow-y: scroll;
+    height: 700px;
+    justify-content: center;
+    align-items: center;
+  }
+  .tasks-list .box {
+    margin: 15px auto;
   }
 }
 </style>

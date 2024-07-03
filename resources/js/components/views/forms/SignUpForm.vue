@@ -73,6 +73,7 @@ export default {
           this.formData.email = "";
           this.formData.password = "";
           this.formData.password_confirmation = "";
+          this.toggleLogin();
         })
         .catch(error => {
           console.log(error);

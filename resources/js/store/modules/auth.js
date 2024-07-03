@@ -11,7 +11,11 @@ export default {
             } else {
                 return true;
             }
+        },
+        currentName(state) {
+            return state.$current_user;
         }
+
     },
     mutations: {
         login: (state, token) => {
@@ -105,7 +109,7 @@ export default {
                     })
                     .then((response) => {
                         localStorage.setItem('currentUserName', response.data.name);
-                        commit('currentUser', response)
+                        commit('currentUser', response.data.name)
                         resolve(response)
                     })
                     .catch((error) => {

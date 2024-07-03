@@ -2,7 +2,7 @@
     <div class="wrapper">
         <div class="login-container">
              <div class="login-content">
-                <img src="../../../images/gears.jpg" alt="gears">
+                <img src="../../../images/gears.jpg">
              </div>
              <transition name="sign-in" v-if="sign_in">
                  <div class="sign-in-form">
@@ -80,6 +80,7 @@ export default {
   bottom: 0;
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
+  position: absolute;
 }
 /** sign in form **/
 .sign-in-form {

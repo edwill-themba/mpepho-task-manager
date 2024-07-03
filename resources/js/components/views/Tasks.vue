@@ -6,7 +6,11 @@
      <div class="wrapper-container">
         <!-- task type is the priority & pagination  component-->
         <TasksType />
-        <Pagination /> 
+        <Pagination 
+         :totalPages="tasks.length" 
+         :perPageOptions=[12] 
+         v-on:getPage="getPage"
+         /> 
      </div>
      <div v-if="serverError">
         <!-- the component for server errors -->
@@ -18,7 +22,7 @@
      </div>
      <div v-if="tasks">
        <!-- component for each task item -->
-       <TaskItem  v-bind:tasks="tasks"/>
+       <TaskItem  v-bind:paginatedTasks="paginatedTasks"/>
      </div>
     </div>
 </template>
@@ -29,6 +33,7 @@ import Pagination from "./tasks-components/Pagination.vue"; // pagination
 import Error from "./server-error/Error.vue"; // error component
 import NoTask from "./tasks-components/NoTask.vue"; // no task found
 import TaskItem from "./tasks-components/TaskItem.vue"; // each task
+const perPageOptions = [12];
 export default {
   name: "Tasks",
   components: {
@@ -38,11 +43,20 @@ export default {
     NoTask,
     TaskItem
   },
+  computed: {
+    paginatedTasks() {
+      const firstIndex = (this.page - 1) * this.perPage;
+      const lastIndex = this.page * this.perPage;
+      return this.tasks.slice(firstIndex, lastIndex);
+    }
+  },
   data() {
     return {
       serverError: null,
       error: null,
-      tasks: []
+      tasks: [],
+      page: 1,
+      perPage: perPageOptions[0]
     };
   },
   methods: {
@@ -56,6 +70,10 @@ export default {
           this.serverError = true;
           this.error = error;
         });
+    },
+    getPage(page, perPage) {
+      this.page = page;
+      this.perPage = perPage;
     }
   },
   created() {
