@@ -12,6 +12,11 @@ use App\Models\Task;
 class TaskController extends Controller
 {
 
+    public function __construct()
+    {
+        // removes all the abandoned task which date expired
+        (new TaskValidator())->removeExpiredTasks();
+    }
     /**
      * Display a listing of the resource.
      */

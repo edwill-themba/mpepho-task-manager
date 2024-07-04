@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\SupervsorTaskController;
+use App\Http\Controllers\InCompleteTaskController;
+use App\Http\Controllers\CompleteTaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +36,8 @@ Route::prefix('users')->group(function () {
 // protected routes
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
+    Route::get('incomplete_tasks', [InCompleteTaskController::class, 'index']);
+    Route::get('complete_tasks', [CompleteTaskController::class, 'index']);
     // tasks that for users
     Route::prefix('users')->group(function () {
         Route::get('mytasks', [TaskController::class, 'user_tasks']);

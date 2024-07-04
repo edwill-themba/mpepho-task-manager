@@ -19,7 +19,6 @@
         "@vitejs/plugin-vue": "^5.0.5",
         "bootstrap": "^5.3.3",
         "bootstrap-vue": "^2.23.1",
-        "luxon": "^3.4.4",
         "moment": "^2.30.1",
         "primevue": "^4.0.0-rc.2",
         "sweetalert2": "^11.12.0",
@@ -27,6 +26,7 @@
         "vue": "^3.4.30",
         "vue-loader": "^17.4.2",
         "vue-router": "^4.4.0",
-        "vuex": "^4.1.0"
+        "vuex": "^4.1.0",
+        "vuex-persistedstate": "^4.1.0"
     }
 }

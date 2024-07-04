@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class InCompleteTask extends Model
 {
     use HasFactory;
@@ -21,5 +22,7 @@ class InCompleteTask extends Model
     ];
 
     protected $timestamp = true;
+
+
 
 }

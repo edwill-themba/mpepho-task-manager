@@ -5,12 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use DB;
-use function SebastianBergmann\LinesOfCode\result;
-
 
 class TaskValidator extends Model
 {
     use HasFactory;
+    /**
+     * removes all the expired and abandonned
+     * by users
+     */
+    public function removeExpiredTasks()
+    {
+        $today = now();
+        \DB::table('tasks')->where('task_date', '<', $today)->delete();
+    }
     /**
      * checks if user has task deadline on the date
      * 
