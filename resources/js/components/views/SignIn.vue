@@ -4,15 +4,15 @@
              <div class="login-content">
                 <img src="../../../images/gears.jpg">
              </div>
-             <transition name="sign-in" v-if="sign_in">
-                 <div class="sign-in-form">
+             <transition name="sign-in">
+                 <div class="sign-in-form" v-if="sign_in">
                       <h3>Sign In</h3>
                       <!-- form sign in  component -->
                       <SignInForm  v-on:toggleRegister="toggleSignUp()"/>
                  </div>
              </transition>
-             <transition name="sign-up" v-if="sign_up">
-                  <div class="sign-up-form">
+             <transition name="sign-up">
+                  <div class="sign-up-form"  v-if="sign_up">
                     <h3>Sign Up</h3>
                     <SignUpForm  v-on:toggleLogin="toggleSignIn()" />
                  </div>
@@ -123,26 +123,33 @@ export default {
 /** sign in **/
 .sign-in-enter-active,
 .sign-in-leave-active {
-  transition: 0.8s all;
+  transition: 0.8s ease;
 }
 .sign-in-enter-from,
 .sign-in-leave-to {
-  transform: translateX(-250px);
+  transform: translateX(100%);
 }
 .sign-in-enter-to {
   transform: translateX(0px);
 }
+.sign-in-leave-active {
+  position: absolute;
+}
 /** sign up **/
 .sign-up-enter-active,
 .sign-up-leave-active {
-  transition: 0.8s all;
+  transition: 0.8s ease;
 }
 .sign-up-enter-from,
 .sign-up-leave-to {
-  transform: translateX(-250px);
+  transform: translateX(100%);
+  opacity: 0;
 }
 .sign-up-enter-to {
   transform: translateX(0px);
+}
+.sign-up-leave-active {
+  position: absolute;
 }
 
 @media (max-width: 900px) {

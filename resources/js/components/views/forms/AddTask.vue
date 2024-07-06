@@ -1,17 +1,46 @@
 <template>
-    <div class="modal" v-if="showModal">
-     <div class="modal-form">
-         <transition name="modal-menu">
-            <form  class="frm-add-task">
-               <h4>Add New Task</h4>
-            </form>
-        </transition>  
-       </div>
-      <div class="modal-handler" v-on:click="closeModal"></div>
-    </div>
+  <div class="modal" v-if="showModal">
+    <transition name="modal-menu">
+      <div class="modal-form">
+        <form  class="frm-add-task">
+          <h4>Add New Task</h4>
+            <div class="input-div">
+              <input type="text" name="task_name" v-model="formData.task_name" placeholder="enter task name" class="input">
+              <p>{{ fieldErrors.task_name }}</p>
+            </div>
+            <div class="input-div">
+             <input type="datetime-local" name="task_date" v-model="formData.task_date"   class="input">
+             <p>{{ fieldErrors.task_date }}</p>
+            </div>
+            <div class="input-div">
+             <select  name="priority" v-model="formData.priority" class="input">
+              <option value="">please select task priority</option>
+              <option value="high">high</option>
+              <option value="medium">medium</option>
+              <option value="low">low</option>
+             </select>
+             <p>{{ fieldErrors.priority }}</p>
+            </div>
+            <div class="button">
+             <button type="button" class="btn-save" v-on:click="addTask">
+              save
+             </button>
+              <button type="button" class="btn-close" v-on:click="closeModal">
+               close
+             </button>
+            </div>
+            <div v-if="error" class="error">
+               <span>{{ errorMessage }}</span>
+            </div>
+       </form>
+     </div>
+    </transition>  
+  <div class="modal-handler"></div>
+  </div>
 </template>
 
 <script>
+import Swal from "sweetalert2";
 export default {
   name: "AddTask",
   computed: {
@@ -21,13 +50,55 @@ export default {
   },
   data() {
     return {
-      modal: true
+      modal: false,
+      formData: {
+        task_date: "",
+        task_name: "",
+        priority: ""
+      },
+      error: false,
+      errorMessage: undefined,
+      fieldErrors: {
+        task_date: undefined,
+        task_name: undefined,
+        priority: undefined
+      }
     };
   },
   methods: {
     closeModal: function() {
-      //alert("Hi");
       this.$store.dispatch("activateAddTask", false);
+    },
+    addTask: function(e) {
+      e.preventDefault();
+      this.fieldErrors = this.validateForm(this.formData);
+      if (Object.keys(this.fieldErrors).length) return;
+      this.$store
+        .dispatch("addNewTask", this.formData)
+        .then(response => {
+          // clears input
+          this.formData.task_name = "";
+          this.formData.task_date = "";
+          this.formData.priority = "";
+          console.log(response);
+          this.closeModal();
+        })
+        .catch(error => {
+          this.error = true;
+          this.errorMessage = error.response.data.message;
+          // clears input
+          this.formData.task_name = "";
+          this.formData.task_date = "";
+          this.formData.priority = "";
+          console.log(error);
+        });
+    },
+    validateForm: function(field) {
+      const errors = {};
+      if (!field.task_name) errors.task_name = "The field name is required";
+      if (!field.task_date) errors.task_date = "The field date is required";
+      if (!field.priority) errors.priority = "The field priority is required";
+      return errors;
     }
   }
 };
@@ -58,19 +129,6 @@ export default {
   top: 0;
   left: 0px;
 }
-.frm-add-task {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  background: #fff;
-  width: 300px;
-  height: 300px;
-  margin-top: 20px;
-  border-radius: 6px;
-  margin-left: 10px;
-  padding: 10px;
-}
 .modal-handler {
   height: 100%;
   width: 70%;
@@ -80,15 +138,31 @@ export default {
   position: absolute;
   background: transparent;
 }
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+}
+.error span {
+  color: red;
+  font-size: 15px;
+  padding: 10px;
+  text-align: left;
+}
 .modal-menu-enter-active,
 .modal-menu-leave-active {
-  transition: 0.8s all;
+  transition: 0.8s ease;
 }
 .modal-menu-enter-from,
 .modal-menu-leave-to {
-  transform: translateX(-250px);
+  transform: translateX(100%);
+  opacity: 0;
 }
 .modal-menu-enter-to {
   transform: translateX(0px);
+}
+.modal-menu-leave-active {
+  position: absolute;
 }
 </style>

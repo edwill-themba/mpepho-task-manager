@@ -1,9 +1,15 @@
 <template>
+  <div>
     <div class="wrapper">
       <div class="task-header">
         <h1>Task Management System</h1>
      </div>
-     <div class="wrapper-container">
+     <!-- is loading -->
+     <div class="loading" v-if="isLoading">
+       <p>please wait this will take some time...</p>
+    </div>
+     <!-- end is loading element -->
+     <div class="wrapper-container" v-if="!isLoading">
         <!-- task type is the priority & pagination  component-->
         <TasksType />
         <Pagination 
@@ -25,6 +31,7 @@
        <TaskItem  v-bind:paginatedTasks="paginatedTasks"/>
      </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -33,6 +40,7 @@ import Pagination from "./tasks-components/Pagination.vue"; // pagination
 import Error from "./server-error/Error.vue"; // error component
 import NoTask from "./tasks-components/NoTask.vue"; // no task found
 import TaskItem from "./tasks-components/TaskItem.vue"; // each task
+
 const perPageOptions = [12];
 export default {
   name: "Tasks",
@@ -48,6 +56,9 @@ export default {
       const firstIndex = (this.page - 1) * this.perPage;
       const lastIndex = this.page * this.perPage;
       return this.tasks.slice(firstIndex, lastIndex);
+    },
+    isLoading() {
+      return this.$store.getters.isLoading;
     }
   },
   data() {
@@ -76,7 +87,7 @@ export default {
       this.perPage = perPage;
     }
   },
-  created() {
+  mounted() {
     this.getUserTasks();
   }
 };

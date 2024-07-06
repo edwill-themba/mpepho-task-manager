@@ -38,7 +38,9 @@
 export default {
   name: "Sidebar",
   data() {
-    return {};
+    return {
+      
+    };
   },
   methods: {
     signOut: function() {

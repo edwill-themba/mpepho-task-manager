@@ -65,7 +65,7 @@ export default {
   flex-wrap: wrap;
 }
 .sidebar {
-  width: 30%;
+  width: 25%;
   height: 100%;
   top: 0;
   left: 0;
@@ -74,7 +74,7 @@ export default {
   position: fixed;
 }
 .main-content {
-  width: 70%;
+  width: 75%;
   height: 100%;
   top: 0;
   right: 0;

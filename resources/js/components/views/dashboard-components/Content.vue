@@ -1,17 +1,19 @@
 <template>
     <div class="dashboard-content">
-       <h1>Welcome to our new website !!</h1>
-       <p><strong>{{ currentName }}</strong></p>
-       <!--- if user has tasks -->
-       <div v-if="tasks.length > 0">
-          <div class="my-tasks">
-             <h3>Your current Tasks</h3>
-             <MyTasks v-bind:userTasks="userTasks" />
-          </div>
+       <div class="pending">
+          <h3>Current Pending Tasks</h3>
+          <!-- current pending task  -->
+          <MyTasks v-bind:tasks="tasks" />
        </div>
-       <!-- if user has no tasks -->
-       <div v-if="tasks.length === 0">
-           <NoTask />
+       <div class="in-complete-task">
+         <!-- incomplete task by the user -->
+          <h3>Incomplete Tasks</h3>
+         <IncompleteTasks />
+       </div>
+       <div class="complete-task">
+        <!-- complete tasks -->
+        <h3>Complete Tasks</h3>
+        <CompleteTasks />
        </div>
     </div>
 </template>
@@ -19,19 +21,20 @@
 
 <script>
 import NoTask from "../tasks-components/NoTask.vue";
+import CompleteTasks from "./CompleteTasks.vue";
+import IncompleteTasks from "./IncompleteTasks.vue";
 import MyTasks from "./MyTasks.vue";
 export default {
   name: "Content",
   components: {
     NoTask,
-    MyTasks
+    MyTasks,
+    CompleteTasks,
+    IncompleteTasks
   },
   computed: {
     currentName() {
       return this.$store.getters.currentName;
-    },
-    userTasks() {
-      return this.$store.getters.getMyTasks;
     }
   },
   data() {
@@ -39,7 +42,7 @@ export default {
       tasks: [] // tasks of the user logged in
     };
   },
-  created() {
+  mounted() {
     this.allMyTasks();
   },
   methods: {
@@ -48,7 +51,6 @@ export default {
         .dispatch("userTasks")
         .then(response => {
           this.tasks = response.data.myTasks;
-          console.log(this.tasks);
         })
         .catch(error => {
           console.log("error" + error);
@@ -63,43 +65,25 @@ export default {
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex-direction: column;
-  padding-right: 10px;
-  margin-right: 20px;
-  margin-top: 30px;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
 }
-.dashboard-content h1 {
-  text-transform: uppercase;
-  font-size: 30px;
+.pending {
+  margin: 10px;
 }
-.dashboard-content p {
-  font-size: 20px;
+.pending h3 {
+  padding: 5px;
+  margin: 5px auto;
+  font-size: 25px;
 }
-.my-tasks {
-  margin: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+.in-complete-task {
+  margin: 30px 10px;
 }
-.my-tasks h3 {
-  font-size: 23px;
-  color: coral;
-  text-transform: uppercase;
-}
-@media (max-width: 900px) {
-  .dashboard-content {
-    margin: 30px 1px;
-    align-items: flex-start;
-  }
-  .dashboard-content h1 {
-    font-size: 19px;
-    margin-right: 10px;
-  }
-  .dashboard-content p {
-    font-size: 17px;
-  }
+.in-complete-task h3 {
+  padding: 5px;
+  margin: 5px auto;
+  font-size: 25px;
+  color: blue;
 }
 </style>

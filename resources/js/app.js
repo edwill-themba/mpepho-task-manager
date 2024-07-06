@@ -14,13 +14,10 @@ import {
     FontAwesomeIcon
 } from '@fortawesome/vue-fontawesome'
 import store from './store/index'
-import tooltip from 'primevue/tooltip';
-
 
 library.add(fas)
 createApp(App)
     .use(router)
     .use(store)
-    .directive('tooltip', tooltip)
     .component('FontAwesomeIcon', FontAwesomeIcon)
     .mount('#app')

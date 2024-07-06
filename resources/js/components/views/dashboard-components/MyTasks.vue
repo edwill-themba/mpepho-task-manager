@@ -1,93 +1,126 @@
 <template>
-    <div class="my-tasks" style="margin:20px auto;">
-        <table class="my-tasks-table">
-          <tr class="t-header">
-             <th class="table-id">No</th>
-            <th class="table-header">Task Name</th>
-            <th class="table-header">Created Date</th>
-            <th class="table-header">Deadline Date</th>
-            <th class="table-header">Task Priorty</th>
-            <th></th>
-            <th></th>
-          </tr>
-          <tr v-for="(task,index) in userTasks" :key="index" :class="task.priority">
-             <td class="colum-task-id">{{ index + 1 }}</td>
-             <td class="colum-task-name">{{ task.task_name }}</td>
-             <td class="colum-task">{{ task.created_at }}</td>
-             <td class="colum-task">{{ task.task_date }}</td>
-             <td class="colum-task">{{ task.priority }}</td>
-             <td class="colum-task-operation"><span><FontAwesomeIcon icon="trash" /></span></td>
-             <td class="colum-task-operation"><span><FontAwesomeIcon icon="pen" /></span></td>
-          </tr>
-        </table>
+  <div>
+    <div v-if="serverError">
+       <Error v-bind:error="error" />
     </div>
+    <div  class="pending-tasks">
+      <div v-for="(task,index) in mytasks" :key="index">
+          <h5>{{ task.task_name }}</h5>
+          <p>Due Date : {{ formatDate(task.task_date) }}</p>
+          <span class="delete-task" v-on:click="deleteTask(task)"><FontAwesomeIcon icon="trash" /></span>
+          <button class="btn-complete">complete task</button>
+      </div>
+    </div>
+ </div>
 </template>
 
 <script>
+import moment from "moment";
+import Error from "../server-error/Error.vue";
 export default {
   name: "MyTasks",
-  props: ["userTasks"]
+  props: ["tasks"],
+  components: {
+    Error
+  },
+  data() {
+    return {
+      serverError: false,
+      error: undefined,
+      task: {
+        id: null,
+        task_name: null,
+        task_date: null,
+        priority: null,
+        status: null
+      }
+    };
+  },
+  computed: {
+    mytasks() {
+      return this.$store.getters.getMyTasks;
+    }
+  },
+  methods: {
+    formatDate: function(task_date) {
+      return moment(task_date).format("DD-MM-YYYY");
+    },
+    formatTime: function(task_time) {
+      return moment(task_time).format("HH:MM");
+    },
+    deleteTask: function(task) {
+      this.task = task;
+      let deleteTask = confirm("are you sure you want to delete this task?");
+      if (deleteTask) {
+        this.$store
+          .dispatch("deleteTask", this.task)
+          .then(() => {
+            console.log("task was removed successful");
+          })
+          .catch(error => {
+            this.serverError = true;
+            this.error = error;
+            console.log("error message" + this.errorMessage);
+          });
+      }
+    }
+  }
 };
 </script>
 
 <style scoped>
-@import "bootstrap/dist/css/bootstrap.min.css";
-@import "bootstrap";
-
-.my-tasks {
-  margin-top: 30px;
-  width: 850px;
-  overflow-x: auto;
+.pending-tasks {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
 }
-.t-header {
-  background: #ccc;
+.pending-tasks div {
+  width: 300px;
+  height: auto;
+  margin: 2px 10px;
+  border: 1px solid #1111;
+  border-radius: 6px;
+  background: #111111;
+  color: #e4e4e4;
+  padding: 10px 5px 12px 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  position: relative;
 }
-.my-tasks-table {
-  border: 1px solid #111;
-  padding: 10px;
-  margin-right: 20px;
+.pending-tasks div h5 {
+  font-size: 15px;
+  color: orangered;
 }
-.table-id {
-  width: 60px;
-  border: 1px solid #111;
-  padding-left: 5px;
+.pending-tasks div p {
+  font-weight: 700;
+  font-size: 13.5px;
+  margin-top: 2px;
+  color: blueviolet;
 }
-.table-header {
-  width: 250px;
-  text-align: left;
-  margin: 5px 10px;
-  border: 1px solid #111;
-  padding-left: 10px;
+.pending-tasks div .delete-task {
+  position: absolute;
+  bottom: 5px;
+  right: 10px;
+  color: red;
+  font-weight: bold;
+  cursor: pointer;
 }
-.colum-task-id {
-  width: 60px;
-  border: 1px solid #111;
-  padding-left: 5px;
-}
-.colum-task-name {
-  width: 250px;
-  border: 1px solid #111;
-  padding-left: 10px;
-}
-.colum-task {
-  width: 90px;
-  border: 1px solid #111;
-  padding-left: 10px;
-}
-.colum-task-operation {
-  width: 40px;
-  border: 1px solid #111;
-  padding-left: 10px;
-}
-
-@media (max-width: 800px) {
-  table,
-  thead,
-  tbody,
-  th,
-  td,
-  tr {
-    display: block;
-  }
+.btn-complete {
+  background: green;
+  width: 70%;
+  height: 35px;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
 }
 </style>
