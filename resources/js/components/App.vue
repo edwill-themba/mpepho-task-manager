@@ -31,7 +31,7 @@ header {
   background: #111111;
 }
 body {
-  font-family: poppins, Helvetica, Arial, sans-serif;
+  font-family: Poppins, Helvetica, Arial, sans-serif;
   background: #111111;
   color: #e4e4e4;
   overflow: hidden;
@@ -153,17 +153,24 @@ body {
   color: #111111;
   border: none;
 }
+.tasks-list .box:hover {
+  transform: scale(1.1);
+}
 .box h6 {
   font-size: 15px;
   color: #111111;
-  font-weight: 800;
+  font-weight: 900;
   width: 100%;
   text-decoration: underline;
   text-transform: uppercase;
 }
+.box p {
+  font-weight: 500;
+}
 .box span {
   font-size: 13px;
   font-weight: bold;
+  font-weight: 400;
 }
 .low {
   background: limegreen;
@@ -180,8 +187,8 @@ body {
   justify-content: flex-start;
   align-items: flex-start;
   background: #fff;
-  width: 370px;
-  height: 500px;
+  width: 300px;
+  height: auto;
   margin-top: 20px;
   border-radius: 6px;
   margin-left: 10px;
@@ -258,6 +265,41 @@ body {
   background: transparent;
   border: 2px solid purple;
   color: purple;
+}
+.no-tasks {
+  width: 100%;
+  height: auto;
+  margin: 10px;
+  padding: 5px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.no-tasks p {
+  color: #e4e4e4;
+  font-size: 17px;
+  font-weight: bold;
+  margin-left: 12px;
+}
+.error p {
+  color: red;
+  font-size: 17px;
+  font-weight: bold;
+  margin-left: 12px;
+}
+.message {
+  text-align: center;
+  margin-top: 20px;
+}
+.contaier-table {
+  width: 90%;
+  height: 100%;
+  margin: 0px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 @media (max-width: 900px) {

@@ -1,53 +1,72 @@
 <template>
   <div>
-    <div v-if="serverError">
-       <Error v-bind:error="error" />
-    </div>
-    <div  class="pending-tasks">
-      <div v-for="(task,index) in mytasks" :key="index">
+   <!-- server error -->
+   <div v-if="serverError" class="error">
+        {{ error }}
+  </div>
+  <!-- end server error -->
+  <div v-if="taskLength <= 0" class="no-tasks">
+   <p>no pending tasks are found</p>
+  </div>
+  <div v-else class="pending-tasks">
+       <div v-for="(task,index) in mytasks" :key="index">
           <h5>{{ task.task_name }}</h5>
           <p>Due Date : {{ formatDate(task.task_date) }}</p>
           <span class="delete-task" v-on:click="deleteTask(task)"><FontAwesomeIcon icon="trash" /></span>
-          <button class="btn-complete">complete task</button>
-      </div>
-    </div>
+          <span class="finish-task"  v-on:click="edit(task)"><FontAwesomeIcon icon="pencil"/></span>
+       </div>
+  </div>
+   <!-- update task -->
+   <teleport to="#update-task">
+     <transition name="update-task">
+       <div class="update-task-modal" v-if="showModal">
+        <UpdateTask 
+         v-bind:task="task"
+         v-on:closeModal="closeModal"  />
+       </div>
+      </transition>
+   </teleport>
+   <!-- modal -->
  </div>
 </template>
 
 <script>
-import moment from "moment";
 import Error from "../server-error/Error.vue";
+import UpdateTask from "../forms/UpdateTask.vue";
+import formatDate from "@/mixins/formatDate.js";
 export default {
+  mixins: [formatDate],
   name: "MyTasks",
-  props: ["tasks"],
   components: {
-    Error
-  },
-  data() {
-    return {
-      serverError: false,
-      error: undefined,
-      task: {
-        id: null,
-        task_name: null,
-        task_date: null,
-        priority: null,
-        status: null
-      }
-    };
+    Error,
+    UpdateTask
   },
   computed: {
     mytasks() {
       return this.$store.getters.getMyTasks;
     }
   },
+  data() {
+    return {
+      serverError: false,
+      error: undefined,
+      task: {
+        id: "",
+        task_name: "",
+        task_date: "",
+        priority: "",
+        status: ""
+      },
+      tasks: [],
+      taskLength: undefined,
+      showModal: false // show edit modal
+    };
+  },
+  mounted() {
+    this.myTasks();
+  },
   methods: {
-    formatDate: function(task_date) {
-      return moment(task_date).format("DD-MM-YYYY");
-    },
-    formatTime: function(task_time) {
-      return moment(task_time).format("HH:MM");
-    },
+    // delete selected user task
     deleteTask: function(task) {
       this.task = task;
       let deleteTask = confirm("are you sure you want to delete this task?");
@@ -63,6 +82,30 @@ export default {
             console.log("error message" + this.errorMessage);
           });
       }
+    },
+    // show edit modal
+    edit: function(task) {
+      this.task = task;
+      this.showModal = true;
+    },
+    // get all the current pending tasks
+    myTasks: function() {
+      this.$store
+        .dispatch("userTasks")
+        .then(response => {
+          this.tasks = response.data.myTasks;
+          this.taskLength = this.tasks.length;
+          console.log(this.tasks);
+        })
+        .catch(error => {
+          this.serverError = true;
+          this.error = error;
+          console.log(error);
+        });
+    },
+    // closes modal
+    closeModal: function() {
+      this.showModal = false;
     }
   }
 };
@@ -78,7 +121,7 @@ export default {
   flex-direction: column;
 }
 .pending-tasks div {
-  width: 300px;
+  width: 250px;
   height: auto;
   margin: 2px 10px;
   border: 1px solid #1111;
@@ -93,14 +136,17 @@ export default {
   position: relative;
 }
 .pending-tasks div h5 {
-  font-size: 15px;
-  color: orangered;
+  font-size: 16px;
+  color: #e4e4e4;
+  font-weight: 300;
 }
 .pending-tasks div p {
-  font-weight: 700;
+  font-weight: 400;
   font-size: 13.5px;
-  margin-top: 2px;
-  color: blueviolet;
+  color: coral;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
 }
 .pending-tasks div .delete-task {
   position: absolute;
@@ -110,17 +156,39 @@ export default {
   font-weight: bold;
   cursor: pointer;
 }
-.btn-complete {
-  background: green;
-  width: 70%;
-  height: 35px;
-  border: none;
-  border-radius: 6px;
-  color: #fff;
-  margin-top: 10px;
-  font-size: 15px;
+.pending-tasks div .finish-task {
+  position: absolute;
+  bottom: 5px;
+  left: 10px;
+  color: green;
   font-weight: bold;
   cursor: pointer;
-  text-transform: uppercase;
 }
+/** modal **/
+.update-task-modal {
+  width: 100%;
+  height: 100%;
+  background: rgba(216, 205, 205, 0.8);
+  z-index: 1000;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+}
+.update-task-enter-active,
+.update-task-leave-active {
+  transition: 0.8s ease;
+}
+.update-task-enter-from,
+.update-task-leave-to {
+  opacity: 0;
+}
+.update-task-enter-to {
+  opacity: 1;
+}
+.update-task-leave-active {
+  position: absolute;
+}
+/** modal **/
 </style>

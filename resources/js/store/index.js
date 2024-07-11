@@ -3,13 +3,12 @@ import {
 } from 'vuex'
 import auth from './modules/auth'
 import tasks from './modules/tasks'
-import createPersistedState from 'vuex-persistedstate'
-
+import supervisorTasks from './modules/supervisorTasks'
 
 export default createStore({
     modules: {
         auth,
-        tasks
+        tasks,
+        supervisorTasks
     },
-    plugins: [createPersistedState()]
 })

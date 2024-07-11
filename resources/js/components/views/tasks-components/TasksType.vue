@@ -1,5 +1,6 @@
 <template>
     <ul class="task-type">
+       <li class="priority"><span>Task Priority</span></li>
        <li class="priority-high"><span><FontAwesomeIcon icon="square" /></span>High</li>
        <li class="priority-medium"><span><FontAwesomeIcon icon="square" /></span>Medium</li>
        <li class="priority-low"><span><FontAwesomeIcon icon="square" /></span>Low</li>
@@ -26,6 +27,14 @@ export default {
   justify-content: center;
   align-items: center;
   margin-left: 10px;
+}
+.task-type li span {
+  font-size: 14px;
+  font-weight: 200;
+}
+.task-type .priority span {
+  font-size: 16px;
+  font-weight: 400;
 }
 .task-type .priority-high {
   color: #e4e4e4;

@@ -4,63 +4,80 @@ import auth from './auth'
 export default {
     state: {
         tasks: [], // all tasks
-        myTasks: [], // a tasks belongs to user
+        myTasks: [], // all tasks belongs to user
         addtask: false,
         isloading: false,
-        complete_tasks: [],
-        incomplete_tasks: [],
+        complete_tasks: [], // tracks all the tasks user has completed
+        incomplete_tasks: [], // track all incomplete tasks
     },
     getters: {
+        // gets all the current tasks
         getTasks(state) {
             return state.tasks
         },
+        // gets all the task belongs to a user
         getMyTasks(state) {
             return state.myTasks;
         },
+        // return the status of activating adding task
         addingTask(state) {
             return state.addtask;
         },
+        // returns the current status of is loading
         isLoading(state) {
             return state.isloading;
         },
+        // gets all the incomplete tasks
         getIncompleteTasks(state) {
             return state.incomplete_tasks;
         },
+        // gets all the complete tasks
         getCompleteTasks(state) {
             return state.complete_tasks;
-        }
+        },
+
+
     },
     mutations: {
+        // all tasks of users
         allTasks: (state, tasks) => {
             state.tasks = tasks
         },
+        // tasks that belongs to auth person
         myTasks: (state, myTasks) => {
             state.myTasks = myTasks
         },
+        // activates the add tasks modal
         activateAddTask: (state, value) => {
             state.addtask = value;
         },
+        // change the is loading status
         changeIsLoading: (state, value) => {
             state.isloading = value;
         },
+        // adds task for user for himself/herself
         addNewTask: (state, task) => {
             state.tasks.unshift(task);
             state.myTasks.unshift(task);
         },
+        // updates task for the authorized user
         updateTask: (state, task) => {
             state.tasks = task;
             state.myTasks = task;
         },
+        // deletes task from all tasks and my tasks
         deleteTask: (state, id) => {
             state.tasks = state.tasks.filter((t) => t.id !== id);
             state.myTasks = state.myTasks.filter((t) => t.id !== id);
         },
+        // returns all the tasks auth user did not complete
         allIncompleteTasks: (state, incomplete_tasks) => {
             state.incomplete_tasks = incomplete_tasks;
         },
+        // returns all the tasks the user has completed
         allCompleteTasks: (state, complete_tasks) => {
             state.complete_tasks = complete_tasks;
-        }
+        },
     },
     actions: {
         /**
@@ -92,14 +109,17 @@ export default {
             commit
         }) {
             return new Promise((resolve, reject) => {
+                commit('changeIsLoading', true)
                 axios.get('api/users/mytasks', {
                         headers: {
-                            'Authorization': 'Bearer ' + auth.state.$token,
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'Authorization': 'Bearer ' + auth.state.$token
                         }
                     })
                     .then((response) => {
                         commit('myTasks', response.data.myTasks);
+                        commit('changeIsLoading', false)
                         resolve(response)
                     })
                     .catch((error) => {
@@ -116,7 +136,6 @@ export default {
         }, value) {
             commit('activateAddTask', value)
         },
-
         /**
          * Adds new Task for user
          * @param {*} param0 

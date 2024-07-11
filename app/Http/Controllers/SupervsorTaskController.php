@@ -31,10 +31,12 @@ class SupervsorTaskController extends Controller
      */
     public function supervisors_tasks()
     {
-        $supervisor_tasks = DB::table('tasks')
-            ->where('supervisor_id', Auth::user()->id)
+        $supervisor_tasks = DB::table('users')
+            ->join('tasks', function ($join) {
+                $join->on('users.id', '=', 'tasks.user_id')
+                    ->where('tasks.supervisor_id', '=', Auth::user()->id);
+            })
             ->get();
-
         return response()->json(['supervisor_tasks' => $supervisor_tasks], 200);
     }
 

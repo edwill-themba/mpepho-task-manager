@@ -41,7 +41,7 @@ export default {
     onLogin: function(e) {
       e.preventDefault();
       this.clicked = true;
-      setTimeout(() => (this.clicked = false), 1000);
+      setTimeout(() => (this.clicked = false), 3000);
       // call the validate error function
       this.fieldErrors = this.validateForm(this.formData);
       // if gets error rertuns
@@ -58,7 +58,6 @@ export default {
             timer: 3000
           });
           this.$router.push({ path: "/dashboard" });
-          console.log(response);
         })
         .catch(error => {
           new Swal({

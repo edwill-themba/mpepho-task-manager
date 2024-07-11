@@ -10,9 +10,13 @@
          <span><FontAwesomeIcon icon="plus"  /></span>
           <h3>ADD NEW TASK</h3>
        </li>
-        <li>
+        <li v-on:click="goToUsers">
          <span><FontAwesomeIcon icon="user" /></span>
-          <h3>VIEW EMPLOYEES</h3>
+          <h3>VIEW USERS</h3>
+       </li>
+        <li v-on:click="goToSupervisedTask">
+         <span><FontAwesomeIcon icon="user" /></span>
+          <h3>MY SUPERVISED TASK</h3>
        </li>
         <li class="complete">
          <span><FontAwesomeIcon icon="list" /></span>
@@ -38,9 +42,7 @@
 export default {
   name: "Sidebar",
   data() {
-    return {
-      
-    };
+    return {};
   },
   methods: {
     signOut: function() {
@@ -48,6 +50,12 @@ export default {
     },
     goBack: function() {
       this.$router.push({ path: "/" });
+    },
+    goToUsers: function() {
+      this.$router.push({ path: "/users" });
+    },
+    goToSupervisedTask: function() {
+      this.$router.push({ path: "/taskforuser" });
     },
     activate: function() {
       this.$store.dispatch("activateAddTask", true);
@@ -68,7 +76,8 @@ export default {
   margin: 30px;
 }
 .sidebar-content h2 {
-  color: purple;
+  color: darkgray;
+  font-weight: 500;
 }
 /** view my task **/
 .view-my-task {
@@ -91,6 +100,7 @@ export default {
 .view-my-task li h3 {
   margin-left: 15px;
   font-size: 20px;
+  font-weight: 500;
 }
 .view-my-task .incomplete span {
   color: orangered;

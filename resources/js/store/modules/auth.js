@@ -3,6 +3,7 @@ export default {
     state: {
         $token: localStorage.getItem('accessToken') || null,
         $current_user: localStorage.getItem('currentUserName') || null,
+        $users: [],
     },
     getters: {
         isLoggin(state) {
@@ -14,6 +15,9 @@ export default {
         },
         currentName(state) {
             return state.$current_user;
+        },
+        getUsers(state) {
+            return state.$users;
         }
 
     },
@@ -23,11 +27,15 @@ export default {
         },
         logout: (state) => {
             state.$token = null;
+            state.isLoggin = false;
+            state.current_user = null;
         },
         currentUser: (state, current_user) => {
             state.$current_user = current_user;
         },
-
+        allUsers: (state, users) => {
+            state.$users = users;
+        }
     },
     actions: {
         // logs the user in
@@ -41,9 +49,9 @@ export default {
                             password: formData.password
                         })
                         .then((response) => {
-                            resolve(response)
                             localStorage.setItem('accessToken', response.data)
                             commit('login', response.data)
+                            resolve(response)
                         })
                         .catch((error) => {
                             reject(error)
@@ -71,6 +79,7 @@ export default {
                     .catch((error) => {
                         localStorage.removeItem('accessToken');
                         localStorage.removeItem('currentUserName');
+                        commit('logout');
                         reject(error)
                     })
             })
@@ -87,8 +96,8 @@ export default {
                         password_confirmation: formData.password_confirmation
                     })
                     .then((response) => {
-                        resolve(response)
                         commit('register', response.data)
+                        resolve(response)
                     })
                     .catch((error) => {
                         reject(error)
@@ -117,6 +126,30 @@ export default {
                     })
             })
 
+        },
+        /**
+         * retrieves all users that are subordiates
+         * @param {*} param0 
+         */
+        getUsers({
+            commit
+        }) {
+            return new Promise((resolve, reject) => {
+                axios.get('api/allusers', {
+                        headers: {
+                            'Authorization': 'Bearer ' + this.state.auth.$token,
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then((response) => {
+                        commit('allUsers', response.data.users);
+                        resolve(response)
+                    })
+                    .catch((error) => {
+                        reject(error)
+                    })
+
+            })
         }
     },
 

@@ -1,7 +1,12 @@
 <template>
   <div class="modal" v-if="showModal">
-    <transition name="modal-menu">
-      <div class="modal-form">
+   <div class="modal-form">
+       <!-- if server error -->
+        <div v-if="error" class="error message">
+          <p v-on:click="closeModal">{{ errorMessage}}  <FontAwesomeIcon icon="times" /></p>
+        </div>
+        <!-- end server error -->
+        <div v-if="!error">
         <form  class="frm-add-task">
           <h4>Add New Task</h4>
             <div class="input-div">
@@ -29,20 +34,18 @@
                close
              </button>
             </div>
-            <div v-if="error" class="error">
-               <span>{{ errorMessage }}</span>
-            </div>
-       </form>
-     </div>
-    </transition>  
-  <div class="modal-handler"></div>
+           </form>
+         </div>
+       </div>
+      <div class="modal-handler"></div>
   </div>
 </template>
 
 <script>
-import Swal from "sweetalert2";
+import validateForm from "@/mixins/validateForm.js";
 export default {
   name: "AddTask",
+  mixins: [validateForm],
   computed: {
     showModal() {
       return this.$store.getters.addingTask;
@@ -92,13 +95,6 @@ export default {
           this.formData.priority = "";
           console.log(error);
         });
-    },
-    validateForm: function(field) {
-      const errors = {};
-      if (!field.task_name) errors.task_name = "The field name is required";
-      if (!field.task_date) errors.task_date = "The field date is required";
-      if (!field.priority) errors.priority = "The field priority is required";
-      return errors;
     }
   }
 };
@@ -150,19 +146,8 @@ export default {
   padding: 10px;
   text-align: left;
 }
-.modal-menu-enter-active,
-.modal-menu-leave-active {
-  transition: 0.8s ease;
-}
-.modal-menu-enter-from,
-.modal-menu-leave-to {
-  transform: translateX(100%);
-  opacity: 0;
-}
-.modal-menu-enter-to {
-  transform: translateX(0px);
-}
-.modal-menu-leave-active {
-  position: absolute;
+.message {
+  text-align: center;
+  margin-top: 20px;
 }
 </style>

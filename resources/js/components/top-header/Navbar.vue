@@ -103,7 +103,7 @@ export default {
   margin-left: 10px;
 }
 .menu .username {
-  color: green;
+  color: purple;
   font-size: 17px;
   font-weight: 500;
 }

@@ -57,7 +57,7 @@ export default {
       this.clicked = true;
       setTimeout(() => {
         this.clicked = false;
-      }, 2000);
+      }, 3000);
       this.fieldErrors = this.validateForm(this.formData);
       if (Object.keys(this.fieldErrors).length) return;
       this.$store

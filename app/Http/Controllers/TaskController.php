@@ -37,12 +37,12 @@ class TaskController extends Controller
     public function user_tasks()
     {
         $myTasks = DB::table('tasks')
-            ->where('tasks.user_id', '=', Auth::user()->id)
+            ->where('user_id', Auth::user()->id)
+            ->where('supervisor_id', null)
             ->orderBy('created_at', 'desc')
             ->get();
         return response()->json(['myTasks' => $myTasks], 200);
     }
-
     /**
      * Store a newly created resource in storage.
      */

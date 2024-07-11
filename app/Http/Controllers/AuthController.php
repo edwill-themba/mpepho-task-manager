@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use DB;
 
 class AuthController extends Controller
 {
@@ -60,6 +61,18 @@ class AuthController extends Controller
     {
         $request->user()->currentAccessToken()->delete();
         return response()->json(['message' => 'you have successfully logged out'], 200);
+    }
+
+    /**
+     * Display a listing of all users that are surbordiates
+     */
+    public function allusers()
+    {
+        $users = DB::table('users')
+            ->where('role_id', 2)
+            ->get();
+
+        return response()->json(['users' => $users], 200);
     }
 
 

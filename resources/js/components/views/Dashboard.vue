@@ -9,7 +9,11 @@
        </div>
     </div>
     <!-- add task -->
-    <AddTask />
+    <teleport to="#add-task">
+      <transition name="modal-menu">
+       <AddTask />
+      </transition> 
+    </teleport>
     <!-- end add task -->
   </div>
 </template>
@@ -29,7 +33,8 @@ export default {
   data() {
     return {
       userName: null,
-      userEmail: null
+      userEmail: null,
+      showModal: false
     };
   },
   created() {
@@ -38,13 +43,11 @@ export default {
       .then(response => {
         this.userName = response.data.name;
         this.userEmail = response.data.email;
-        //console.log(this.user_name, this.user_email);
       })
       .catch(error => {
         console.log(error);
       });
-  },
-  methods: {}
+  }
 };
 </script>
 
@@ -55,7 +58,6 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 10000;
   margin: -20px;
   position: absolute;
   background: #111111;
@@ -79,10 +81,27 @@ export default {
   top: 0;
   right: 0;
   bottom: 0;
-  background: #fff;
+  background: #292a2a;
   position: fixed;
   color: #111111;
 }
+/** add modal styling **/
+.modal-menu-enter-active,
+.modal-menu-leave-active {
+  transition: 0.8s ease;
+}
+.modal-menu-enter-from,
+.modal-menu-leave-to {
+  opacity: 0;
+}
+.modal-menu-enter-to {
+  opacity: 1;
+}
+.modal-menu-leave-active {
+  position: absolute;
+}
+
+/** end modal styling **/
 
 @media (max-width: 800px) {
   .sidebar {

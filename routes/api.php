@@ -38,6 +38,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::get('incomplete_tasks', [InCompleteTaskController::class, 'index']);
     Route::get('complete_tasks', [CompleteTaskController::class, 'index']);
+    // shows all surbordiates
+    Route::get('allusers', [AuthController::class, 'allusers']);
     // tasks that for users
     Route::prefix('users')->group(function () {
         Route::get('mytasks', [TaskController::class, 'user_tasks']);

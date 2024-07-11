@@ -6,8 +6,9 @@ import Tasks from '../components/views/Tasks.vue'
 import SignIn from '../components/views/SignIn.vue'
 import Dashboard from '../components/views/Dashboard.vue'
 import SignOut from '../components/views/SignOut.vue'
+import Users from '../components/views/users/Users.vue'
+import TaskForUser from '../components/views/users/TaskForUser.vue' // task where user is a supervisor
 import store from '../store/index'
-
 
 
 const routes = [{
@@ -35,7 +36,26 @@ const routes = [{
         meta: {
             requiresAuth: true
         }
-    }
+    },
+    {
+        path: '/users',
+        name: 'Users',
+        component: Users,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/taskforuser',
+        name: 'TaskForUser',
+        component: TaskForUser,
+        meta: {
+            requiresAuth: true
+        }
+    },
+
+
+
 ];
 
 
