@@ -40,9 +40,10 @@ import Pagination from "./tasks-components/Pagination.vue"; // pagination
 import Error from "./server-error/Error.vue"; // error component
 import NoTask from "./tasks-components/NoTask.vue"; // no task found
 import TaskItem from "./tasks-components/TaskItem.vue"; // each task
-
+import isLoading from "@/mixins/isLoading.js";
 const perPageOptions = [12];
 export default {
+  mixins: [isLoading],
   name: "Tasks",
   components: {
     TasksType,
@@ -56,9 +57,6 @@ export default {
       const firstIndex = (this.page - 1) * this.perPage;
       const lastIndex = this.page * this.perPage;
       return this.tasks.slice(firstIndex, lastIndex);
-    },
-    isLoading() {
-      return this.$store.getters.isLoading;
     }
   },
   data() {

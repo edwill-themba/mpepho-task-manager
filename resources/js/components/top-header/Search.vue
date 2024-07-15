@@ -1,7 +1,7 @@
 <template>
     <div class="search-area">
-        <form  class="frm-search">
-           <input type="search" class="search-input" placeholder="search...">
+        <form  class="frm-search"  v-on:submit="search">
+           <input type="search" class="search-input" v-model="query" placeholder="search...">
            <button type="submit" class="btn-search">
                <FontAwesomeIcon icon="search" />
            </button>
@@ -11,7 +11,19 @@
 
 <script>
 export default {
-  name: "SearchForm"
+  name: "SearchForm",
+  data() {
+    return {
+      query: ""
+    };
+  },
+  methods: {
+    search: function(e) {
+      e.preventDefault();
+      this.$emit("searchTasks", this.query);
+      this.query = "";
+    }
+  }
 };
 </script>
 

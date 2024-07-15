@@ -1,9 +1,11 @@
 import axios from 'axios'
+import tasks from './tasks'
 export default {
     state: {
         $token: localStorage.getItem('accessToken') || null,
         $current_user: localStorage.getItem('currentUserName') || null,
         $users: [],
+        $roleId: localStorage.getItem('roleID') || null, // checks if user is a supervisor or subordinates
     },
     getters: {
         isLoggin(state) {
@@ -18,6 +20,9 @@ export default {
         },
         getUsers(state) {
             return state.$users;
+        },
+        getUserRoleId(state) {
+            return state.$roleId;
         }
 
     },
@@ -35,6 +40,9 @@ export default {
         },
         allUsers: (state, users) => {
             state.$users = users;
+        },
+        userRole: (state, roleID) => {
+            state.$roleId = roleID;
         }
     },
     actions: {
@@ -118,7 +126,9 @@ export default {
                     })
                     .then((response) => {
                         localStorage.setItem('currentUserName', response.data.name);
-                        commit('currentUser', response.data.name)
+                        localStorage.setItem('roleID', response.data.role_id);
+                        commit('currentUser', response.data.name);
+                        commit('userRole', response.data.role_id);
                         resolve(response)
                     })
                     .catch((error) => {
@@ -135,6 +145,9 @@ export default {
             commit
         }) {
             return new Promise((resolve, reject) => {
+                commit('changeIsLoading', true, {
+                    root: true
+                });
                 axios.get('api/allusers', {
                         headers: {
                             'Authorization': 'Bearer ' + this.state.auth.$token,
@@ -143,6 +156,9 @@ export default {
                     })
                     .then((response) => {
                         commit('allUsers', response.data.users);
+                        commit('changeIsLoading', false, {
+                            root: true
+                        });
                         resolve(response)
                     })
                     .catch((error) => {

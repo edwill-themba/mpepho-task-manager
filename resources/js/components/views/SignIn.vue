@@ -98,8 +98,9 @@ export default {
 }
 .sign-in-form h3 {
   margin: 10% 15% 3%;
-  font-size: 25px;
+  font-size: 22px;
   text-transform: uppercase;
+  font-weight: 400;
 }
 /** sign up form **/
 .sign-up-form {
@@ -117,8 +118,9 @@ export default {
 }
 .sign-up-form h3 {
   margin: 7% 15% 3%;
-  font-size: 25px;
+  font-size: 22px;
   text-transform: uppercase;
+  font-weight: 400;
 }
 /** sign in **/
 .sign-in-enter-active,

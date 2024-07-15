@@ -166,7 +166,7 @@ export default {
 }
 .supervisor-task-enter-active,
 .supervisor-task-leave-active {
-  transition: 0.8s ease;
+  transition: all 0.8s ease;
 }
 .supervisor-task-enter-from,
 .supervisor-task-leave-to {

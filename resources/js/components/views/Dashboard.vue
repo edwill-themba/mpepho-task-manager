@@ -43,6 +43,7 @@ export default {
       .then(response => {
         this.userName = response.data.name;
         this.userEmail = response.data.email;
+        console.log(response);
       })
       .catch(error => {
         console.log(error);
@@ -67,7 +68,7 @@ export default {
   flex-wrap: wrap;
 }
 .sidebar {
-  width: 25%;
+  width: 22%;
   height: 100%;
   top: 0;
   left: 0;
@@ -76,7 +77,7 @@ export default {
   position: fixed;
 }
 .main-content {
-  width: 75%;
+  width: 78%;
   height: 100%;
   top: 0;
   right: 0;
@@ -85,10 +86,11 @@ export default {
   position: fixed;
   color: #111111;
 }
+
 /** add modal styling **/
 .modal-menu-enter-active,
 .modal-menu-leave-active {
-  transition: 0.8s ease;
+  transition: all 0.8s ease;
 }
 .modal-menu-enter-from,
 .modal-menu-leave-to {

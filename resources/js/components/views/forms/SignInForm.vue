@@ -13,7 +13,7 @@
        <button type="submit" class="btn-register-login">
            {{ !clicked ? 'sign in' : 'please wait...' }}
        </button>
-       <span class="account" v-on:click="toggleRegister()">Go to Sign Up</span>
+       <span class="account" v-on:click="toggleRegister()">are you new ?sign up</span>
     </form>
 </template>
 

@@ -5,10 +5,10 @@ export default {
     state: {
         tasks: [], // all tasks
         myTasks: [], // all tasks belongs to user
-        addtask: false,
         isloading: false,
         complete_tasks: [], // tracks all the tasks user has completed
-        incomplete_tasks: [], // track all incomplete tasks
+        incomplete_tasks: [], // track all incomplete tasks,
+        search_results: null,
     },
     getters: {
         // gets all the current tasks
@@ -18,10 +18,6 @@ export default {
         // gets all the task belongs to a user
         getMyTasks(state) {
             return state.myTasks;
-        },
-        // return the status of activating adding task
-        addingTask(state) {
-            return state.addtask;
         },
         // returns the current status of is loading
         isLoading(state) {
@@ -47,11 +43,7 @@ export default {
         myTasks: (state, myTasks) => {
             state.myTasks = myTasks
         },
-        // activates the add tasks modal
-        activateAddTask: (state, value) => {
-            state.addtask = value;
-        },
-        // change the is loading status
+        // commits the is loading status
         changeIsLoading: (state, value) => {
             state.isloading = value;
         },
@@ -62,8 +54,7 @@ export default {
         },
         // updates task for the authorized user
         updateTask: (state, task) => {
-            state.tasks = task;
-            state.myTasks = task;
+
         },
         // deletes task from all tasks and my tasks
         deleteTask: (state, id) => {
@@ -74,12 +65,42 @@ export default {
         allIncompleteTasks: (state, incomplete_tasks) => {
             state.incomplete_tasks = incomplete_tasks;
         },
-        // returns all the tasks the user has completed
+        // adds deleted task to incomplete task
+        addToIncompleteTask: (state, task) => {
+            state.incomplete_tasks = state.incomplete_tasks.unshift(task);
+        },
+        // commits tasks the user has completed
         allCompleteTasks: (state, complete_tasks) => {
             state.complete_tasks = complete_tasks;
         },
+        // commit search results
+        searchTasks: (state, search_results) => {
+            state.search_results = search_results;
+        }
     },
     actions: {
+        /**
+         * searches task based on name dates
+         * @param {*} param0 
+         * @param {*} query 
+         */
+        searchTasks({
+                commit
+            },
+            query) {
+            return new Promise((resolve, reject) => {
+                commit('changeIsLoading', true)
+                axios.get('api/task/search/' + query)
+                    .then((response) => {
+                        commit('searchTasks', response.data.search_results);
+                        commit('changeIsLoading', false)
+                        resolve(response);
+                    })
+                    .catch((error) => {
+                        reject(error);
+                    })
+            })
+        },
         /**
          * Gets all the users tasks
          * @param {*} commits 
@@ -108,6 +129,7 @@ export default {
         userTasks({
             commit
         }) {
+
             return new Promise((resolve, reject) => {
                 commit('changeIsLoading', true)
                 axios.get('api/users/mytasks', {
@@ -126,15 +148,6 @@ export default {
                         reject(error)
                     })
             })
-        },
-        /**
-         * Activates add tasks
-         * @param {*} param0 
-         */
-        activateAddTask({
-            commit
-        }, value) {
-            commit('activateAddTask', value)
         },
         /**
          * Adds new Task for user
@@ -202,6 +215,7 @@ export default {
         deleteTask({
             commit
         }, task) {
+
             return new Promise((resolve, reject) => {
                 axios.delete('api/users/task/' + task.id, {
                         headers: {
@@ -210,6 +224,7 @@ export default {
                         }
                     })
                     .then((response) => {
+                        commit('addToIncompleteTask', task);
                         commit('deleteTask', task.id)
                         resolve(response)
                     })
@@ -226,6 +241,7 @@ export default {
             commit
         }) {
             return new Promise((resolve, reject) => {
+                commit('changeIsLoading', true);
                 axios.get('api/incomplete_tasks', {
                         headers: {
                             'Authorization': 'Bearer ' + auth.state.$token,
@@ -234,6 +250,7 @@ export default {
                     })
                     .then((response) => {
                         commit('allIncompleteTasks', response.data.incomplete_tasks)
+                        commit('changeIsLoading', false)
                         resolve(response);
                     })
                     .catch((error) => {
@@ -249,6 +266,7 @@ export default {
             commit
         }) {
             return new Promise((resolve, reject) => {
+                commit('changeIsLoading', true)
                 axios.get('api/complete_tasks', {
                         headers: {
                             'Authorization': 'Bearer ' + auth.state.$token,
@@ -257,6 +275,7 @@ export default {
                     })
                     .then((response) => {
                         commit('allCompleteTasks', response.data.complete_tasks)
+                        commit('changeIsLoading', false)
                         resolve(response);
                     })
                     .catch((error) => {

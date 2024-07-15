@@ -16,7 +16,9 @@
              </transition>
              <!-- search area -->
              <div class="search">
-                 <SearchForm />
+                 <SearchForm  
+                 v-on:searchTasks="searchTasks"
+                 />
              </div>
              <!-- search area -->
           </div>
@@ -24,17 +26,31 @@
             <FontAwesomeIcon icon ="bars" />
           </div>
        </nav>
+       <!-- display search results -->
+       <div class="search-results" v-if="search">
+           <transition name="search-results-transition">
+             <!-- search results component -->
+             <SearchResults  
+              v-bind:searchResultsArray="searchResultsArray"
+              v-bind:searchResultsLength="searchResultsLength"
+              />
+           </transition>
+       </div>
+       <!-- end search results -->
     </header>
 </template>
 
 <script>
 import SearchForm from "./Search.vue";
 import MobileMenu from "./MobileMenu.vue";
+import SearchResults from "./SearchResults.vue";
+import Swal from "sweetalert2";
 export default {
   name: "navbar",
   components: {
     SearchForm,
-    MobileMenu
+    MobileMenu,
+    SearchResults
   },
   computed: {
     isLoggin() {
@@ -47,7 +63,10 @@ export default {
   data() {
     return {
       mobile: null,
-      mobile_menu: false
+      mobile_menu: false,
+      search: false,
+      searchResultsArray: [], //search results that will be found on search,
+      searchResultsLength: undefined
     };
   },
   created() {
@@ -67,6 +86,24 @@ export default {
     // toggleMobileMenu
     toggleMobileMenu: function() {
       this.mobile_menu = !this.mobile_menu;
+    },
+    // dispatch actions search for a task or tasks
+    searchTasks: function(query) {
+      this.search = true;
+      this.$store
+        .dispatch("searchTasks", query)
+        .then(response => {
+          this.searchResultsArray = response.data.search_results;
+          this.searchResultsLength = this.searchResultsArray.length;
+        })
+        .catch(error => {
+          this.search = false;
+          new Swal({
+            icon: "warning",
+            title: error.response.data.message,
+            timer: 4000
+          });
+        });
     }
   }
 };
@@ -121,12 +158,6 @@ export default {
 .menu li .router-link-exact-active {
   color: coral;
 }
-.search {
-  height: 100%;
-  height: 100%;
-  position: absolute;
-  right: 0%;
-}
 .mobile-toggler {
   color: #e4e4e4;
   position: absolute;
@@ -156,5 +187,40 @@ export default {
 .nav-mobile-enter-to {
   transform: translateX(0px);
 }
+/** search and search results **/
+.search {
+  height: 100%;
+  height: 100%;
+  position: absolute;
+  right: 0%;
+}
+.search-results {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 60px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #111;
+  z-index: 100;
+}
+
+.search-results-transition-enter-active,
+.search-results-transition-leave-active {
+  transition: 0.8s ease;
+}
+.search-results-transition-enter-from,
+.search-results-transition-leave-to {
+  transform: translateX(100%);
+  opacity: 0;
+}
+.search-results-transition-enter-to {
+  transform: translateX(0px);
+}
+.search-results-transition-leave-active {
+  position: absolute;
+}
+/** end search **/
 </style>
 

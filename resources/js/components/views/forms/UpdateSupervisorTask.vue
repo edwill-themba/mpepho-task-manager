@@ -8,7 +8,7 @@
       <div class="update-supervisor-modal">
          <h5>Update this task</h5>
          <div class="input-div">
-           <input type="text" name="task_name" v-model="task.task_name" class="input">
+           <input type="text" name="task_name" v-model="task.task_name"  class="input">
         </div>
          <div class="input-div">
            <input type="datetime-local" name="task_date"  v-model="task.task_date"   class="input">
@@ -42,6 +42,7 @@
 
 <script>
 import validateForm from "@/mixins/validateForm.js";
+import Swal from "sweetalert2";
 export default {
   name: "UpdateSupervisorTask",
   mixins: [validateForm],
@@ -60,11 +61,23 @@ export default {
       this.$store
         .dispatch("updateSupervisorTask", this.task)
         .then(response => {
+          this.close();
+          new Swal({
+            icon: "success",
+            title: "task was successfully updated",
+            timer: 4000
+          });
           console.log(response);
         })
         .catch(error => {
           this.serverError = true;
           this.error = error.response.data.message;
+          new Swal({
+            icon: "warning",
+            title: error.response.data.message,
+            timer: 6000
+          });
+          location.reload();
         });
     }
   }

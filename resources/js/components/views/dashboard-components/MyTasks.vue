@@ -1,5 +1,10 @@
 <template>
   <div>
+   <!-- is loading status -->
+   <div class="loading" v-if="isLoading">
+       <p>loading...</p>
+   </div>
+   <div v-else>
    <!-- server error -->
    <div v-if="serverError" class="error">
         {{ error }}
@@ -10,11 +15,15 @@
   </div>
   <div v-else class="pending-tasks">
        <div v-for="(task,index) in mytasks" :key="index">
-          <h5>{{ task.task_name }}</h5>
+          <h5>
+            <span class="task-number">{{ index + 1 }}</span>
+            {{ task.task_name }}
+          </h5>
           <p>Due Date : {{ formatDate(task.task_date) }}</p>
           <span class="delete-task" v-on:click="deleteTask(task)"><FontAwesomeIcon icon="trash" /></span>
           <span class="finish-task"  v-on:click="edit(task)"><FontAwesomeIcon icon="pencil"/></span>
        </div>
+  </div>
   </div>
    <!-- update task -->
    <teleport to="#update-task">
@@ -34,8 +43,10 @@
 import Error from "../server-error/Error.vue";
 import UpdateTask from "../forms/UpdateTask.vue";
 import formatDate from "@/mixins/formatDate.js";
+import formatTime from "@/mixins/formatDate.js";
+import isLoading from "@/mixins/isLoading.js";
 export default {
-  mixins: [formatDate],
+  mixins: [formatDate, formatTime, isLoading],
   name: "MyTasks",
   components: {
     Error,
@@ -114,15 +125,16 @@ export default {
 <style scoped>
 .pending-tasks {
   width: 100%;
-  height: 100%;
+  height: 520px;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: flex-start;
-  flex-direction: column;
+  flex-wrap: wrap;
+  overflow-y: scroll;
 }
 .pending-tasks div {
-  width: 250px;
-  height: auto;
+  width: 96%;
+  height: 60px;
   margin: 2px 10px;
   border: 1px solid #1111;
   border-radius: 6px;
@@ -136,17 +148,37 @@ export default {
   position: relative;
 }
 .pending-tasks div h5 {
-  font-size: 16px;
+  font-size: 17px;
   color: #e4e4e4;
   font-weight: 300;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .pending-tasks div p {
   font-weight: 400;
-  font-size: 13.5px;
-  color: coral;
-  margin-top: 5px;
-  margin-bottom: 10px;
-  padding-bottom: 10px;
+  font-size: 15px;
+  color: orange;
+  margin-top: 0px;
+  margin-bottom: 2px;
+  padding-bottom: 5px;
+  margin-left: 4%;
+}
+.pending-tasks div h5 .task-number {
+  z-index: 99;
+  border-radius: 50%;
+  background: orange;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  font-size: 17px;
+  font-weight: bold;
+  margin-right: 15px;
+  padding-top: 4px;
 }
 .pending-tasks div .delete-task {
   position: absolute;
@@ -155,14 +187,19 @@ export default {
   color: red;
   font-weight: bold;
   cursor: pointer;
+  margin-right: 0.5%;
+  font-size: 20px;
 }
+
 .pending-tasks div .finish-task {
   position: absolute;
-  bottom: 5px;
-  left: 10px;
+  top: 5px;
+  right: 10px;
   color: green;
   font-weight: bold;
   cursor: pointer;
+  margin-right: 0.5%;
+  font-size: 20px;
 }
 /** modal **/
 .update-task-modal {

@@ -13,15 +13,19 @@ export default {
         }
     },
     mutations: {
+        // supervisor adds  task to user
         addSupervisorTask: (task) => {
             tasks.state.tasks.unshift(task);
         },
+        // all the task the supervisor supervises
         allSupervisedTasks: (state, supervisedTasks) => {
             state.supervisedTasks = supervisedTasks;
         },
+        // update the supervisor task
         updateSupervisorTask: (state, task) => {
-            state.supervisedTasks = task;
+            // state.supervisedTasks = task;
         },
+        // the supervisor 
         deleteMySupervisedTask: (state, id) => {
             state.supervisedTasks = state.supervisedTasks.filter((t) => t.id !== id);
             tasks.state.tasks = tasks.state.tasks.filter((t) => t.id !== id);

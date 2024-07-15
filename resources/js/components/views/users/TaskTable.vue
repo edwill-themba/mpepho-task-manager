@@ -1,8 +1,7 @@
 <template>
   <div>
     <div class="container-table">
-        <p class="create-task"><router-link to="/users">create task for users</router-link></p>
-       <div class="my-supervisor-task">
+        <div class="my-supervisor-task">
            <table class="my-supervisor-task-table">
             <tr class="row-header">
               <th class="col-id">Task ID</th>

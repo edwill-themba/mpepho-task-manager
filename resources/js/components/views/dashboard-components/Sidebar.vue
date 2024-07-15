@@ -2,31 +2,33 @@
     <div class="sidebar-content">
         <h2>Dashboard</h2>
        <ul class="view-my-task">
-        <li>
+        <li v-on:click="displayPendingTask">
          <span><FontAwesomeIcon icon="list" /></span>
           <h3>VIEW MY TASKS</h3>
+       </li>
+        <li class="complete" v-on:click="displayCompleteTasks">
+         <span><FontAwesomeIcon icon="list" /></span>
+          <h3>COMPLETE TASKS</h3>
+       </li>
+        <li class="incomplete" v-on:click="displayInCompleteTasks">
+         <span><FontAwesomeIcon icon="list" /></span>
+          <h3>INCOMPLETE TASK</h3>
        </li>
        <li v-on:click="activate">
          <span><FontAwesomeIcon icon="plus"  /></span>
           <h3>ADD NEW TASK</h3>
        </li>
-        <li v-on:click="goToUsers">
+         <!-- if user is supervisor -->
+        <li  v-if="roleID == supervisorRoleID"  v-on:click="displayUsers">
          <span><FontAwesomeIcon icon="user" /></span>
           <h3>VIEW USERS</h3>
        </li>
-        <li v-on:click="goToSupervisedTask">
+       <!-- if user is supervisor -->
+        <li  v-if="roleID == supervisorRoleID" v-on:click="displaySupervisedTask">
          <span><FontAwesomeIcon icon="user" /></span>
           <h3>MY SUPERVISED TASK</h3>
        </li>
-        <li class="complete">
-         <span><FontAwesomeIcon icon="list" /></span>
-          <h3>COMPLETE TASKS</h3>
-       </li>
-        <li class="incomplete">
-         <span><FontAwesomeIcon icon="list" /></span>
-          <h3>INCOMPLETE TASK</h3>
-       </li>
-        <li v-on:click="goBack">
+       <li v-on:click="goBack">
           <span><FontAwesomeIcon icon="home" /></span> 
           <p>Home</p>
        </li>
@@ -39,26 +41,87 @@
 </template>
 
 <script>
+import Swal from "sweetalert2";
 export default {
   name: "Sidebar",
   data() {
-    return {};
+    return {
+      supervisorRoleID: 1
+    };
+  },
+  computed: {
+    roleID() {
+      return this.$store.getters.getUserRoleId;
+    }
   },
   methods: {
+    // logs the user out
     signOut: function() {
       this.$router.push({ path: "/signout" });
     },
+    // go back to home page
     goBack: function() {
       this.$router.push({ path: "/" });
     },
-    goToUsers: function() {
-      this.$router.push({ path: "/users" });
-    },
-    goToSupervisedTask: function() {
-      this.$router.push({ path: "/taskforuser" });
-    },
+    // activates the add task modal
     activate: function() {
       this.$store.dispatch("activateAddTask", true);
+    },
+    // the action to be taken to display on right side of the dashboard
+    displayPendingTask: function() {
+      this.$store.dispatch("dashBoardDisplay", "view_tasks").catch(error => {
+        new Swal({
+          icon: "warning",
+          title: "sorry can't display something went,please refresh",
+          timer: 5000
+        });
+      });
+    },
+    // display complete tasks
+    displayCompleteTasks: function() {
+      this.$store
+        .dispatch("dashBoardDisplay", "complete_tasks")
+        .catch(error => {
+          new Swal({
+            icon: "warning",
+            title: "sorry can't display something went,please refresh",
+            timer: 5000
+          });
+        });
+    },
+    // displays complete tasks
+    displayInCompleteTasks: function() {
+      this.$store
+        .dispatch("dashBoardDisplay", "incomplete_tasks")
+        .catch(error => {
+          new Swal({
+            icon: "warning",
+            title: "sorry can't display something went,please refresh",
+            timer: 5000
+          });
+        });
+    },
+    // display users
+    displayUsers: function() {
+      this.$store.dispatch("dashBoardDisplay", "users").catch(error => {
+        new Swal({
+          icon: "warning",
+          title: "sorry can't display something went,please refresh",
+          timer: 5000
+        });
+      });
+    },
+    // display supervised task
+    displaySupervisedTask: function() {
+      this.$store
+        .dispatch("dashBoardDisplay", "supervised_tasks")
+        .catch(error => {
+          new Swal({
+            icon: "warning",
+            title: "sorry can't display something went,please refresh",
+            timer: 5000
+          });
+        });
     }
   }
 };
@@ -78,6 +141,7 @@ export default {
 .sidebar-content h2 {
   color: darkgray;
   font-weight: 500;
+  font-size: 21px;
 }
 /** view my task **/
 .view-my-task {
@@ -100,17 +164,17 @@ export default {
 .view-my-task li h3 {
   margin-left: 15px;
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 300;
 }
 .view-my-task .incomplete span {
-  color: orangered;
+  color: red;
 }
 .view-my-task .complete span {
   color: green;
 }
 
 .view-my-task li p {
-  font-size: 17px;
+  font-size: 16px;
   margin-left: 10px;
 }
 .view-my-task li:hover {

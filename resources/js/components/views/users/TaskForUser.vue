@@ -1,4 +1,9 @@
 <template>
+ <div>
+  <div v-if="isLoading" class="loading">
+    <p>please wait...</p>
+  </div>
+  <div v-else>
     <div class="container-table">
        <div v-if="serverError"  class="message">
           <Error v-bind:error="error"  />
@@ -12,13 +17,17 @@
           </div>
        </div>
     </div>
+    </div>
+ </div>
 </template>
 
 <script>
 import Error from "../server-error/Error.vue";
 import NoTask from "../tasks-components/NoTask.vue";
 import TaskTable from "./TaskTable.vue";
+import isLoading from "@/mixins/isLoading.js";
 export default {
+  mixins: [isLoading],
   name: "TaskForUser",
   components: {
     Error,
