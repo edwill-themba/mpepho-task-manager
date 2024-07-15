@@ -3,37 +3,53 @@
         <h2>Dashboard</h2>
        <ul class="view-my-task">
         <li v-on:click="displayPendingTask">
-         <span><FontAwesomeIcon icon="list" /></span>
+         <span v-tooltip="'pending tasks'">
+           <FontAwesomeIcon icon="list" />
+         </span>
           <h3>VIEW MY TASKS</h3>
        </li>
         <li class="complete" v-on:click="displayCompleteTasks">
-         <span><FontAwesomeIcon icon="list" /></span>
+         <span  v-tooltip="'complete tasks'">
+           <FontAwesomeIcon icon="list" />
+         </span>
           <h3>COMPLETE TASKS</h3>
        </li>
         <li class="incomplete" v-on:click="displayInCompleteTasks">
-         <span><FontAwesomeIcon icon="list" /></span>
+         <span  v-tooltip="'incomplete tasks'">
+           <FontAwesomeIcon icon="list" />
+         </span>
           <h3>INCOMPLETE TASK</h3>
        </li>
        <li v-on:click="activate">
-         <span><FontAwesomeIcon icon="plus"  /></span>
+         <span  v-tooltip="'add task'">
+           <FontAwesomeIcon icon="plus"  />
+         </span>
           <h3>ADD NEW TASK</h3>
        </li>
          <!-- if user is supervisor -->
         <li  v-if="roleID == supervisorRoleID"  v-on:click="displayUsers">
-         <span><FontAwesomeIcon icon="user" /></span>
+         <span  v-tooltip="'view users'">
+           <FontAwesomeIcon icon="user" />
+         </span>
           <h3>VIEW USERS</h3>
        </li>
        <!-- if user is supervisor -->
         <li  v-if="roleID == supervisorRoleID" v-on:click="displaySupervisedTask">
-         <span><FontAwesomeIcon icon="user" /></span>
+         <span  v-tooltip="'my supervised tasks'">
+           <FontAwesomeIcon icon="user" />
+          </span>
           <h3>MY SUPERVISED TASK</h3>
        </li>
        <li v-on:click="goBack">
-          <span><FontAwesomeIcon icon="home" /></span> 
+          <span  v-tooltip="'home page'">
+            <FontAwesomeIcon icon="home" />
+          </span> 
           <p>Home</p>
        </li>
        <li  v-on:click="signOut">
-          <span><FontAwesomeIcon icon="power-off"  /></span> 
+          <span  v-tooltip="'sign out'">
+            <FontAwesomeIcon icon="power-off"  />
+          </span> 
           <p>Sign Out</p>
        </li>
        </ul>
@@ -180,6 +196,7 @@ export default {
 .view-my-task li:hover {
   color: coral;
 }
+
 @media (max-width: 800px) {
   .view-my-task li p {
     display: none;

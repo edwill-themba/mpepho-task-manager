@@ -14,10 +14,13 @@ import {
     FontAwesomeIcon
 } from '@fortawesome/vue-fontawesome'
 import store from './store/index'
+import FloatingVue from 'floating-vue'
+import 'floating-vue/dist/style.css'
 
 library.add(fas)
 createApp(App)
     .use(router)
     .use(store)
+    .use(FloatingVue)
     .component('FontAwesomeIcon', FontAwesomeIcon)
     .mount('#app')
