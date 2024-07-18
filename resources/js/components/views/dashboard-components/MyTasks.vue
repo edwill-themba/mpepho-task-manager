@@ -1,42 +1,44 @@
 <template>
   <div>
-   <!-- is loading status -->
-   <div class="loading" v-if="isLoading">
-       <p>loading...</p>
-   </div>
-   <div v-else>
-   <!-- server error -->
-   <div v-if="serverError" class="error">
+    <!-- is loading status -->
+    <div class="loading" v-if="isLoading">
+      <p>loading...</p>
+    </div>
+    <div v-else>
+      <!-- server error -->
+      <div v-if="serverError" class="error">
         {{ error }}
-  </div>
-  <!-- end server error -->
-  <div v-if="taskLength <= 0" class="no-tasks">
-   <p>no pending tasks are found</p>
-  </div>
-  <div v-else class="pending-tasks">
-       <div v-for="(task,index) in mytasks" :key="index">
+      </div>
+      <!-- end server error -->
+      <div v-if="taskLength <= 0" class="no-tasks">
+        <p>no pending tasks are found</p>
+      </div>
+      <div v-else class="pending-tasks">
+        <div v-for="(task,index) in mytasks" :key="index">
           <h5>
             <span class="task-number">{{ index + 1 }}</span>
             {{ task.task_name }}
           </h5>
           <p>Due Date : {{ formatDate(task.task_date) }}</p>
-          <span class="delete-task" v-on:click="deleteTask(task)"><FontAwesomeIcon icon="trash" /></span>
-          <span class="finish-task"  v-on:click="edit(task)"><FontAwesomeIcon icon="pencil"/></span>
-       </div>
-  </div>
-  </div>
-   <!-- update task -->
-   <teleport to="#update-task">
-     <transition name="update-task">
-       <div class="update-task-modal" v-if="showModal">
-        <UpdateTask 
-         v-bind:task="task"
-         v-on:closeModal="closeModal"  />
-       </div>
+          <span class="delete-task" v-on:click="deleteTask(task)">
+            <FontAwesomeIcon icon="trash" />
+          </span>
+          <span class="finish-task" v-on:click="edit(task)">
+            <FontAwesomeIcon icon="pencil" />
+          </span>
+        </div>
+      </div>
+    </div>
+    <!-- update task -->
+    <teleport to="#update-task">
+      <transition name="update-task">
+        <div class="update-task-modal" v-if="showModal">
+          <UpdateTask v-bind:task="task" v-on:closeModal="closeModal" />
+        </div>
       </transition>
-   </teleport>
-   <!-- modal -->
- </div>
+    </teleport>
+    <!-- modal -->
+  </div>
 </template>
 
 <script>
@@ -106,12 +108,10 @@ export default {
         .then(response => {
           this.tasks = response.data.myTasks;
           this.taskLength = this.tasks.length;
-          console.log(this.tasks);
         })
         .catch(error => {
           this.serverError = true;
           this.error = error;
-          console.log(error);
         });
     },
     // closes modal

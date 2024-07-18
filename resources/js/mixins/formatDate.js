@@ -7,6 +7,10 @@ const formatDate = {
         },
         formatTime(task_date) {
             return moment(task_date).format("HH:MM");
+        },
+        daysLeft(task_date) {
+            const td = moment(task_date).format("YYYY-MM-DD");
+            return moment(td).fromNow();
         }
     },
 }

@@ -1,24 +1,29 @@
 <template>
- <div>
-  <div class="dashboard-content">
+  <div>
+    <div class="dashboard-content">
       <div class="dashboard-header">
-          <div class="date-time">
-             <span><FontAwesomeIcon icon="calendar" /></span> 
-              <strong>{{ formatDate(todayDate) }}</strong>
-          </div>
-          <div class="user-name">
-             <p><span><FontAwesomeIcon icon="user" /></span> {{ userName }}</p>
-          </div>
+        <div class="date-time">
+          <span>
+            <FontAwesomeIcon icon="calendar" />
+          </span>
+          <strong>{{ formatDate(todayDate) }}</strong>
+        </div>
+        <div class="user-name">
+          <p>
+            <span>
+              <FontAwesomeIcon icon="user" />
+            </span> {{ userName }}</p>
+        </div>
       </div>
-      <div  v-if="view == views.viewPendingTasks" class="pending" >
-       <h3>Current Pending Tasks</h3>
-         <!-- current pending task  -->
-         <MyTasks/>
-       </div>   
+      <div v-if="view == views.viewPendingTasks" class="pending">
+        <h3>Current Pending Tasks</h3>
+        <!-- current pending task  -->
+        <MyTasks/>
+      </div>
       <div v-else-if="view == views.viewIncompleteTasks" class="in-complete-task">
-         <!-- incomplete task by the user -->
-          <h3>Incomplete Tasks</h3>
-         <IncompleteTasks />
+        <!-- incomplete task by the user -->
+        <h3>Incomplete Tasks</h3>
+        <IncompleteTasks />
       </div>
       <div v-else-if="view == views.viewCompleteTasks" class="complete-task">
         <!-- complete tasks -->
@@ -36,7 +41,7 @@
         <TaskForUser />
       </div>
     </div>
- </div>
+  </div>
 </template>
 
 

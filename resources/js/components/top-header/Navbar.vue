@@ -1,43 +1,46 @@
 <template>
-    <header>
-       <nav class="navbar">
-          <div class="nav-container">
-            <!-- main menu if is a big screen -->
-             <ul class="menu" v-if="!mobile">
-                <li><router-link to="/">Tasks</router-link></li>
-                <li v-if="!isLoggin"><router-link to="/signin">Sign In</router-link></li>
-                <li v-if="isLoggin"><router-link to="/dashboard">Dashboard</router-link></li>
-                <li v-if="isLoggin" class="username">{{ currentUserName }}</li>
-                <li v-if="isLoggin"><router-link to="/signout" >Sign Out</router-link></li>
-             </ul>
-             <!-- open this menu if is mobile or small screen -->
-             <transition name="nav-mobile" class="mobile-nav" v-if="mobile">
-                <MobileMenu v-if="mobile_menu" />
-             </transition>
-             <!-- search area -->
-             <div class="search">
-                 <SearchForm  
-                 v-on:searchTasks="searchTasks"
-                 />
-             </div>
-             <!-- search area -->
-          </div>
-          <div class="mobile-toggler" v-if="mobile" v-on:click="toggleMobileMenu">
-            <FontAwesomeIcon icon ="bars" />
-          </div>
-       </nav>
-       <!-- display search results -->
-       <div class="search-results" v-if="search">
-           <transition name="search-results-transition">
-             <!-- search results component -->
-             <SearchResults  
-              v-bind:searchResultsArray="searchResultsArray"
-              v-bind:searchResultsLength="searchResultsLength"
-              />
-           </transition>
-       </div>
-       <!-- end search results -->
-    </header>
+  <header>
+    <nav class="navbar">
+      <div class="nav-container">
+        <!-- main menu if is a big screen -->
+        <ul class="menu" v-if="!mobile">
+          <li>
+            <router-link to="/">Tasks</router-link>
+          </li>
+          <li v-if="!isLoggin">
+            <router-link to="/signin">Sign In</router-link>
+          </li>
+          <li v-if="isLoggin">
+            <router-link to="/dashboard">Dashboard</router-link>
+          </li>
+          <li v-if="isLoggin" class="username">{{ currentUserName }}</li>
+          <li v-if="isLoggin">
+            <router-link to="/signout">Sign Out</router-link>
+          </li>
+        </ul>
+        <!-- open this menu if is mobile or small screen -->
+        <transition name="nav-mobile" class="mobile-nav" v-if="mobile">
+          <MobileMenu v-if="mobile_menu" />
+        </transition>
+        <!-- search area -->
+        <div class="search">
+          <SearchForm v-on:searchTasks="searchTasks" />
+        </div>
+        <!-- search area -->
+      </div>
+      <div class="mobile-toggler" v-if="mobile" v-on:click="toggleMobileMenu">
+        <FontAwesomeIcon icon="bars" />
+      </div>
+    </nav>
+    <!-- display search results -->
+    <div class="search-results" v-if="search">
+      <transition name="search-results-transition">
+        <!-- search results component -->
+        <SearchResults v-bind:searchResultsArray="searchResultsArray" v-bind:searchResultsLength="searchResultsLength" />
+      </transition>
+    </div>
+    <!-- end search results -->
+  </header>
 </template>
 
 <script>

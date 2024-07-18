@@ -6,6 +6,7 @@ export default {
         $current_user: localStorage.getItem('currentUserName') || null,
         $users: [],
         $roleId: localStorage.getItem('roleID') || null, // checks if user is a supervisor or subordinates
+        $search_results: null,
     },
     getters: {
         isLoggin(state) {
@@ -27,22 +28,31 @@ export default {
 
     },
     mutations: {
+        //commit the login token
         login: (state, token) => {
             state.$token = token;
         },
+        // logs the user out by setting token to null
         logout: (state) => {
             state.$token = null;
             state.isLoggin = false;
             state.current_user = null;
         },
+        // fills the current login user
         currentUser: (state, current_user) => {
             state.$current_user = current_user;
         },
+        // sets users array with users comming from action
         allUsers: (state, users) => {
             state.$users = users;
         },
+        // sets the user role of the current login user
         userRole: (state, roleID) => {
             state.$roleId = roleID;
+        },
+        // sets search results to current results
+        searchUser: (state, search_results) => {
+            state.$search_results = search_results;
         }
     },
     actions: {
@@ -166,7 +176,37 @@ export default {
                     })
 
             })
-        }
+        },
+        /**
+         * searches user
+         * @param {*} param0 
+         * @param {*} query 
+         */
+        searchUser({
+            commit
+        }, query) {
+            return new Promise((resolve, reject) => {
+                commit('changeIsLoading', true, {
+                    root: true
+                });
+                axios.get('api/user/search/' + query, {
+                        headers: {
+                            'Authorization': 'Bearer ' + this.state.auth.$token,
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then((response) => {
+                        commit('searchUser', response.data.search_results)
+                        commit('changeIsLoading', false, {
+                            root: true
+                        });
+                        resolve(response)
+                    })
+                    .catch((error) => {
+                        reject(error)
+                    })
+            })
+        },
     },
 
 }

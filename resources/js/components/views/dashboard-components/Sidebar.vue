@@ -1,59 +1,59 @@
 <template>
-    <div class="sidebar-content">
-        <h2>Dashboard</h2>
-       <ul class="view-my-task">
-        <li v-on:click="displayPendingTask">
-         <span v-tooltip="'pending tasks'">
-           <FontAwesomeIcon icon="list" />
-         </span>
-          <h3>VIEW MY TASKS</h3>
-       </li>
-        <li class="complete" v-on:click="displayCompleteTasks">
-         <span  v-tooltip="'complete tasks'">
-           <FontAwesomeIcon icon="list" />
-         </span>
-          <h3>COMPLETE TASKS</h3>
-       </li>
-        <li class="incomplete" v-on:click="displayInCompleteTasks">
-         <span  v-tooltip="'incomplete tasks'">
-           <FontAwesomeIcon icon="list" />
-         </span>
-          <h3>INCOMPLETE TASK</h3>
-       </li>
-       <li v-on:click="activate">
-         <span  v-tooltip="'add task'">
-           <FontAwesomeIcon icon="plus"  />
-         </span>
-          <h3>ADD NEW TASK</h3>
-       </li>
-         <!-- if user is supervisor -->
-        <li  v-if="roleID == supervisorRoleID"  v-on:click="displayUsers">
-         <span  v-tooltip="'view users'">
-           <FontAwesomeIcon icon="user" />
-         </span>
-          <h3>VIEW USERS</h3>
-       </li>
-       <!-- if user is supervisor -->
-        <li  v-if="roleID == supervisorRoleID" v-on:click="displaySupervisedTask">
-         <span  v-tooltip="'my supervised tasks'">
-           <FontAwesomeIcon icon="user" />
-          </span>
-          <h3>MY SUPERVISED TASK</h3>
-       </li>
-       <li v-on:click="goBack">
-          <span  v-tooltip="'home page'">
-            <FontAwesomeIcon icon="home" />
-          </span> 
-          <p>Home</p>
-       </li>
-       <li  v-on:click="signOut">
-          <span  v-tooltip="'sign out'">
-            <FontAwesomeIcon icon="power-off"  />
-          </span> 
-          <p>Sign Out</p>
-       </li>
-       </ul>
-    </div>
+  <div class="sidebar-content">
+    <h2>Dashboard</h2>
+    <ul class="view-my-task">
+      <li v-on:click="displayPendingTask">
+        <span v-tooltip="'pending tasks'">
+          <FontAwesomeIcon icon="list" />
+        </span>
+        <h3>VIEW MY TASKS</h3>
+      </li>
+      <li class="complete" v-on:click="displayCompleteTasks">
+        <span v-tooltip="'complete tasks'">
+          <FontAwesomeIcon icon="list" />
+        </span>
+        <h3>COMPLETE TASKS</h3>
+      </li>
+      <li class="incomplete" v-on:click="displayInCompleteTasks">
+        <span v-tooltip="'incomplete tasks'">
+          <FontAwesomeIcon icon="list" />
+        </span>
+        <h3>INCOMPLETE TASK</h3>
+      </li>
+      <li v-on:click="activate">
+        <span v-tooltip="'add task'">
+          <FontAwesomeIcon icon="plus" />
+        </span>
+        <h3>ADD NEW TASK</h3>
+      </li>
+      <!-- if user is supervisor -->
+      <li v-if="roleID == supervisorRoleID" v-on:click="displayUsers">
+        <span v-tooltip="'view users'">
+          <FontAwesomeIcon icon="user" />
+        </span>
+        <h3>VIEW USERS</h3>
+      </li>
+      <!-- if user is supervisor -->
+      <li v-if="roleID == supervisorRoleID" v-on:click="displaySupervisedTask">
+        <span v-tooltip="'my supervised tasks'">
+          <FontAwesomeIcon icon="user" />
+        </span>
+        <h3>MY SUPERVISED TASK</h3>
+      </li>
+      <li v-on:click="goBack">
+        <span v-tooltip="'home page'">
+          <FontAwesomeIcon icon="home" />
+        </span>
+        <p>Home</p>
+      </li>
+      <li v-on:click="signOut">
+        <span v-tooltip="'sign out'">
+          <FontAwesomeIcon icon="power-off" />
+        </span>
+        <p>Sign Out</p>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>

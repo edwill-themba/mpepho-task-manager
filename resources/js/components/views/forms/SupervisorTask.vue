@@ -1,45 +1,48 @@
 <template>
- <div>
-  <!-- error message -->
-  <div v-if="serverError" class="error message">
-     <p  v-on:click="close">{{ error }} <FontAwesomeIcon icon="times" /></p>
-  </div>
-  <!-- modal form -->
-  <div v-if="!serverError" class="supervisor-task">
-    <h5>Supervisor Add Task</h5>
-    <div class="input-div">
-      <input type="text" name="task_name" v-model="formData.task_name"  placeholder="enter task name" class="input">
+  <div>
+    <!-- error message -->
+    <div v-if="serverError" class="error message">
+      <p v-on:click="close">{{ error }}
+        <FontAwesomeIcon icon="times" />
+      </p>
+    </div>
+    <!-- modal form -->
+    <div v-if="!serverError" class="supervisor-task">
+      <h5>Supervisor Add Task</h5>
+      <div class="input-div">
+        <input type="text" name="task_name" v-model="formData.task_name" placeholder="enter task name" class="input">
         <p>{{ fieldErrors.task_name }}</p>
-    </div>
-     <div class="input-div">
-      <input type="datetime-local" name="task_date"  v-model="formData.task_date"  class="input">
-      <p>{{ fieldErrors.task_date }}</p>
-    </div>
-    <div class="input-div">
-        <select  name="priority"  v-model="formData.priority" class="input">
+      </div>
+      <div class="input-div">
+        <input type="datetime-local" name="task_date" v-model="formData.task_date" class="input">
+        <p>{{ fieldErrors.task_date }}</p>
+      </div>
+      <div class="input-div">
+        <select name="priority" v-model="formData.priority" class="input">
           <option value="">please select task priority</option>
           <option value="high">high</option>
           <option value="medium">medium</option>
           <option value="low">low</option>
         </select>
-       <p>{{ fieldErrors.priority }}</p>
+        <p>{{ fieldErrors.priority }}</p>
+      </div>
+      <div class="button">
+        <button type="button" class="btn-save" v-on:click="addSupervisorTask">
+          save
+        </button>
+        <button type="button" class="btn-close" v-on:click="close">
+          close
+        </button>
+      </div>
     </div>
-    <div class="button">
-     <button type="button" class="btn-save" v-on:click="addSupervisorTask">
-      save
-     </button>
-     <button type="button" class="btn-close" v-on:click="close">
-      close
-     </button>
-    </div>
-   </div>
-   <!-- end modal form -->
+    <!-- end modal form -->
   </div>
 </template>
 
 
 <script>
 import validateForm from "@/mixins/validateForm.js";
+import Swal from "sweetalert2";
 export default {
   name: "SupervisorTask",
   mixins: [validateForm],
@@ -62,19 +65,23 @@ export default {
     };
   },
   methods: {
-    close: function(e) {
-      e.preventDefault();
+    close: function() {
       this.$emit("closeModal");
     },
-    addSupervisorTask: function(e) {
-      e.preventDefault();
+    addSupervisorTask: function() {
       this.fieldErrors = this.validateForm(this.formData);
       if (Object.keys(this.fieldErrors).length) return;
       this.$store
         .dispatch("addSupervisorTask", this.formData)
         .then(response => {
+          new Swal({
+            icon: "success",
+            title: "task created successfully,check my supervised task",
+            timer: 4000
+          });
           this.formData.task_name = "";
-          this.$router.push({ path: "/taskforuser" });
+          this.formData.task_date = "";
+          this.formData.priority = "";
         })
         .catch(error => {
           this.serverError = true;

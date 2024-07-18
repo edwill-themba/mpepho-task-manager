@@ -1,43 +1,45 @@
 <template>
-    <div>
-      <!-- error message -->
-      <div v-if="serverError" class="error message">
-       <p  v-on:click="close">{{ error }} <FontAwesomeIcon icon="times" /></p>
-      </div> 
-      <!-- the modal form -->
-      <div class="update-supervisor-modal">
-         <h5>Update this task</h5>
-         <div class="input-div">
-           <input type="text" name="task_name" v-model="task.task_name"  class="input">
-        </div>
-         <div class="input-div">
-           <input type="datetime-local" name="task_date"  v-model="task.task_date"   class="input">
-        </div>
-        <div class="input-div">
-          <select  name="priority" v-model="task.priority"   class="input">
-           <option value="">please select task priority</option>
-           <option value="high">high</option>
-           <option value="medium">medium</option>
-           <option value="low">low</option>
-         </select>
-        </div>
-        <div class="input-div">
-          <select  name="status" v-model="task.status"   class="input">
-           <option value="">please select task status</option>
-           <option value="incomplete">incomplete</option>
-           <option value="complete">complete</option>
-          </select>
-        </div>
-        <div class="button">
-          <button type="button" class="btn-save" v-on:click="updateSupervisorTask(task)">
-           save
-         </button>
-         <button type="button" class="btn-close" v-on:click="close">
-          close
-         </button>
-        </div>
-     </div>
+  <div>
+    <!-- error message -->
+    <div v-if="serverError" class="error message">
+      <p v-on:click="close">{{ error }}
+        <FontAwesomeIcon icon="times" />
+      </p>
     </div>
+    <!-- the modal form -->
+    <div class="update-supervisor-modal">
+      <h5>Update this task</h5>
+      <div class="input-div">
+        <input type="text" name="task_name" v-model="task.task_name" class="input">
+      </div>
+      <div class="input-div">
+        <input type="datetime-local" name="task_date" v-model="task.task_date" class="input">
+      </div>
+      <div class="input-div">
+        <select name="priority" v-model="task.priority" class="input">
+          <option value="">please select task priority</option>
+          <option value="high">high</option>
+          <option value="medium">medium</option>
+          <option value="low">low</option>
+        </select>
+      </div>
+      <div class="input-div">
+        <select name="status" v-model="task.status" class="input">
+          <option value="">please select task status</option>
+          <option value="incomplete">incomplete</option>
+          <option value="complete">complete</option>
+        </select>
+      </div>
+      <div class="button">
+        <button type="button" class="btn-save" v-on:click="updateSupervisorTask(task)">
+          save
+        </button>
+        <button type="button" class="btn-close" v-on:click="close">
+          close
+        </button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>

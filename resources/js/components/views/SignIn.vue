@@ -1,24 +1,24 @@
 <template>
-    <div class="wrapper">
-        <div class="login-container">
-             <div class="login-content">
-                <img src="../../../images/gears.jpg">
-             </div>
-             <transition name="sign-in">
-                 <div class="sign-in-form" v-if="sign_in">
-                      <h3>Sign In</h3>
-                      <!-- form sign in  component -->
-                      <SignInForm  v-on:toggleRegister="toggleSignUp()"/>
-                 </div>
-             </transition>
-             <transition name="sign-up">
-                  <div class="sign-up-form"  v-if="sign_up">
-                    <h3>Sign Up</h3>
-                    <SignUpForm  v-on:toggleLogin="toggleSignIn()" />
-                 </div>
-             </transition>
+  <div class="wrapper">
+    <div class="login-container">
+      <div class="login-content">
+        <img src="../../../images/gears.jpg">
+      </div>
+      <transition name="sign-in">
+        <div class="sign-in-form" v-if="sign_in">
+          <h3>Sign In</h3>
+          <!-- form sign in  component -->
+          <SignInForm v-on:toggleRegister="toggleSignUp()" />
         </div>
+      </transition>
+      <transition name="sign-up">
+        <div class="sign-up-form" v-if="sign_up">
+          <h3>Sign Up</h3>
+          <SignUpForm v-on:toggleLogin="toggleSignIn()" />
+        </div>
+      </transition>
     </div>
+  </div>
 </template>
 
 <script>
@@ -35,6 +35,17 @@ export default {
       sign_in: true,
       sign_up: false
     };
+  },
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters.isLoggin;
+    }
+  },
+  created() {
+    // checks if user is logged if is user logged is pushed back to dashboard
+    if (this.isLoggedIn) {
+      this.$router.push({ path: "/dashboard" });
+    }
   },
   methods: {
     toggleSignUp: function() {

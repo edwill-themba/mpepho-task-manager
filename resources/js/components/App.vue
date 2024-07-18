@@ -161,16 +161,26 @@ body {
   color: #111111;
   font-weight: 900;
   width: 100%;
-  text-decoration: underline;
   text-transform: uppercase;
+}
+.box h6 .ellipsis {
+  color: #111;
+  font-size: 15px;
+  margin-right: 2px;
+  padding-left: 2px;
 }
 .box p {
   font-weight: 500;
+  font-size: 15px;
+  color: #111;
+  padding-left: 5px;
+  text-transform: uppercase;
 }
 .box span {
   font-size: 13px;
-  font-weight: bold;
-  font-weight: 400;
+  font-weight: 500;
+  color: #1a1818;
+  margin-left: 5px;
 }
 .low {
   background: limegreen;
@@ -179,7 +189,7 @@ body {
   background: orange;
 }
 .high {
-  background: red;
+  background: #ce1010;
 }
 .frm-add-task {
   display: flex;
@@ -301,6 +311,22 @@ body {
   align-items: center;
   flex-direction: column;
 }
+.find-user {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+  height: auto;
+}
+.btn-search {
+  border: none;
+  background: transparent;
+  color: #e4e4e4;
+  font-size: 17px;
+  cursor: pointer;
+  padding-right: 4px;
+}
 
 @media (max-width: 900px) {
   .frm-register-login {
@@ -320,6 +346,11 @@ body {
   }
   .input-div .input {
     font-size: 13px;
+  }
+}
+@media (max-width: 768px) {
+  .btn-search {
+    font-size: 14px;
   }
 }
 </style>

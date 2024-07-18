@@ -1,30 +1,38 @@
 <template>
-    <form class="frm-register-login" v-on:submit="registerUser">
-       <div class="input-group">
-          <span><FontAwesomeIcon icon="user" /></span>
-          <input type="text" name="name" class="frm-input" v-model="formData.name" placeholder="enter your full name">
-           <p class="frm-errors">{{ fieldErrors.name }}</p>
-       </div>
-       <div class="input-group">
-          <span><FontAwesomeIcon icon="envelope" /></span>
-          <input type="email" name="email" class="frm-input" v-model="formData.email" placeholder="enter email address">
-           <p class="frm-errors">{{ fieldErrors.email }}</p>
-       </div>
-       <div class="input-group">
-          <span><FontAwesomeIcon icon="lock" /></span>
-          <input type="password" name="password" class="frm-input" v-model="formData.password" placeholder="enter password">
-          <p class="frm-errors">{{ fieldErrors.password }}</p>
-       </div>
-       <div class="input-group">
-          <span><FontAwesomeIcon icon="lock" /></span>
-          <input type="password" name="password_confirmation" class="frm-input" v-model="formData.password_confirmation" placeholder="re-type your password">
-          <p class="frm-errors">{{ fieldErrors.password_confirmation }}</p>
-       </div>
-       <button type="submit" class="btn-register-login">
-           {{ !clicked ? 'sign up' : 'please wait...' }}
-       </button>
-        <span class="account" v-on:click="toggleLogin()">do you have an account? sign in</span>
-    </form>
+  <form class="frm-register-login" v-on:submit="registerUser">
+    <div class="input-group">
+      <span>
+        <FontAwesomeIcon icon="user" />
+      </span>
+      <input type="text" name="name" class="frm-input" v-model="formData.name" placeholder="enter your full name">
+      <p class="frm-errors">{{ fieldErrors.name }}</p>
+    </div>
+    <div class="input-group">
+      <span>
+        <FontAwesomeIcon icon="envelope" />
+      </span>
+      <input type="email" name="email" class="frm-input" v-model="formData.email" placeholder="enter email address">
+      <p class="frm-errors">{{ fieldErrors.email }}</p>
+    </div>
+    <div class="input-group">
+      <span>
+        <FontAwesomeIcon icon="lock" />
+      </span>
+      <input type="password" name="password" class="frm-input" v-model="formData.password" placeholder="enter password">
+      <p class="frm-errors">{{ fieldErrors.password }}</p>
+    </div>
+    <div class="input-group">
+      <span>
+        <FontAwesomeIcon icon="lock" />
+      </span>
+      <input type="password" name="password_confirmation" class="frm-input" v-model="formData.password_confirmation" placeholder="re-type your password">
+      <p class="frm-errors">{{ fieldErrors.password_confirmation }}</p>
+    </div>
+    <button type="submit" class="btn-register-login">
+      {{ !clicked ? 'sign up' : 'please wait...' }}
+    </button>
+    <span class="account" v-on:click="toggleLogin()">do you have an account? sign in</span>
+  </form>
 </template>
 
 <script>

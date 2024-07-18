@@ -40,6 +40,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('complete_tasks', [CompleteTaskController::class, 'index']);
     // shows all surbordiates
     Route::get('allusers', [AuthController::class, 'allusers']);
+    // searches a specific user
+    Route::get('user/search/{name}', [AuthController::class, 'search']);
     // tasks that for users
     Route::prefix('users')->group(function () {
         Route::get('mytasks', [TaskController::class, 'user_tasks']);

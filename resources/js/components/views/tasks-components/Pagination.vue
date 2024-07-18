@@ -1,15 +1,14 @@
 <template>
-    <div>
-      <p class="pagination">
-        <FontAwesomeIcon icon="angle-double-left" v-on:click="changePage(0)" />
-        <FontAwesomeIcon icon="angle-left" class="middle-link" v-on:click="changePage(-1)" />
-        <span class="pages">showing page {{ page }} of {{ pages }}</span>
-        <FontAwesomeIcon icon="angle-right" class="middle-link"  v-on:click="changePage(1)" />
-        <FontAwesomeIcon icon="angle-double-right" v-on:click="changePage(pages)" />
-      </p>  
-    </div>
+  <div>
+    <p class="pagination">
+      <FontAwesomeIcon icon="angle-double-left" v-on:click="changePage(0)" />
+      <FontAwesomeIcon icon="angle-left" class="middle-link" v-on:click="changePage(-1)" />
+      <span class="pages">showing page {{ page }} of {{ pages }}</span>
+      <FontAwesomeIcon icon="angle-right" class="middle-link" v-on:click="changePage(1)" />
+      <FontAwesomeIcon icon="angle-double-right" v-on:click="changePage(pages)" />
+    </p>
+  </div>
 </template>
-
 
 <script>
 export default {

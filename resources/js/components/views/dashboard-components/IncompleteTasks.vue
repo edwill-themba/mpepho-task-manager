@@ -1,25 +1,28 @@
 <template>
- <div>
-   <div class="loading" v-if="isLoading">
-   <p>loading...</p>
-  </div>
-  <div v-else>
-    <div v-if="serverError" class="error">
-      {{ error }}
+  <div>
+    <div class="loading" v-if="isLoading">
+      <p>loading...</p>
     </div>
-    <!-- InComplete task item -->
-    <div v-if="incompleteTaskLength <= 0" class="no-tasks">
-      <p>no incomplete are tasks found</p>
+    <div v-else>
+      <div v-if="serverError" class="error">
+        {{ error }}
+      </div>
+      <!-- InComplete task item -->
+      <div v-if="incompleteTaskLength <= 0" class="no-tasks">
+        <p>no incomplete are tasks found</p>
+      </div>
+      <div v-else class="incomplete-tasks">
+        <div v-for="(task,index) in incompleteTasks" :key="index">
+          <h5>
+            <span class="task-number">{{ index + 1 }}</span>{{ task.task_name }}</h5>
+          <p>Removed at: {{ formatDate(task.created_at) }}
+            <span>
+              <FontAwesomeIcon icon="clock" />{{ formatTime(task.created_at) }}
+            </span>
+          </p>
+        </div>
+      </div>
     </div>
-    <div v-else class="incomplete-tasks" >
-     <div v-for="(task,index) in incompleteTasks" :key="index">
-      <h5><span class="task-number">{{ index + 1 }}</span>{{ task.task_name }}</h5>
-       <p>Removed at: {{ formatDate(task.created_at) }}<span>
-        <FontAwesomeIcon icon="clock" />{{ formatTime(task.created_at) }}</span>
-       </p>
-     </div>
-     </div>
-   </div>
   </div>
 </template>
 

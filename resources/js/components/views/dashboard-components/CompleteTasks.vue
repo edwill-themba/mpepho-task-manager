@@ -1,23 +1,24 @@
 <template>
- <div>
-  <div class="loading" v-if="isLoading">
-   <p>loading...</p>
-  </div>
-  <div v-else>
-    <div v-if="serverError" class="error">
-      {{ error }}
+  <div>
+    <div class="loading" v-if="isLoading">
+      <p>loading...</p>
     </div>
-    <div v-if="completeTaskLength <= 0" class="no-tasks">
-      <p>no complete are tasks found</p>
-    </div>
-    <div v-else  class="complete-tasks">
-      <div v-for="(task,index) in completeTasks" :key="index">
-        <h5><span class="task-number">{{ index + 1 }}</span>{{ task.task_name }}</h5>
-           <p>Completed at: {{ formatDate(task.updated_at) }}</p>
+    <div v-else>
+      <div v-if="serverError" class="error">
+        {{ error }}
+      </div>
+      <div v-if="completeTaskLength <= 0" class="no-tasks">
+        <p>no complete are tasks found</p>
+      </div>
+      <div v-else class="complete-tasks">
+        <div v-for="(task,index) in completeTasks" :key="index">
+          <h5>
+            <span class="task-number">{{ index + 1 }}</span>{{ task.task_name }}</h5>
+          <p>Completed at: {{ formatDate(task.updated_at) }}</p>
+        </div>
       </div>
     </div>
-  </div>  
- </div>
+  </div>
 </template>
 
 <script>

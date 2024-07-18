@@ -75,5 +75,22 @@ class AuthController extends Controller
         return response()->json(['users' => $users], 200);
     }
 
+    /**
+     * Search a resource on the database
+     * @param query
+     * @return results
+     */
+    public function search(string $query)
+    {
+        $search_results = DB::table('users')
+            ->where('name', 'like', '%' . $query . '%')
+            ->orWhere('email', 'like', '%' . $query . '%')
+            ->get();
+
+
+        return response()->json(['search_results' => $search_results], 200);
+
+    }
+
 
 }

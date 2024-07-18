@@ -1,18 +1,18 @@
 <template>
   <div>
     <div class="dashboard">
-       <div class="sidebar">
-         <Sidebar />
+      <div class="sidebar">
+        <Sidebar />
       </div>
-       <div class="main-content">
-         <Content/>
-       </div>
+      <div class="main-content">
+        <Content/>
+      </div>
     </div>
     <!-- add task -->
     <teleport to="#add-task">
       <transition name="modal-menu">
-       <AddTask />
-      </transition> 
+        <AddTask />
+      </transition>
     </teleport>
     <!-- end add task -->
   </div>
@@ -43,7 +43,6 @@ export default {
       .then(response => {
         this.userName = response.data.name;
         this.userEmail = response.data.email;
-        console.log(response);
       })
       .catch(error => {
         console.log(error);

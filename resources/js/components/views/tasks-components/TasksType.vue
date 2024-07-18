@@ -1,10 +1,21 @@
 <template>
-    <ul class="task-type">
-       <li class="priority"><span>Task Priority</span></li>
-       <li class="priority-high"><span><FontAwesomeIcon icon="square" /></span>High</li>
-       <li class="priority-medium"><span><FontAwesomeIcon icon="square" /></span>Medium</li>
-       <li class="priority-low"><span><FontAwesomeIcon icon="square" /></span>Low</li>
-    </ul>
+  <ul class="task-type">
+    <li class="priority">
+      <span>Task Priority</span>
+    </li>
+    <li class="priority-high">
+      <span>
+        <FontAwesomeIcon icon="square" />
+      </span>High</li>
+    <li class="priority-medium">
+      <span>
+        <FontAwesomeIcon icon="square" />
+      </span>Medium</li>
+    <li class="priority-low">
+      <span>
+        <FontAwesomeIcon icon="square" />
+      </span>Low</li>
+  </ul>
 </template>
 
 
@@ -40,7 +51,7 @@ export default {
   color: #e4e4e4;
 }
 .task-type .priority-high span {
-  color: red;
+  color: #ce1010;
   margin: 5px;
 }
 .task-type .priority-medium {

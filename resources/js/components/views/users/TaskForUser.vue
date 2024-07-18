@@ -1,24 +1,23 @@
 <template>
- <div>
-  <div v-if="isLoading" class="loading">
-    <p>please wait...</p>
+  <div>
+    <div v-if="isLoading" class="loading">
+      <p>please wait...</p>
+    </div>
+    <div v-else class="container-table">
+      <div v-if="serverError" class="message">
+        <Error v-bind:error="error" />
+      </div>
+      <div class="tasks-for-users">
+        <div v-if="tasksLength <= 0">
+          <NoTask />
+        </div>
+        <div v-else class="supervised-tasks">
+          <!-- displays table of the tasks the supervisor supervised -->
+          <TaskTable v-bind:supervisedTasks="supervisedTasks" />
+        </div>
+      </div>
+    </div>
   </div>
-  <div v-else>
-    <div class="container-table">
-       <div v-if="serverError"  class="message">
-          <Error v-bind:error="error"  />
-       </div>
-       <div class="tasks-for-users">
-          <div v-if="tasksLength <= 0">
-             <NoTask  />
-          </div>
-          <div v-else class="supervised-tasks">
-            <TaskTable v-bind:supervisedTasks="supervisedTasks" />
-          </div>
-       </div>
-    </div>
-    </div>
- </div>
 </template>
 
 <script>

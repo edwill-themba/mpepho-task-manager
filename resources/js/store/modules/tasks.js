@@ -67,7 +67,7 @@ export default {
         },
         // adds deleted task to incomplete task
         addToIncompleteTask: (state, task) => {
-            state.incomplete_tasks = state.incomplete_tasks.unshift(task);
+            state.incomplete_tasks.unshift(task);
         },
         // commits tasks the user has completed
         allCompleteTasks: (state, complete_tasks) => {
@@ -283,6 +283,7 @@ export default {
                     })
             })
         },
+
     }
     //end actions
 }

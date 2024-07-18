@@ -1,48 +1,51 @@
 <template>
   <div class="modal" v-if="showModal">
-   <div class="modal-form">
-       <!-- if server error -->
-        <div v-if="error" class="error message">
-          <p v-on:click="closeModal">{{ errorMessage}}  <FontAwesomeIcon icon="times" /></p>
-        </div>
-        <!-- end server error -->
-        <div v-if="!error">
-        <form  class="frm-add-task">
+    <div class="modal-form">
+      <!-- if server error -->
+      <div v-if="error" class="error message">
+        <p v-on:click="closeModal">{{ errorMessage}}
+          <FontAwesomeIcon icon="times" />
+        </p>
+      </div>
+      <!-- end server error -->
+      <div v-if="!error">
+        <form class="frm-add-task">
           <h4>Add New Task</h4>
-            <div class="input-div">
-              <input type="text" name="task_name" v-model="formData.task_name" placeholder="enter task name" class="input">
-              <p>{{ fieldErrors.task_name }}</p>
-            </div>
-            <div class="input-div">
-             <input type="datetime-local" name="task_date" v-model="formData.task_date"   class="input">
-             <p>{{ fieldErrors.task_date }}</p>
-            </div>
-            <div class="input-div">
-             <select  name="priority" v-model="formData.priority" class="input">
+          <div class="input-div">
+            <input type="text" name="task_name" v-model="formData.task_name" placeholder="enter task name" class="input">
+            <p>{{ fieldErrors.task_name }}</p>
+          </div>
+          <div class="input-div">
+            <input type="datetime-local" name="task_date" v-model="formData.task_date" class="input">
+            <p>{{ fieldErrors.task_date }}</p>
+          </div>
+          <div class="input-div">
+            <select name="priority" v-model="formData.priority" class="input">
               <option value="">please select task priority</option>
               <option value="high">high</option>
               <option value="medium">medium</option>
               <option value="low">low</option>
-             </select>
-             <p>{{ fieldErrors.priority }}</p>
-            </div>
-            <div class="button">
-             <button type="button" class="btn-save" v-on:click="addTask">
+            </select>
+            <p>{{ fieldErrors.priority }}</p>
+          </div>
+          <div class="button">
+            <button type="button" class="btn-save" v-on:click="addTask">
               save
-             </button>
-              <button type="button" class="btn-close" v-on:click="closeModal">
-               close
-             </button>
-            </div>
-           </form>
-         </div>
-       </div>
-      <div class="modal-handler"></div>
+            </button>
+            <button type="button" class="btn-close" v-on:click="closeModal">
+              close
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="modal-handler"></div>
   </div>
 </template>
 
 <script>
 import validateForm from "@/mixins/validateForm.js";
+import Swal from "sweetalert2";
 export default {
   name: "AddTask",
   mixins: [validateForm],
@@ -79,6 +82,11 @@ export default {
       this.$store
         .dispatch("addNewTask", this.formData)
         .then(response => {
+          new Swal({
+            icon: "success",
+            title: "task wask created successfully,please view my task",
+            timer: 4000
+          });
           // clears input
           this.formData.task_name = "";
           this.formData.task_date = "";

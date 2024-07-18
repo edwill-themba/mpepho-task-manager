@@ -1,20 +1,24 @@
 <template>
-    <form class="frm-register-login" v-on:submit="onLogin">
-       <div class="input-group">
-          <span><FontAwesomeIcon icon="envelope" /></span>
-          <input type="email" name="email" v-model="formData.email" class="frm-input" placeholder="enter email address">
-           <p class="frm-errors">{{ fieldErrors.email }}</p>
-       </div>
-       <div class="input-group">
-          <span><FontAwesomeIcon icon="lock" /></span>
-          <input type="password" name="password" v-model="formData.password" class="frm-input" placeholder="enter password">
-          <p class="frm-errors">{{ fieldErrors.password }}</p>
-       </div>
-       <button type="submit" class="btn-register-login">
-           {{ !clicked ? 'sign in' : 'please wait...' }}
-       </button>
-       <span class="account" v-on:click="toggleRegister()">are you new ?sign up</span>
-    </form>
+  <form class="frm-register-login" v-on:submit="onLogin">
+    <div class="input-group">
+      <span>
+        <FontAwesomeIcon icon="envelope" />
+      </span>
+      <input type="email" name="email" v-model="formData.email" class="frm-input" placeholder="enter email address">
+      <p class="frm-errors">{{ fieldErrors.email }}</p>
+    </div>
+    <div class="input-group">
+      <span>
+        <FontAwesomeIcon icon="lock" />
+      </span>
+      <input type="password" name="password" v-model="formData.password" class="frm-input" placeholder="enter password">
+      <p class="frm-errors">{{ fieldErrors.password }}</p>
+    </div>
+    <button type="submit" class="btn-register-login">
+      {{ !clicked ? 'sign in' : 'please wait...' }}
+    </button>
+    <span class="account" v-on:click="toggleRegister()">are you new ?sign up</span>
+  </form>
 </template>
 
 <script>

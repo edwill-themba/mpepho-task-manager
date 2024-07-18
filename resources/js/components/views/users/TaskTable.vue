@@ -1,47 +1,44 @@
 <template>
   <div>
     <div class="container-table">
-        <div class="my-supervisor-task">
-           <table class="my-supervisor-task-table">
-            <tr class="row-header">
-              <th class="col-id">Task ID</th>
-              <th class="col-name">Task Name</th>
-              <th class="col-date">Task Date</th>
-              <th class="col-name">Task Assign To</th>
-              <th class="col-name">supervisor Name</th>
-              <th class="col-date">edit task</th>
-              <th class="col-date">delete task</th>
-            </tr>
-            <tr v-for="(task,index) in allSupervisedTasks" :key="index">
-               <td class="id">{{ index + 1 }}</td>
-               <td class="col">{{ task.task_name }}</td>
-               <td class="col-date-body">{{ formatDate(task.task_date) }}</td>
-               <td class="col">{{ task.name }}</td>
-               <td class="col">{{ supervisorName }}</td>
-               <td  class="col-date-body" v-on:click="openModal(task)">
-                   <span class="edit">
-                       <FontAwesomeIcon icon="pencil" /> edit
-                   </span>
-                </td>
-               <td  class="col-date-body" v-on:click="removeTask(task)">
-                  <span class="delete">
-                       <FontAwesomeIcon icon="times" /> delete
-                   </span> 
-               </td>
-            </tr>
-           </table>
-       </div> 
+      <div class="my-supervisor-task">
+        <!-- table of the task supervised by the user -->
+        <table class="my-supervisor-task-table">
+          <tr class="row-header">
+            <th class="col-id">Task ID</th>
+            <th class="col-name">Task Name</th>
+            <th class="col-date">Task Date</th>
+            <th class="col-name">Task Assign To</th>
+            <th class="col-name">supervisor Name</th>
+            <th class="col-date">edit task</th>
+            <th class="col-date">delete task</th>
+          </tr>
+          <tr v-for="(task,index) in allSupervisedTasks" :key="index">
+            <td class="id">{{ index + 1 }}</td>
+            <td class="col">{{ task.task_name }}</td>
+            <td class="col-date-body">{{ formatDate(task.task_date) }}</td>
+            <td class="col">{{ task.name }}</td>
+            <td class="col">{{ supervisorName }}</td>
+            <td class="col-date-body" v-on:click="openModal(task)">
+              <span class="edit">
+                <FontAwesomeIcon icon="pencil" /> edit
+              </span>
+            </td>
+            <td class="col-date-body" v-on:click="removeTask(task)">
+              <span class="delete">
+                <FontAwesomeIcon icon="times" /> delete
+              </span>
+            </td>
+          </tr>
+        </table>
+      </div>
     </div>
     <!-- update supervisor user task modal -->
-     <teleport to="#supervisor-update-task-modal">
+    <teleport to="#supervisor-update-task-modal">
       <transition name="update-supervisor-task">
-         <div class="update-supervisor-task-modal" 
-           v-if="updateTask">
-            <UpdateSupervisorTask 
-             v-on:closeModal="closeModal"
-             v-bind:task="task"
-            />
-         </div>
+        <div class="update-supervisor-task-modal" v-if="updateTask">
+          <UpdateSupervisorTask v-on:closeModal="closeModal" v-bind:task="task" />
+        </div>
       </transition>
     </teleport>
     <!-- end code for modal -->
@@ -53,6 +50,7 @@
 import formatDate from "@/mixins/formatDate.js";
 import UpdateSupervisorTask from "../forms/UpdateSupervisorTask.vue";
 import Swal from "sweetalert2";
+
 export default {
   mixins: [formatDate],
   props: ["supervisedTasks"],

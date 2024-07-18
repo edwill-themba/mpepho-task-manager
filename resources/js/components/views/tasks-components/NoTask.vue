@@ -1,8 +1,8 @@
 <template>
-    <div class="no-tasks">
-        <h3>Sorry No Tasks Found</h3>
-        <p>You need to create an account and sign in to be able to create tasks.</p>
-    </div>
+  <div class="no-tasks">
+    <h3>Sorry No Tasks Found</h3>
+    <p>You need to create an account and sign in to be able to create tasks.</p>
+  </div>
 </template>
 
 <script>

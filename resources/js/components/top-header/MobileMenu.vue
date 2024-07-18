@@ -1,10 +1,18 @@
 <template>
   <ul class="mobile-menu">
-    <li><router-link to="/">Tasks</router-link></li>
-    <li><router-link to="/signin">Sign In</router-link></li>
-    <li><router-link to="/dashboard">Dashboard</router-link></li>
-    <li><router-link to="/signout">Sign Out</router-link></li>
- </ul>
+    <li>
+      <router-link to="/">Tasks</router-link>
+    </li>
+    <li>
+      <router-link to="/signin">Sign In</router-link>
+    </li>
+    <li>
+      <router-link to="/dashboard">Dashboard</router-link>
+    </li>
+    <li>
+      <router-link to="/signout">Sign Out</router-link>
+    </li>
+  </ul>
 </template>
 
 

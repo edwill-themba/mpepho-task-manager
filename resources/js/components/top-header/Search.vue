@@ -1,12 +1,12 @@
 <template>
-    <div class="search-area">
-        <form  class="frm-search"  v-on:submit="search">
-           <input type="search" class="search-input" v-model="query" placeholder="search...">
-           <button type="submit" class="btn-search">
-               <FontAwesomeIcon icon="search" />
-           </button>
-        </form>
-    </div>
+  <div class="search-area">
+    <form class="frm-search" v-on:submit="search">
+      <input type="search" class="search-input" v-model="query" placeholder="search...">
+      <button type="submit" class="btn-search">
+        <FontAwesomeIcon icon="search" />
+      </button>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -60,14 +60,7 @@ export default {
 .search-input::placeholder {
   color: #e4e4e4;
 }
-.btn-search {
-  border: none;
-  background: transparent;
-  color: #e4e4e4;
-  font-size: 17px;
-  cursor: pointer;
-  padding-right: 4px;
-}
+
 @media (max-width: 768px) {
   .search-area {
     width: 280px;
@@ -76,9 +69,6 @@ export default {
     height: 20px;
   }
   .search-input {
-    font-size: 14px;
-  }
-  .btn-search {
     font-size: 14px;
   }
 }

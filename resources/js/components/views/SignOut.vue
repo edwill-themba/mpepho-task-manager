@@ -1,12 +1,12 @@
 <template>
-    <div>
-        <div v-if="serverError">
-           <Error v-bind:error="error" />
-        </div>
-        <div v-else class="logout">
-           <h2>{{ message }}</h2>
-        </div>
+  <div>
+    <div v-if="serverError">
+      <Error v-bind:error="error" />
     </div>
+    <div v-else class="logout">
+      <h2>{{ message }}</h2>
+    </div>
+  </div>
 </template>
 
 <script>

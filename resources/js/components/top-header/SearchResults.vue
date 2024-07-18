@@ -1,42 +1,41 @@
 <template>
-    <div>
-        <div v-if="isLoading" class="loading">
-           <p>wait for search results...</p>
-        </div>
-        <div v-else>
-           <div class="results-container">
-              <div>
-                <div class="search-results-found">
-                   <h1 v-if="searchResultsLength > 0">
-                     <span><FontAwesomeIcon icon="circle" />
-                     </span> search results
-                   </h1>
-                   <div v-if="searchResultsLength == 0" class="no-results-found">
-                     <h3>sorry, no results are found, try a different query</h3>
-                     <p>please make sure that spellings are correct or try again later</p>
-                   </div>
-                   <div  v-for="(result,index) in searchResultsArray" :key="index">
-                    <div class="task-box">
-                      <h4>{{ result.task_name }}</h4> 
-                      <div class="results-date-time">
-                        <span class="results-date">
-                          Date
-                          <FontAwesomeIcon icon="calendar" />
-                          {{ formatDate(result.task_date) }}
-                        </span>
-                        <span class="results-time">
-                          Time
-                          <FontAwesomeIcon icon="clock" />
-                          {{ formatTime(result.task_date) }}
-                        </span>
-                      </div>
-                    </div>
-                 </div>
-                </div>
-             </div>
-           </div>
-        </div>
+  <div>
+    <div v-if="isLoading" class="loading">
+      <p>wait for search results...</p>
     </div>
+    <div v-else>
+      <div class="results-container">
+        <div>
+          <div class="search-results-found">
+            <h1 v-if="searchResultsLength > 0">
+              <span>
+                <FontAwesomeIcon icon="circle" />
+              </span> search results
+            </h1>
+            <div v-if="searchResultsLength == 0" class="no-results-found">
+              <h3>sorry, no results are found, try a different query</h3>
+              <p>please make sure that spellings are correct or try again later</p>
+            </div>
+            <div v-for="(result,index) in searchResultsArray" :key="index">
+              <div class="task-box">
+                <h4>{{ result.task_name }}</h4>
+                <div class="results-date-time">
+                  <span class="results-date">
+                    Date
+                    <FontAwesomeIcon icon="calendar" /> {{ formatDate(result.task_date) }}
+                  </span>
+                  <span class="results-time">
+                    Time
+                    <FontAwesomeIcon icon="clock" /> {{ formatTime(result.task_date) }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>

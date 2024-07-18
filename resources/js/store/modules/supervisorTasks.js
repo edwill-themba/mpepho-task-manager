@@ -42,6 +42,7 @@ export default {
             commit
         }) {
             return new Promise((resolve, reject) => {
+                commit('changeIsLoading', true)
                 axios.get('api/supervisors/my_supervisor_task', {
                         headers: {
                             'Authorization': 'Bearer ' + auth.state.$token,
@@ -49,7 +50,8 @@ export default {
                         }
                     })
                     .then((response) => {
-                        commit('allSupervisedTasks', response.data.supervisor_tasks);
+                        commit('allSupervisedTasks', response.data.supervisor_tasks)
+                        commit('changeIsLoading', false)
                         resolve(response)
                     })
                     .catch((error) => {
@@ -78,7 +80,7 @@ export default {
                         }
                     })
                     .then((response) => {
-                        commit('addSupervisorTask', response.data.task);
+                        commit('addSupervisorTask', response.data.task)
                         resolve(response)
                     })
                     .catch((error) => {
