@@ -29,19 +29,20 @@
       <p class="frm-errors">{{ fieldErrors.password_confirmation }}</p>
     </div>
     <button type="submit" class="btn-register-login">
-      {{ !clicked ? 'sign up' : 'please wait...' }}
+      {{ !isLoading ? 'sign up' : 'please wait...' }}
     </button>
-    <span class="account" v-on:click="toggleLogin()">do you have an account? sign in</span>
+    <span class="account" v-on:click="toggleLogin()">do you have an account ? sign in</span>
   </form>
 </template>
 
 <script>
 import Swal from "sweetalert2";
+import isLoading from "@/mixins/isLoading.js";
 export default {
   name: "SignUnForm",
+  mixins: [isLoading],
   data() {
     return {
-      clicked: false,
       formData: {
         name: "",
         email: "",
@@ -62,10 +63,6 @@ export default {
     },
     registerUser: function(e) {
       e.preventDefault();
-      this.clicked = true;
-      setTimeout(() => {
-        this.clicked = false;
-      }, 3000);
       this.fieldErrors = this.validateForm(this.formData);
       if (Object.keys(this.fieldErrors).length) return;
       this.$store
@@ -77,6 +74,7 @@ export default {
             title: "Thank you for choosing us, Go to sign in",
             timer: 3000
           });
+          // clears inputs
           this.formData.name = "";
           this.formData.email = "";
           this.formData.password = "";
@@ -90,12 +88,14 @@ export default {
             title: error.response.data.message,
             timer: 5000
           });
+          // clears inputs
           this.formData.name = "";
           this.formData.email = "";
           this.formData.password = "";
           this.formData.password_confirmation = "";
         });
     },
+    // validates input errors if empty
     validateForm: function(fields) {
       const errors = {};
       if (!fields.name) errors.name = "The name is required!!";

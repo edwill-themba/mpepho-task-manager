@@ -15,19 +15,20 @@
       <p class="frm-errors">{{ fieldErrors.password }}</p>
     </div>
     <button type="submit" class="btn-register-login">
-      {{ !clicked ? 'sign in' : 'please wait...' }}
+      {{ !isLoading ? 'sign in' : 'please wait...' }}
     </button>
-    <span class="account" v-on:click="toggleRegister()">are you new ?sign up</span>
+    <span class="account" v-on:click="toggleRegister()">are you a member ? sign up</span>
   </form>
 </template>
 
 <script>
 import Swal from "sweetalert2";
+import isLoading from "@/mixins/isLoading.js";
 export default {
   name: "SignInForm",
+  mixins: [isLoading],
   data() {
     return {
-      clicked: false,
       formData: {
         email: "",
         password: ""
@@ -44,8 +45,6 @@ export default {
     },
     onLogin: function(e) {
       e.preventDefault();
-      this.clicked = true;
-      setTimeout(() => (this.clicked = false), 3000);
       // call the validate error function
       this.fieldErrors = this.validateForm(this.formData);
       // if gets error rertuns

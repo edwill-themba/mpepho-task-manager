@@ -1,24 +1,33 @@
 <template>
-  <ul class="mobile-menu">
-    <li>
-      <router-link to="/">Tasks</router-link>
-    </li>
-    <li>
-      <router-link to="/signin">Sign In</router-link>
-    </li>
-    <li>
-      <router-link to="/dashboard">Dashboard</router-link>
-    </li>
-    <li>
-      <router-link to="/signout">Sign Out</router-link>
-    </li>
-  </ul>
+  <div>
+    <ul class="mobile-menu" v-on:click="closeMobileMenu">
+      <li>
+        <router-link to="/">Tasks</router-link>
+      </li>
+      <li v-if="!isLoggin">
+        <router-link to="/signin">Sign In</router-link>
+      </li>
+      <li v-if="isLoggin" class="username">{{ currentUserName }}</li>
+      <li v-if="isLoggin">
+        <router-link to="/dashboard">Dashboard</router-link>
+      </li>
+      <li v-if="isLoggin">
+        <router-link to="/signout">Sign Out</router-link>
+      </li>
+    </ul>
+  </div>
 </template>
 
 
 <script>
 export default {
-  name: "MobileMenu"
+  name: "MobileMenu",
+  methods: {
+    // close mobile menu
+    closeMobileMenu: function() {
+      this.$emit("closeMobileMenu");
+    }
+  }
 };
 </script>
 
@@ -30,11 +39,11 @@ export default {
   align-items: flex-start;
 }
 .mobile-menu li:nth-child(1) {
-  margin-top: 30px;
+  margin-top: 50px;
 }
 .mobile-menu li {
   list-style: none;
-  margin: 5px 20px;
+  margin: 5px 30px;
 }
 .mobile-menu li a {
   color: #e4e4e4;
@@ -45,6 +54,11 @@ export default {
 }
 .mobile-menu li a:hover {
   color: coral;
+}
+.username {
+  color: purple;
+  font-size: 17px;
+  font-weight: 500;
 }
 .mobile-menu .router-link-active,
 .mobile-menu .router-link-exact-active {

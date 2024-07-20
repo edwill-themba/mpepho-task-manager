@@ -40,7 +40,7 @@ export default {
       incompleteTaskLength: undefined
     };
   },
-  mounted() {
+  created() {
     this.getIncompleteTasks();
   },
   methods: {
@@ -132,5 +132,24 @@ export default {
   cursor: pointer;
   font-size: 13px;
   font-weight: 300;
+}
+@media (max-width: 768px) {
+  .incomplete-tasks div {
+    height: auto;
+    padding: 10px;
+  }
+  .incomplete-tasks div h5 {
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .incomplete-tasks div h5 .task-number {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+  .incomplete-tasks div p {
+    font-size: 12px;
+    margin-left: 20px;
+  }
 }
 </style>

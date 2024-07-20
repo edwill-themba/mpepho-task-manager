@@ -111,7 +111,7 @@ export default {
   margin: 10% 15% 3%;
   font-size: 22px;
   text-transform: uppercase;
-  font-weight: 400;
+  font-weight: 500;
 }
 /** sign up form **/
 .sign-up-form {
@@ -131,7 +131,7 @@ export default {
   margin: 7% 15% 3%;
   font-size: 22px;
   text-transform: uppercase;
-  font-weight: 400;
+  font-weight: 500;
 }
 /** sign in **/
 .sign-in-enter-active,
@@ -164,6 +164,21 @@ export default {
 .sign-up-leave-active {
   position: absolute;
 }
+@media (max-width: 1246px) {
+  .login-content {
+    width: 65%;
+  }
+  .sign-in-form {
+    width: 35%;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .sign-up-form {
+    width: 35%;
+    justify-content: flex-start;
+    align-items: center;
+  }
+}
 
 @media (max-width: 900px) {
   .login-content {
@@ -175,11 +190,17 @@ export default {
     justify-content: flex-start;
     align-items: center;
   }
+  .sign-in-form h3 {
+    font-weight: 500;
+  }
   .sign-in-form {
     width: 100%;
     background: transparent;
     justify-content: flex-start;
     align-items: center;
+  }
+  .sign-up-form h3 {
+    font-weight: 500;
   }
 }
 </style>

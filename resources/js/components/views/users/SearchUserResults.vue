@@ -6,34 +6,24 @@
             </div>
             <div v-else>
                 <div class="search-resuls-found">
-                    <div v-for="(user,index) in searchResults" :key="index">
-                        <div class="user-box">
-                            <p>
-                                <span class="user">
-                                    <FontAwesomeIcon icon="user" />
-                                </span>
+                    <table class="search-resuls-found-table">
+                        <tr class="row-head">
+                            <th>Full Names</th>
+                            <th>Email Address</th>
+                            <th>Registration Date</th>
+                        </tr>
+                        <tr v-for="(user,index) in searchResults" :key="index">
+                            <td class="table-record">
                                 {{ user.name }}
-                            </p>
-                            <p>
-                                <span class="email">
-                                    <FontAwesomeIcon icon="envelope" />
-                                </span>
+                            </td>
+                            <td class="table-record">
                                 {{ user.email }}
-                            </p>
-                            <p>
-                                <span class="register">
-                                    <FontAwesomeIcon icon="calendar" />
-                                </span>
+                            </td>
+                            <td class="table-record">
                                 {{ formatDate(user.created_at) }}
-                            </p>
-                            <p>
-                                <span class="register-time">
-                                    <FontAwesomeIcon icon="clock" />
-                                </span>
-                                {{ formatTime(user.created_at) }}
-                            </p>
-                        </div>
-                    </div>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
@@ -68,39 +58,25 @@ export default {
   align-items: center;
   flex-wrap: wrap;
 }
-.search-resuls-found .user-box {
-  margin-top: 25px;
-  width: 68vw;
-  border: 1px solid #ccc;
-  height: auto;
-  padding: 10px;
-  border-radius: 6px;
-  width: 68vw;
-  border: 1px solid #ccc;
-  height: auto;
-  padding: 10px;
-  border-radius: 6px;
-  display: flex;
-  justify-content: space-between;
-  align-content: center;
-  flex-wrap: wrap;
+.search-resuls-found-table {
+  border-collapse: collapse;
+  border-collapse: collapse;
+  width: 60vw;
+  margin-top: 30px;
+}
+.search-resuls-found-table .row-head {
   background: #111;
+  text-transform: uppercase;
+  height: 40px;
+  text-align: center;
 }
-.search-resuls-found .user-box p {
-  font-size: 17px;
+.search-resuls-found-table .row-head th {
+  width: 180px;
+  border: 2px solid;
 }
-.user {
-  margin-right: 10px;
-  color: green;
-}
-.register {
-  color: blue;
-}
-.register-time {
-  color: purple;
-}
-.email {
-  color: yellow;
-  font-size: 17px;
+.search-resuls-found-table tr .table-record {
+  width: 180px;
+  text-align: center;
+  border: 2px solid;
 }
 </style>

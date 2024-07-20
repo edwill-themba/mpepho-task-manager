@@ -328,9 +328,33 @@ body {
   padding-right: 4px;
 }
 
+@media (max-width: 1246px) {
+  .frm-register-login {
+    width: 300px;
+    margin-left: 20px;
+  }
+}
+@media (max-width: 1032px) {
+  .frm-register-login {
+    width: 280px;
+  }
+}
 @media (max-width: 900px) {
+  .sign-in {
+    border-radius: 6px;
+  }
   .frm-register-login {
     margin-left: 40px;
+    background: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+  }
+  .input-group {
+    width: 95%;
+  }
+  .btn-register-login {
+    width: 100%;
   }
   .tasks-list {
     overflow-y: scroll;
@@ -348,9 +372,29 @@ body {
     font-size: 13px;
   }
 }
+@media (max-width: 898px) {
+  .tasks-list {
+    overflow-y: scroll;
+    height: 700px;
+    justify-content: center;
+    align-items: center;
+  }
+  .tasks-list .box {
+    margin-left: 20px;
+  }
+}
 @media (max-width: 768px) {
   .btn-search {
     font-size: 14px;
+  }
+  .frm-register-login {
+    margin-left: -5px;
+  }
+  .frm-register-login .account {
+    font-size: 12px;
+  }
+  .frm-errors {
+    font-size: 13px;
   }
 }
 </style>

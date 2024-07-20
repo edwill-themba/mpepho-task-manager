@@ -5,9 +5,10 @@ import axios from 'axios'
 
 export default {
     state: {
-        supervisedTasks: [],
+        supervisedTasks: [], // all the supervised tasks
     },
     getters: {
+        // current supervised task by the user
         mySupervisedTasks(state) {
             return state.supervisedTasks;
         }
@@ -23,7 +24,11 @@ export default {
         },
         // update the supervisor task
         updateSupervisorTask: (state, task) => {
-            // state.supervisedTasks = task;
+            if (task.status == 'complete') {
+                tasks.state.complete_tasks.unshift(task);
+                state.supervisedTasks = state.supervisedTasks.filter((t) => t.id !== task.id)
+                tasks.state.tasks = tasks.state.tasks.filter((t) => t.id !== task.id);
+            }
         },
         // the supervisor 
         deleteMySupervisedTask: (state, id) => {
@@ -32,8 +37,6 @@ export default {
         }
     },
     actions: {
-
-
         /**
          * all the tasks the user supervises
          * @param {*} param0 
@@ -42,7 +45,9 @@ export default {
             commit
         }) {
             return new Promise((resolve, reject) => {
-                commit('changeIsLoading', true)
+                commit('changeIsLoading', true, {
+                    root: true
+                })
                 axios.get('api/supervisors/my_supervisor_task', {
                         headers: {
                             'Authorization': 'Bearer ' + auth.state.$token,
@@ -51,10 +56,15 @@ export default {
                     })
                     .then((response) => {
                         commit('allSupervisedTasks', response.data.supervisor_tasks)
-                        commit('changeIsLoading', false)
+                        commit('changeIsLoading', false, {
+                            root: true
+                        })
                         resolve(response)
                     })
                     .catch((error) => {
+                        commit('changeIsLoading', false, {
+                            root: true
+                        })
                         reject(error)
                     })
             })
@@ -69,6 +79,9 @@ export default {
             commit
         }, formData) {
             return new Promise((resolve, reject) => {
+                commit('changeIsLoading', true, {
+                    root: true
+                })
                 axios.post('api/supervisors/task/user/' + formData.userId, {
                         task_name: formData.task_name,
                         task_date: formData.task_date,
@@ -81,15 +94,21 @@ export default {
                     })
                     .then((response) => {
                         commit('addSupervisorTask', response.data.task)
+                        commit('changeIsLoading', false, {
+                            root: true
+                        })
                         resolve(response)
                     })
                     .catch((error) => {
+                        commit('changeIsLoading', false, {
+                            root: true
+                        })
                         reject(error);
                     })
             })
         },
         /**
-         * the supervisor edit the task that he updates
+         * the supervisor edit the task that he/she supervised
          * @param {*} param0 
          * @param {*} task 
          */
@@ -97,6 +116,9 @@ export default {
             commit
         }, task) {
             return new Promise((resolve, reject) => {
+                commit('changeIsLoading', true, {
+                    root: true
+                })
                 axios.put('api/supervisors/task/' + task.id, {
                         task_name: task.task_name,
                         task_date: task.task_date,
@@ -110,9 +132,15 @@ export default {
                     })
                     .then((response) => {
                         commit('updateSupervisorTask', response.data.task)
+                        commit('changeIsLoading', false, {
+                            root: true
+                        })
                         resolve(response)
                     })
                     .catch((error) => {
+                        commit('changeIsLoading', false, {
+                            root: true
+                        })
                         reject(error)
                     })
             })
@@ -141,5 +169,5 @@ export default {
                     })
             })
         },
-    }
+    } // end actions
 }

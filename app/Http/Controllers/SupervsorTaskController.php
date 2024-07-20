@@ -108,36 +108,27 @@ class SupervsorTaskController extends Controller
         // gets the task
         $task = Task::find($id);
         //get user input
-        $task_name = $request->input('task_name');
-        $task_date = $request->input('task_date');
-        $user_id = $task->user_id;
-        $supervisor_id = Auth::user()->id;
-        $priority = $request->input('priority');
-        $status = $request->input('status');
+        $task->task_name = $request->input('task_name');
+        $task->task_date = $request->input('task_date');
+        $task->user_id = $id;
+        $task->supervisor_id = Auth::user()->id;
+        $task->priority = $request->input('priority');
+        $task->status = $request->input('status');
         //find the task and get user id
         if (Auth::user()->role_id == 1 && $task->supervisor_id == Auth::user()->id) {
             // checks if user has a task on this day
-            $user_has_task = (new TaskValidator())->checkUserTask($user_id, $task_date);
+            $user_has_task = (new TaskValidator())->checkUserTask($task->user_id, $task->task_date);
             if ($user_has_task && $task->id != $id) {
                 return response()->json(['message' => 'choose another date the users has a task on this date'], 422);
             }
             //check status before updating 
         // if status is complete it inserts the task to complete_tasks table and delete under tasks
-            if ($status == 'complete') {
+            if ($task->status == 'complete') {
                 $task_status = (new TaskValidator())->checkCompleteTask($id);
-                return response()->json(['massage' => 'thank you for completing this task'], 200);
+                return response()->json(['task' => $task], 200);
             } else {
-                \DB::table('tasks')
-                    ->where('id', $id)
-                    ->update([
-                        'task_name' => $task_name,
-                        'task_date' => $task_date,
-                        'priority' => $priority,
-                        'status' => $status,
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]);
-                return response()->json(['message' => 'task was successfully updated'], 200);
+                $task->save();
+                return response()->json(['task' => $task], 200);
             }
         } else {
             return response()->json(['message' => 'unAuthorized'], 401);

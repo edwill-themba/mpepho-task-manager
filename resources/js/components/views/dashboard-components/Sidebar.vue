@@ -196,7 +196,28 @@ export default {
 .view-my-task li:hover {
   color: coral;
 }
-
+@media (max-width: 1148px) {
+  .view-my-task {
+    margin-left: -10px;
+  }
+  .sidebar-content h2 {
+    font-size: 17px;
+  }
+  .view-my-task li h3 {
+    font-size: 16px;
+  }
+}
+@media (max-width: 947px) {
+  .view-my-task li p {
+    display: none;
+  }
+  .view-my-task li h3 {
+    display: none;
+  }
+  .sidebar-content h2 {
+    display: none;
+  }
+}
 @media (max-width: 800px) {
   .view-my-task li p {
     display: none;

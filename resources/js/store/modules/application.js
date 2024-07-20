@@ -1,7 +1,7 @@
 export default {
     state: {
         addtask: false,
-        action: 'view_tasks', // action the dashboard display
+        action: localStorage.getItem('displayView') || 'view_tasks', // dash display view name
     },
     getters: {
         // return the status of activating adding task
@@ -41,6 +41,7 @@ export default {
         dashBoardDisplay({
             commit
         }, value) {
+            localStorage.setItem('displayView', value);
             commit('dashBoardDisplay', value);
         }
     },

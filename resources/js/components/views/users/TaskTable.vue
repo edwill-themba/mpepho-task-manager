@@ -48,38 +48,40 @@
 
 <script>
 import formatDate from "@/mixins/formatDate.js";
-import UpdateSupervisorTask from "../forms/UpdateSupervisorTask.vue";
+import UpdateSupervisorTask from "../forms/UpdateSupervisorTask.vue"; // update supervisor task
 import Swal from "sweetalert2";
 
 export default {
   mixins: [formatDate],
-  props: ["supervisedTasks"],
+  props: ["supervisedTasks"], // sends supervised task as props
   name: "TaskTable",
   components: {
     UpdateSupervisorTask
   },
   data() {
     return {
-      updateTask: false,
+      updateTask: false, // activate update set to false
       task: {
         id: "",
         task_name: "",
         task_date: "",
         priority: "",
         status: ""
-      }
+      } // task object set to empty string
     };
   },
   computed: {
+    // gets the current supervisor name
     supervisorName() {
       return this.$store.getters.currentName;
     },
+    // gets all tasks supervised by current supervisor
     allSupervisedTasks() {
       return this.$store.getters.mySupervisedTasks;
     }
   },
   methods: {
-    // opens the modal form
+    // opens the modal form and set this task to task recieved
     openModal: function(task) {
       this.task = task;
       this.updateTask = true;
@@ -88,7 +90,7 @@ export default {
     closeModal: function() {
       this.updateTask = false;
     },
-    // remove the selected task supervised by the user
+    // remove the selected task supervised by the supervisor
     removeTask: function(task) {
       let deleteTask = confirm("Are you sure you want to remove this task?");
       if (deleteTask) {

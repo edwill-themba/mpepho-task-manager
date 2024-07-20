@@ -6,6 +6,7 @@ import Tasks from '../components/views/Tasks.vue'
 import SignIn from '../components/views/SignIn.vue'
 import Dashboard from '../components/views/Dashboard.vue'
 import SignOut from '../components/views/SignOut.vue'
+import TaskForUser from '../components/views/users/TaskForUser.vue'
 import store from '../store/index'
 
 
@@ -31,6 +32,14 @@ const routes = [{
         path: '/signout',
         name: 'SignOut',
         component: SignOut,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/taskforuser',
+        name: 'TaskForUser',
+        component: TaskForUser,
         meta: {
             requiresAuth: true
         }

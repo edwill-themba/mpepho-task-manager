@@ -30,7 +30,7 @@
           </div>
           <div class="button">
             <button type="button" class="btn-save" v-on:click="addTask">
-              save
+              {{ !isLoading ? 'save':'wait...' }}
             </button>
             <button type="button" class="btn-close" v-on:click="closeModal">
               close
@@ -45,36 +45,40 @@
 
 <script>
 import validateForm from "@/mixins/validateForm.js";
+import isLoading from "@/mixins/isLoading.js";
 import Swal from "sweetalert2";
 export default {
   name: "AddTask",
-  mixins: [validateForm],
+  mixins: [validateForm, isLoading],
   computed: {
+    // returns status of show add task modal
     showModal() {
       return this.$store.getters.addingTask;
     }
   },
   data() {
     return {
-      modal: false,
+      modal: false, // show modal set to false
       formData: {
         task_date: "",
         task_name: "",
         priority: ""
-      },
-      error: false,
-      errorMessage: undefined,
+      }, // user inputs
+      error: false, // error set false
+      errorMessage: undefined, // error message
       fieldErrors: {
         task_date: undefined,
         task_name: undefined,
         priority: undefined
-      }
+      } // fields to check front end errors
     };
   },
   methods: {
+    // closes modal form and deactivates add task
     closeModal: function() {
       this.$store.dispatch("activateAddTask", false);
     },
+    // add user task
     addTask: function(e) {
       e.preventDefault();
       this.fieldErrors = this.validateForm(this.formData);
@@ -97,10 +101,16 @@ export default {
         .catch(error => {
           this.error = true;
           this.errorMessage = error.response.data.message;
+          new Swal({
+            icon: "warning",
+            title: error.response.data.message,
+            timer: 4000
+          });
           // clears input
           this.formData.task_name = "";
           this.formData.task_date = "";
           this.formData.priority = "";
+          this.closeModal();
           console.log(error);
         });
     }

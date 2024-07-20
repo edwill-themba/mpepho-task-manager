@@ -32,7 +32,7 @@
       </div>
       <div class="button">
         <button type="button" class="btn-save" v-on:click="updateSupervisorTask(task)">
-          save
+          {{ !isLoading ? 'save': 'wait...' }}
         </button>
         <button type="button" class="btn-close" v-on:click="close">
           close
@@ -44,10 +44,11 @@
 
 <script>
 import validateForm from "@/mixins/validateForm.js";
+import isLoading from "@/mixins/isLoading.js";
 import Swal from "sweetalert2";
 export default {
   name: "UpdateSupervisorTask",
-  mixins: [validateForm],
+  mixins: [validateForm, isLoading],
   props: ["task"],
   data() {
     return {

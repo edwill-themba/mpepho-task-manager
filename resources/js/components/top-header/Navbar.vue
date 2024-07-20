@@ -20,7 +20,7 @@
         </ul>
         <!-- open this menu if is mobile or small screen -->
         <transition name="nav-mobile" class="mobile-nav" v-if="mobile">
-          <MobileMenu v-if="mobile_menu" />
+          <MobileMenu v-if="mobile_menu" v-on:closeMobileMenu="closeMobileMenu" />
         </transition>
         <!-- search area -->
         <div class="search">
@@ -36,7 +36,7 @@
     <div class="search-results" v-if="search">
       <transition name="search-results-transition">
         <!-- search results component -->
-        <SearchResults v-bind:searchResultsArray="searchResultsArray" v-bind:searchResultsLength="searchResultsLength" />
+        <SearchResults v-bind:searchResultsArray="searchResultsArray" v-bind:searchResultsLength="searchResultsLength" v-on:hideSearch="hideSearch" />
       </transition>
     </div>
     <!-- end search results -->
@@ -90,6 +90,10 @@ export default {
     toggleMobileMenu: function() {
       this.mobile_menu = !this.mobile_menu;
     },
+    // close mobile if open
+    closeMobileMenu: function() {
+      this.mobile_menu = false;
+    },
     // dispatch actions search for a task or tasks
     searchTasks: function(query) {
       this.search = true;
@@ -107,6 +111,10 @@ export default {
             timer: 4000
           });
         });
+    },
+    //hides the search results
+    hideSearch: function() {
+      this.search = false;
     }
   }
 };
@@ -170,7 +178,6 @@ export default {
 .mobile-nav {
   height: 100%;
   width: 100%;
-  max-width: 250px;
   z-index: 99;
   position: fixed;
   top: 0;
@@ -178,6 +185,8 @@ export default {
   bottom: 0;
   margin-top: 65px;
   background: #111111;
+  display: flex;
+  justify-content: center;
 }
 .nav-mobile-enter-active,
 .nav-mobile-leave-active {

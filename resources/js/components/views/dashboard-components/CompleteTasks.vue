@@ -1,8 +1,10 @@
 <template>
   <div>
+    <!-- display if is loading -->
     <div class="loading" v-if="isLoading">
       <p>loading...</p>
     </div>
+    <!-- if isLoading is false -->
     <div v-else>
       <div v-if="serverError" class="error">
         {{ error }}
@@ -35,7 +37,7 @@ export default {
       completeTaskLength: undefined
     };
   },
-  mounted() {
+  created() {
     this.getCompleteTask();
   },
   methods: {
@@ -124,5 +126,33 @@ export default {
   cursor: pointer;
   font-size: 13px;
   font-weight: 300;
+}
+
+@media (max-width: 768px) {
+  .complete-tasks {
+    width: 100%;
+    height: 500px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+  }
+  .complete-tasks div {
+    height: auto;
+    padding: 10px;
+  }
+  .complete-tasks div h5 {
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .complete-tasks div h5 .task-number {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+  .complete-tasks div p {
+    font-size: 12px;
+  }
 }
 </style>

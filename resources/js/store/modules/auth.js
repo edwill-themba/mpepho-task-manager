@@ -1,5 +1,7 @@
 import axios from 'axios'
 import tasks from './tasks'
+import application from './application'
+
 export default {
     state: {
         $token: localStorage.getItem('accessToken') || null,
@@ -61,6 +63,9 @@ export default {
             commit
         }, formData) {
             return new Promise((resolve, reject) => {
+                commit('changeIsLoading', true, {
+                    root: true
+                });
                 axios.get('/sanctum/csrf-cookie').then(response => {
                     axios.post('api/login', {
                             email: formData.email,
@@ -69,9 +74,15 @@ export default {
                         .then((response) => {
                             localStorage.setItem('accessToken', response.data)
                             commit('login', response.data)
+                            commit('changeIsLoading', false, {
+                                root: true
+                            });
                             resolve(response)
                         })
                         .catch((error) => {
+                            commit('changeIsLoading', false, {
+                                root: true
+                            });
                             reject(error)
                         })
                 })
@@ -91,14 +102,22 @@ export default {
                     .then((response) => {
                         localStorage.removeItem('accessToken');
                         localStorage.removeItem('currentUserName');
+                        localStorage.removeItem('displayView'); // removes dashboard display view
+                        commit('dashBoardDisplay', 'view_tasks', {
+                                root: true
+                            }) // commits the state of application action to initial state value
                         commit('logout');
                         resolve(response);
                     })
                     .catch((error) => {
                         localStorage.removeItem('accessToken');
                         localStorage.removeItem('currentUserName');
+                        localStorage.removeItem('displayView');
+                        commit('dashBoardDisplay', 'view_tasks', {
+                                root: true
+                            }) // commits the state of application action to initial state value
                         commit('logout');
-                        reject(error)
+                        reject(error);
                     })
             })
         },
@@ -107,6 +126,9 @@ export default {
             commit
         }, formData) {
             return new Promise((resolve, reject) => {
+                commit('changeIsLoading', true, {
+                    root: true
+                });
                 axios.post('api/register', {
                         name: formData.name,
                         email: formData.email,
@@ -115,9 +137,15 @@ export default {
                     })
                     .then((response) => {
                         commit('register', response.data)
+                        commit('changeIsLoading', false, {
+                            root: true
+                        });
                         resolve(response)
                     })
                     .catch((error) => {
+                        commit('changeIsLoading', false, {
+                            root: true
+                        });
                         reject(error)
                     })
 
@@ -174,7 +202,6 @@ export default {
                     .catch((error) => {
                         reject(error)
                     })
-
             })
         },
         /**
@@ -203,6 +230,9 @@ export default {
                         resolve(response)
                     })
                     .catch((error) => {
+                        commit('changeIsLoading', false, {
+                            root: true
+                        });
                         reject(error)
                     })
             })

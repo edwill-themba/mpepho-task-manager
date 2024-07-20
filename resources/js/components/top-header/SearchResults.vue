@@ -33,6 +33,9 @@
             </div>
           </div>
         </div>
+        <p class="go-back" v-on:click="hideSearch">
+          <FontAwesomeIcon icon="home" /> Go back
+        </p>
       </div>
     </div>
   </div>
@@ -45,7 +48,12 @@ import formatTime from "@/mixins/formatDate.js";
 export default {
   name: "SearchResults",
   props: ["searchResultsArray", "searchResultsLength"],
-  mixins: [isLoading, formatDate, formatTime]
+  mixins: [isLoading, formatDate, formatTime],
+  methods: {
+    hideSearch: function() {
+      this.$emit("hideSearch");
+    }
+  }
 };
 </script>
 
@@ -70,6 +78,7 @@ export default {
   justify-content: center;
   align-items: flex-start;
 }
+
 .no-results-found {
   margin-top: 5px;
   display: flex;
@@ -121,5 +130,13 @@ export default {
 .results-time {
   color: lime;
   font-size: 13.5px;
+}
+.go-back {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 15px;
+  color: coral;
+  cursor: pointer;
+  text-transform: uppercase;
 }
 </style>

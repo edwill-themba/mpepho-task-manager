@@ -3,10 +3,12 @@
     <!-- error message -->
     <div v-if="serverError" class="error message">
       <p v-on:click="close">{{ error }}
-        <FontAwesomeIcon icon="times" />
+        <span>
+          <FontAwesomeIcon icon="times" />
+        </span>
       </p>
     </div>
-    <!-- modal form -->
+    <!-- supervisor add task modal form -->
     <div v-if="!serverError" class="supervisor-task">
       <h5>Supervisor Add Task</h5>
       <div class="input-div">
@@ -28,7 +30,7 @@
       </div>
       <div class="button">
         <button type="button" class="btn-save" v-on:click="addSupervisorTask">
-          save
+          {{ !isLoading ? 'save' : 'wait..'}}
         </button>
         <button type="button" class="btn-close" v-on:click="close">
           close
@@ -42,10 +44,11 @@
 
 <script>
 import validateForm from "@/mixins/validateForm.js";
+import isLoading from "@/mixins/isLoading.js";
 import Swal from "sweetalert2";
 export default {
   name: "SupervisorTask",
-  mixins: [validateForm],
+  mixins: [validateForm, isLoading],
   props: ["userId"],
   data() {
     return {
@@ -53,40 +56,54 @@ export default {
         task_date: undefined,
         task_name: undefined,
         priority: undefined
-      },
+      }, // field error object
       formData: {
         task_date: "",
         task_name: "",
         priority: "",
         userId: this.userId
-      },
+      }, // form data object
       serverError: false,
       error: undefined
     };
   },
   methods: {
+    // emit close modal to the parent component
     close: function() {
       this.$emit("closeModal");
     },
+    // add task to user and make some validations
     addSupervisorTask: function() {
       this.fieldErrors = this.validateForm(this.formData);
       if (Object.keys(this.fieldErrors).length) return;
       this.$store
         .dispatch("addSupervisorTask", this.formData)
         .then(response => {
+          // display success message if succefully
           new Swal({
             icon: "success",
             title: "task created successfully,check my supervised task",
             timer: 4000
           });
+          // clear inputs
           this.formData.task_name = "";
           this.formData.task_date = "";
           this.formData.priority = "";
+          this.$router.push({ path: "/taskforuser" });
         })
         .catch(error => {
           this.serverError = true;
           this.error = error.response.data.message;
-          console.log(error);
+          // display error message
+          new Swal({
+            icon: "warning",
+            title: error.response.data.message,
+            timer: 4000
+          });
+          // clears inputs
+          this.formData.task_name = "";
+          this.formData.task_date = "";
+          this.formData.priority = "";
         });
     }
   }

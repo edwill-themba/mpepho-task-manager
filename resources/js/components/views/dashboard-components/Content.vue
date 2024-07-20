@@ -208,4 +208,29 @@ export default {
   color: #fff;
   background: yellowgreen;
 }
+
+@media (max-width: 768px) {
+  .user-name {
+    font-size: 13px;
+  }
+  .date-time {
+    font-size: 13px;
+  }
+  .pending h3 {
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .in-complete-task h3 {
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .complete-task h3 {
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .users h3 {
+    font-size: 17px;
+    font-weight: 700;
+  }
+}
 </style>

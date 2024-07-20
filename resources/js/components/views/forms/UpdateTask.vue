@@ -32,7 +32,7 @@
       </div>
       <div class="button">
         <button type="button" class="btn-save" v-on:click="updateTask">
-          save
+          {{ !isLoading ? 'save' : 'wait...'}}
         </button>
         <button type="button" class="btn-close" v-on:click="close">
           close
@@ -45,8 +45,10 @@
 
 <script>
 import Swal from "sweetalert2";
+import isLoading from "@/mixins/isLoading.js";
 export default {
   name: "UpdateTask",
+  mixins: [isLoading],
   props: ["task"],
   data() {
     return {

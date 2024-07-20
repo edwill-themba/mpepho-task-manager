@@ -5,10 +5,10 @@ export default {
     state: {
         tasks: [], // all tasks
         myTasks: [], // all tasks belongs to user
-        isloading: false,
+        isloading: false, // loading status
         complete_tasks: [], // tracks all the tasks user has completed
-        incomplete_tasks: [], // track all incomplete tasks,
-        search_results: null,
+        incomplete_tasks: [], // all incomplete tasks,
+        search_results: null, // task search results
     },
     getters: {
         // gets all the current tasks
@@ -54,9 +54,13 @@ export default {
         },
         // updates task for the authorized user
         updateTask: (state, task) => {
-
+            if (task.status == 'complete') {
+                state.complete_tasks.unshift(task);
+                state.tasks = state.tasks.filter((t) => t.id !== task.id);
+                state.myTasks = state.myTasks.filter((t) => t.id !== task.id);
+            }
         },
-        // deletes task from all tasks and my tasks
+        // removes select task from users tasks and all tasks
         deleteTask: (state, id) => {
             state.tasks = state.tasks.filter((t) => t.id !== id);
             state.myTasks = state.myTasks.filter((t) => t.id !== id);
@@ -97,6 +101,7 @@ export default {
                         resolve(response);
                     })
                     .catch((error) => {
+                        commit('changeIsLoading', false)
                         reject(error);
                     })
             })
@@ -108,8 +113,8 @@ export default {
         getAllTasks({
             commit
         }) {
-            commit('changeIsLoading', true)
             return new Promise((resolve, reject) => {
+                commit('changeIsLoading', true)
                 axios.get('api/users/tasks')
                     .then((response) => {
                         commit('allTasks', response.data.tasks)
@@ -117,6 +122,7 @@ export default {
                         resolve(response)
                     })
                     .catch((error) => {
+                        commit('changeIsLoading', false)
                         reject(error)
                     })
             })
@@ -145,6 +151,7 @@ export default {
                         resolve(response)
                     })
                     .catch((error) => {
+                        commit('changeIsLoading', false)
                         reject(error)
                     })
             })
@@ -158,6 +165,7 @@ export default {
             commit
         }, formData) {
             return new Promise((resolve, reject) => {
+                commit('changeIsLoading', true)
                 axios.post('api/users/task', {
                         task_name: formData.task_name,
                         task_date: formData.task_date,
@@ -170,9 +178,11 @@ export default {
                     })
                     .then((response) => {
                         commit('addNewTask', response.data.task)
+                        commit('changeIsLoading', false)
                         resolve(response)
                     })
                     .catch((error) => {
+                        commit('changeIsLoading', false)
                         reject(error)
                     })
             })
@@ -184,13 +194,14 @@ export default {
          */
         updateTask({
             commit
-        }, formData) {
+        }, task) {
             return new Promise((resolve, reject) => {
-                axios.put('api/users/task/' + formData.id, {
-                        task_name: formData.task_name,
-                        task_date: formData.task_date,
-                        priority: formData.priority,
-                        status: formData.status
+                commit('changeIsLoading', true)
+                axios.put('api/users/task/' + task.id, {
+                        task_name: task.task_name,
+                        task_date: task.task_date,
+                        priority: task.priority,
+                        status: task.status
                     }, {
                         headers: {
                             'Authorization': 'Bearer ' + auth.state.$token,
@@ -198,10 +209,12 @@ export default {
                         }
                     })
                     .then((response) => {
-                        commit('updateTask', response.data.task)
+                        commit('updateTask', task)
+                        commit('changeIsLoading', false)
                         resolve(response)
                     })
                     .catch((error) => {
+                        commit('changeIsLoading', false)
                         reject(error)
                     })
             })
@@ -254,6 +267,7 @@ export default {
                         resolve(response);
                     })
                     .catch((error) => {
+                        commit('changeIsLoading', false)
                         reject(error)
                     })
             })
@@ -279,6 +293,7 @@ export default {
                         resolve(response);
                     })
                     .catch((error) => {
+                        commit('changeIsLoading', false)
                         reject(error)
                     })
             })

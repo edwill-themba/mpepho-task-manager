@@ -20,6 +20,7 @@
             {{ task.task_name }}
           </h5>
           <p>Due Date : {{ formatDate(task.task_date) }}</p>
+          <span class="days">{{ daysLeft(task.task_date) }} to complete</span>
           <span class="delete-task" v-on:click="deleteTask(task)">
             <FontAwesomeIcon icon="trash" />
           </span>
@@ -46,9 +47,10 @@ import Error from "../server-error/Error.vue";
 import UpdateTask from "../forms/UpdateTask.vue";
 import formatDate from "@/mixins/formatDate.js";
 import formatTime from "@/mixins/formatDate.js";
+import daysLeft from "@/mixins/formatDate.js";
 import isLoading from "@/mixins/isLoading.js";
 export default {
-  mixins: [formatDate, formatTime, isLoading],
+  mixins: [formatDate, formatTime, isLoading, daysLeft],
   name: "MyTasks",
   components: {
     Error,
@@ -75,7 +77,7 @@ export default {
       showModal: false // show edit modal
     };
   },
-  mounted() {
+  created() {
     this.myTasks();
   },
   methods: {
@@ -134,7 +136,7 @@ export default {
 }
 .pending-tasks div {
   width: 96%;
-  height: 60px;
+  height: 85px;
   margin: 2px 10px;
   border: 1px solid #1111;
   border-radius: 6px;
@@ -160,6 +162,15 @@ export default {
   font-weight: 400;
   font-size: 15px;
   color: orange;
+  margin-top: 0px;
+  margin-bottom: 2px;
+  padding-bottom: 5px;
+  margin-left: 4%;
+}
+.pending-tasks div .days {
+  font-weight: 400;
+  font-size: 15px;
+  color: yellowgreen;
   margin-top: 0px;
   margin-bottom: 2px;
   padding-bottom: 5px;
@@ -228,4 +239,57 @@ export default {
   position: absolute;
 }
 /** modal **/
+
+@media (max-width: 1144px) {
+  pending-tasks div {
+    height: auto;
+    padding: 5px;
+  }
+  .pending-tasks div h5 {
+    font-size: 13.5px;
+    font-weight: 500;
+  }
+  .pending-tasks div h5 .task-number {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+  .pending-tasks div p {
+    font-size: 13px;
+    margin-top: 10px;
+  }
+  .pending-tasks div .days {
+    font-size: 13px;
+  }
+  .pending-tasks div .finish-task {
+    font-size: 14px;
+  }
+  .pending-tasks div .delete-task {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .pending-tasks div h5 {
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .pending-tasks div h5 .task-number {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+  .pending-tasks div p {
+    font-size: 12px;
+  }
+  .pending-tasks div .days {
+    font-size: 12px;
+  }
+  .pending-tasks div .finish-task {
+    font-size: 14px;
+  }
+  .pending-tasks div .delete-task {
+    font-size: 14px;
+  }
+}
 </style>

@@ -1,3 +1,4 @@
+<!-- search user form component -->
 <template>
   <div>
     <div class="search-user">
@@ -16,10 +17,11 @@ export default {
   name: "SearchUser",
   data() {
     return {
-      query: ""
+      query: "" // search query sent to database
     };
   },
   methods: {
+    // call the search method on parent component
     search: function(e) {
       e.preventDefault();
       this.$emit("search", this.query);
