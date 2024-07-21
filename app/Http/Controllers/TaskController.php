@@ -94,7 +94,7 @@ class TaskController extends Controller
             'priority' => 'required|min:3|max:255',
             'status' => 'required|min:3|max:255'
         ]);
-        //get user input
+        //gets user input
         $task = Task::find($id);
         $task->task_name = $request->input('task_name');
         $task->task_date = $request->input('task_date');
@@ -102,14 +102,16 @@ class TaskController extends Controller
         $task->supervisor_id = null;
         $task->priority = $request->input('priority');
         $task->status = $request->input('status');
+
         if (Auth::user()->id == $task->user_id) {
-         // checks if user has a task on this day
+            // checks if user has a task on this day
             $user_has_task = (new TaskValidator())->checkUserTask($task->user_id, $task->task_date);
-            if ($user_has_task && $task->id != $id) {
+            $task_id = (new TaskValidator())->getTaskID($task);
+            if ($user_has_task == 1 && $task->id != $task_id[0]->id) {
                 return response()->json(['message' => 'choose another date the users has a task on this date'], 422);
             }
-        //check status before updating 
-        // if status is complete it inserts the task to complete_tasks table and delete under tasks
+            //check status before updating 
+            // if status is complete it inserts the task to complete_tasks table and delete under tasks
             if ($task->status == 'complete') {
                 $task_status = (new TaskValidator())->checkCompleteTask($id);
                 return response()->json(['massage' => 'thank you for completing this task'], 200);
@@ -121,7 +123,6 @@ class TaskController extends Controller
             return response()->json(['message' => 'UnAuthorized'], 401);
         }
     }
-
     /**
      * Remove the specified resource from storage.
      */

@@ -118,11 +118,12 @@ class SupervsorTaskController extends Controller
         if (Auth::user()->role_id == 1 && $task->supervisor_id == Auth::user()->id) {
             // checks if user has a task on this day
             $user_has_task = (new TaskValidator())->checkUserTask($task->user_id, $task->task_date);
-            if ($user_has_task && $task->id != $id) {
+            $task_id = (new TaskValidator())->getTaskID($task);
+            if ($user_has_task == 1 && $task->id != $task_id[0]->id) {
                 return response()->json(['message' => 'choose another date the users has a task on this date'], 422);
             }
             //check status before updating 
-        // if status is complete it inserts the task to complete_tasks table and delete under tasks
+            // if status is complete it inserts the task to complete_tasks table and delete under tasks
             if ($task->status == 'complete') {
                 $task_status = (new TaskValidator())->checkCompleteTask($id);
                 return response()->json(['task' => $task], 200);

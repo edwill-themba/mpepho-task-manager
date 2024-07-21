@@ -1,14 +1,7 @@
 <template>
   <div class="modal" v-if="showModal">
     <div class="modal-form">
-      <!-- if server error -->
-      <div v-if="error" class="error message">
-        <p v-on:click="closeModal">{{ errorMessage}}
-          <FontAwesomeIcon icon="times" />
-        </p>
-      </div>
-      <!-- end server error -->
-      <div v-if="!error">
+      <div>
         <form class="frm-add-task">
           <h4>Add New Task</h4>
           <div class="input-div">
@@ -64,8 +57,6 @@ export default {
         task_name: "",
         priority: ""
       }, // user inputs
-      error: false, // error set false
-      errorMessage: undefined, // error message
       fieldErrors: {
         task_date: undefined,
         task_name: undefined,
@@ -99,8 +90,6 @@ export default {
           this.closeModal();
         })
         .catch(error => {
-          this.error = true;
-          this.errorMessage = error.response.data.message;
           new Swal({
             icon: "warning",
             title: error.response.data.message,
@@ -111,7 +100,6 @@ export default {
           this.formData.task_date = "";
           this.formData.priority = "";
           this.closeModal();
-          console.log(error);
         });
     }
   }
@@ -157,15 +145,5 @@ export default {
   justify-content: center;
   align-items: flex-start;
   flex-direction: column;
-}
-.error span {
-  color: red;
-  font-size: 15px;
-  padding: 10px;
-  text-align: left;
-}
-.message {
-  text-align: center;
-  margin-top: 20px;
 }
 </style>

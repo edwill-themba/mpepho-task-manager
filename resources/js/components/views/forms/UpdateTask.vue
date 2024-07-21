@@ -1,11 +1,5 @@
 <template>
   <div>
-    <!-- error message -->
-    <div v-if="serverError" class="error message">
-      <p v-on:click="close">{{ error }}
-        <FontAwesomeIcon icon="times" />
-      </p>
-    </div>
     <!-- the modal form -->
     <div class="modal">
       <h5>Update Task</h5>
@@ -50,12 +44,6 @@ export default {
   name: "UpdateTask",
   mixins: [isLoading],
   props: ["task"],
-  data() {
-    return {
-      serverError: false,
-      error: undefined
-    };
-  },
   methods: {
     // closes the modal
     close: function() {
@@ -79,7 +67,6 @@ export default {
             title: error.response.data.message,
             timer: 4000
           });
-          location.reload();
         });
     }
   }

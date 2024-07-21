@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Task;
 use DB;
 
 class TaskValidator extends Model
@@ -31,17 +32,35 @@ class TaskValidator extends Model
             ->select('task_date')
             ->where('user_id', $user_id)
             ->get();
-
+        // loop dates
         foreach ($tdates as $date) {
             if ((substr($date->task_date, 0, 10)) == (substr($task_date, 0, 10))) {
                 $found = true;
                 break;
             }
         }
-
         if ($found) {
-            return true;
+            return 1;
+        } else {
+            return 0;
         }
+    }
+    /**
+     * checks task id and id for update purpose
+     * if are ids are same means is a same task
+     * 
+     * @param id
+     * @param task_id
+     * @return integer
+     */
+    public function getTaskID($task)
+    {
+        $task_id = DB::table('tasks')
+            ->select('id')
+            ->where('task_date', $task->task_date)
+            ->get();
+
+        return $task_id;
     }
     /**
      * check if users has completed task
@@ -110,7 +129,6 @@ class TaskValidator extends Model
             return true;
         }
     }
-
     /**
      * checks if user to get task is supervisor 
      * if users supervisor the operation will not

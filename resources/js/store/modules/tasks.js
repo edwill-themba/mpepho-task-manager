@@ -1,13 +1,13 @@
 import axios from 'axios'
 import auth from './auth'
+import completeTasks from './completeTasks'
+import incompleteTasks from './incompleteTasks'
 
 export default {
     state: {
         tasks: [], // all tasks
         myTasks: [], // all tasks belongs to user
         isloading: false, // loading status
-        complete_tasks: [], // tracks all the tasks user has completed
-        incomplete_tasks: [], // all incomplete tasks,
         search_results: null, // task search results
     },
     getters: {
@@ -23,15 +23,6 @@ export default {
         isLoading(state) {
             return state.isloading;
         },
-        // gets all the incomplete tasks
-        getIncompleteTasks(state) {
-            return state.incomplete_tasks;
-        },
-        // gets all the complete tasks
-        getCompleteTasks(state) {
-            return state.complete_tasks;
-        },
-
 
     },
     mutations: {
@@ -55,27 +46,16 @@ export default {
         // updates task for the authorized user
         updateTask: (state, task) => {
             if (task.status == 'complete') {
-                state.complete_tasks.unshift(task);
+                completeTasks.state.complete_tasks.unshift(task);
                 state.tasks = state.tasks.filter((t) => t.id !== task.id);
                 state.myTasks = state.myTasks.filter((t) => t.id !== task.id);
             }
         },
         // removes select task from users tasks and all tasks
-        deleteTask: (state, id) => {
-            state.tasks = state.tasks.filter((t) => t.id !== id);
-            state.myTasks = state.myTasks.filter((t) => t.id !== id);
-        },
-        // returns all the tasks auth user did not complete
-        allIncompleteTasks: (state, incomplete_tasks) => {
-            state.incomplete_tasks = incomplete_tasks;
-        },
-        // adds deleted task to incomplete task
-        addToIncompleteTask: (state, task) => {
-            state.incomplete_tasks.unshift(task);
-        },
-        // commits tasks the user has completed
-        allCompleteTasks: (state, complete_tasks) => {
-            state.complete_tasks = complete_tasks;
+        deleteTask: (state, task) => {
+            incompleteTasks.state.unshift(task)
+            state.tasks = state.tasks.filter((t) => t.id !== task.id);
+            state.myTasks = state.myTasks.filter((t) => t.id !== task.id);
         },
         // commit search results
         searchTasks: (state, search_results) => {
@@ -218,7 +198,6 @@ export default {
                         reject(error)
                     })
             })
-
         },
         /**
          * deletes user task 
@@ -237,8 +216,7 @@ export default {
                         }
                     })
                     .then((response) => {
-                        commit('addToIncompleteTask', task);
-                        commit('deleteTask', task.id)
+                        commit('deleteTask', task)
                         resolve(response)
                     })
                     .catch((error) => {
@@ -246,59 +224,6 @@ export default {
                     })
             })
         },
-        /**
-         * Gets user incomplete tasks
-         * @param {*} param0 
-         */
-        getIncompleteTasks({
-            commit
-        }) {
-            return new Promise((resolve, reject) => {
-                commit('changeIsLoading', true);
-                axios.get('api/incomplete_tasks', {
-                        headers: {
-                            'Authorization': 'Bearer ' + auth.state.$token,
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                    .then((response) => {
-                        commit('allIncompleteTasks', response.data.incomplete_tasks)
-                        commit('changeIsLoading', false)
-                        resolve(response);
-                    })
-                    .catch((error) => {
-                        commit('changeIsLoading', false)
-                        reject(error)
-                    })
-            })
-        },
-        /**
-         * Gets the complete tasks 
-         * @param {*} param0 
-         */
-        getCompleteTasks({
-            commit
-        }) {
-            return new Promise((resolve, reject) => {
-                commit('changeIsLoading', true)
-                axios.get('api/complete_tasks', {
-                        headers: {
-                            'Authorization': 'Bearer ' + auth.state.$token,
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                    .then((response) => {
-                        commit('allCompleteTasks', response.data.complete_tasks)
-                        commit('changeIsLoading', false)
-                        resolve(response);
-                    })
-                    .catch((error) => {
-                        commit('changeIsLoading', false)
-                        reject(error)
-                    })
-            })
-        },
-
     }
     //end actions
 }
