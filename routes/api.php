@@ -7,6 +7,7 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\SupervsorTaskController;
 use App\Http\Controllers\InCompleteTaskController;
 use App\Http\Controllers\CompleteTaskController;
+use App\Models\InCompleteTask;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,8 +37,14 @@ Route::prefix('users')->group(function () {
 // protected routes
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
+    //incomplete tasks
     Route::get('incomplete_tasks', [InCompleteTaskController::class, 'index']);
+    Route::delete('incomplete_task/{id}', [InCompleteTaskController::class, 'destroy']);
+    Route::delete('incomplete_task/all/{user_id}', [InCompleteTaskController::class, 'destroyAll']);
+    // complete task
     Route::get('complete_tasks', [CompleteTaskController::class, 'index']);
+    Route::delete('complete_task/{id}', [CompleteTaskController::class, 'destroy']);
+    Route::delete('complete_task/all/{user_id}', [CompleteTaskController::class, 'destroyAll']);
     // shows all surbordiates
     Route::get('allusers', [AuthController::class, 'allusers']);
     // searches a specific user

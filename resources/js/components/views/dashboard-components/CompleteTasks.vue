@@ -13,10 +13,15 @@
         <p>no complete are tasks found</p>
       </div>
       <div v-else class="complete-tasks">
-        <div v-for="(task,index) in completeTasks" :key="index">
+        <!-- remove all task -->
+        <span class="remove" v-on:click="removeAllComplete">remove all complete</span>
+        <div v-for="(task,index) in complete" :key="index">
           <h5>
             <span class="task-number">{{ index + 1 }}</span>{{ task.task_name }}</h5>
           <p>Completed at: {{ formatDate(task.updated_at) }}</p>
+          <span class="remove-complete" v-on:click="removeCompleteTask(task)">
+            <FontAwesomeIcon icon="times" />
+          </span>
         </div>
       </div>
     </div>
@@ -26,21 +31,29 @@
 <script>
 import formatDate from "@/mixins/formatDate.js";
 import isLoading from "@/mixins/isLoading.js";
+import Swal from "sweetalert2";
 export default {
   mixins: [formatDate, isLoading],
   name: "CompleteTask",
+  computed: {
+    complete() {
+      return this.$store.getters.getCompleteTasks;
+    }
+  },
   data() {
     return {
-      completeTasks: [],
-      serverError: false,
-      error: undefined,
-      completeTaskLength: undefined
+      completeTasks: [], // complete tasks set to an empty array
+      serverError: false, // server error set to false
+      error: undefined, // error set to undefied
+      completeTaskLength: undefined, // task length set to undefined
+      user_id: null
     };
   },
   created() {
     this.getCompleteTask();
   },
   methods: {
+    // dispatch the store to get all complete task
     getCompleteTask: function() {
       this.$store
         .dispatch("getCompleteTasks")
@@ -53,6 +66,51 @@ export default {
           this.error;
           console.log(error);
         });
+    },
+    // dispatch the store to remove selected task
+    removeCompleteTask: function(task) {
+      const confirmation = confirm("Are you sure you want to delete this task");
+      if (confirmation) {
+        this.$store
+          .dispatch("removeCompleteTask", task)
+          .then(() => {
+            new Swal({
+              icon: "success",
+              title: "task was removed successfuly",
+              timer: 4000
+            });
+          })
+          .catch(error => {
+            new Swal({
+              icon: "warning",
+              title: error.response.data.message,
+              timer: 4000
+            });
+          });
+      }
+    },
+    //dispatch action to remove all tasks for that specific user
+    removeAllComplete: function() {
+      this.user_id = this.completeTasks[0].user_id;
+      const confirmation = confirm("Are you sure you want to remove all task");
+      if (confirmation) {
+        this.$store
+          .dispatch("removeAllCompleteTask", this.user_id)
+          .then(() => {
+            new Swal({
+              icon: "success",
+              title: "all tasks were removed successfully",
+              timer: 4000
+            });
+          })
+          .catch(error => {
+            new Swal({
+              icon: "warning",
+              title: error.response.data.message,
+              timer: 4000
+            });
+          });
+      }
     }
   }
 };
@@ -67,6 +125,25 @@ export default {
   align-items: flex-start;
   flex-wrap: wrap;
   overflow-y: auto;
+}
+.complete-tasks .remove {
+  margin: 10px 10px 15px;
+  text-transform: capitalize;
+  border: none;
+  width: 200px;
+  text-align: center;
+  border-radius: 6px;
+  height: 30px;
+  padding-top: 10px;
+  background: #111;
+  cursor: pointer;
+  color: #e4e4e4;
+  font-size: 14px;
+}
+.complete-tasks .remove:hover {
+  border: 2px solid green;
+  background: transparent;
+  color: green;
 }
 .complete-tasks div {
   width: 96%;
@@ -116,7 +193,13 @@ export default {
   padding-bottom: 5px;
   margin-left: 4%;
 }
-
+.complete-tasks .remove-complete {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: red;
+  cursor: pointer;
+}
 .complete-tasks div .task_time {
   position: absolute;
   bottom: 5px;

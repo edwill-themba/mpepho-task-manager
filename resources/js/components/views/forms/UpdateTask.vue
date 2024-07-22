@@ -63,10 +63,11 @@ export default {
         })
         .catch(error => {
           new Swal({
-            icon: "warnig",
+            icon: "warning",
             title: error.response.data.message,
             timer: 4000
           });
+          this.$store.dispatch("userTasks");
         });
     }
   }

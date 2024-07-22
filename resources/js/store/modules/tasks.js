@@ -53,7 +53,7 @@ export default {
         },
         // removes select task from users tasks and all tasks
         deleteTask: (state, task) => {
-            incompleteTasks.state.unshift(task)
+            incompleteTasks.state.incomplete_tasks.unshift(task)
             state.tasks = state.tasks.filter((t) => t.id !== task.id);
             state.myTasks = state.myTasks.filter((t) => t.id !== task.id);
         },

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 
 class InCompleteTask extends Model
@@ -20,6 +21,13 @@ class InCompleteTask extends Model
         'priority',
         'status'
     ];
+    /**
+     * each incomplete task belongs to a user
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
 
     protected $timestamp = true;
 

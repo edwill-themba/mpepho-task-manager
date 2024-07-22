@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Role;
 use App\Models\Task;
+use App\Models\InCompleteTask;
 
 class User extends Authenticatable
 {
@@ -59,6 +60,14 @@ class User extends Authenticatable
     public function tasks()
     {
         return $this->hasMany('App\Models\Task');
+    }
+
+    /**
+     *  Get the incomplete tasks of the user 
+     */
+    public function incomplete_tasks()
+    {
+        return $this->hasMany('App\Models\InCompleteTask');
     }
 
 }

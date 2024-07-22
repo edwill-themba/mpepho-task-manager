@@ -14,7 +14,7 @@
         <p>no pending tasks are found</p>
       </div>
       <div v-else class="pending-tasks">
-        <div v-for="(task,index) in mytasks" :key="index">
+        <div v-for="(task,index) in mytasks" :key="task.id">
           <h5>
             <span class="task-number">{{ index + 1 }}</span>
             {{ task.task_name }}
