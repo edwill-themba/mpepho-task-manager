@@ -83,7 +83,7 @@ export default {
           });
           this.$router.push({ path: "/dashboard" });
         });
-     }
+    }
   }
 };
 </script>
@@ -105,9 +105,10 @@ export default {
   align-items: center;
 }
 .update-supervisor-modal h5 {
-  color: #111111;
+  color: olive;
   margin-top: 15px;
   font-size: 17px;
-  font-weight: 300;
+  font-weight: 500;
+  padding-right: 10px;
 }
 </style>

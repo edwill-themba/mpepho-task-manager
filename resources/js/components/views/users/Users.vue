@@ -18,7 +18,7 @@
           <!-- search user and pagination -->
           <div class="find-user">
             <SearchUser v-on:search="search" />
-            <DashPagination v-if="!searchUser" v-bind:usersLength="usersLength" v-bind:perPage="5" v-on:getPage="getPage" />
+
           </div>
           <!-- search user results -->
           <div class="search-user-results" v-if="searchUser">
@@ -26,7 +26,7 @@
           </div>
           <div class="table-wrapper" v-if="!searchUser">
             <!--  table to display all users -->
-            <UserTable v-bind:paginatedUsers="paginatedUsers" v-on:addtask="addtask" />
+            <UserTable v-bind:allusers="allusers" v-on:addtask="addtask" />
             <!-- end table to display users -->
           </div>
         </div>
@@ -49,7 +49,6 @@ import isLoading from "@/mixins/isLoading.js";
 import SupervisorTask from "../forms/SupervisorTask.vue"; // supervisor add task modal
 import SearchUser from "./SearchUser.vue"; // search user component
 import SearchUserResults from "./SearchUserResults.vue";
-import DashPagination from "../dashboard-components/DashPagination.vue";
 import UserTable from "./UserTable.vue";
 import Swal from "sweetalert2";
 export default {
@@ -58,7 +57,6 @@ export default {
     SupervisorTask,
     SearchUser,
     SearchUserResults,
-    DashPagination,
     UserTable
   },
   data() {
@@ -71,9 +69,7 @@ export default {
       userId: "", // user id for creation of user tasks
       searchUser: false, // search user set to false
       searchResults: null, // search results set to null
-      searchResultsLength: undefined, // number of users found in that search results
-      page: 1, // starting page set default to 1
-      perPage: 6 // displayed per page
+      searchResultsLength: undefined // number of users found in that search results
     };
   },
   // call get users on mounted
@@ -81,11 +77,8 @@ export default {
     this.getAllUsers();
   },
   computed: {
-    // get the number of users displayed per page
-    paginatedUsers() {
-      const firstIndex = (this.page - 1) * this.perPage;
-      const lastIndex = this.page * this.perPage;
-      return this.users.slice(firstIndex, lastIndex);
+    allusers() {
+      return this.$store.getters.getUsers;
     }
   },
   methods: {

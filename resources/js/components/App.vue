@@ -99,7 +99,7 @@ body {
   margin-top: 20px;
 }
 .input-group .frm-input {
-  width: 70%;
+  width: 80%;
   height: 35px;
   background: transparent;
   border: none;
@@ -282,7 +282,7 @@ body {
   margin: 10px;
   padding: 5px;
   display: flex;
-  justify-content:center;
+  justify-content: center;
   align-items: center;
   flex-wrap: wrap;
 }

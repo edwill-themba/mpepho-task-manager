@@ -22,6 +22,7 @@ const changeTaskDate = {
                         title: error.response.data.message,
                         timer: 5000
                     });
+                    this.task.task_date = "";
                 });
         }
     },

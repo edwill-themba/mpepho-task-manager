@@ -104,8 +104,10 @@ export default {
   align-items: center;
 }
 .modal h5 {
-  color: #111111;
   font-size: 19px;
-  font-weight: 300;
+  font-weight: 500;
+  color: olive;
+  margin: 1px auto;
+  padding-right: 10px;
 }
 </style>

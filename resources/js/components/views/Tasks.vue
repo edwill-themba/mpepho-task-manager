@@ -10,12 +10,12 @@
       </div>
       <!-- end is loading element -->
       <div class="wrapper-container" v-if="!isLoading">
-        <!-- task type is the priority & pagination  component-->
+        <!-- task type is the priority & pagination  components-->
         <TasksType />
         <Pagination :totalPages="tasks.length" :perPageOptions=[12] v-on:getPage="getPage" />
       </div>
       <div v-if="serverError">
-        <!-- the component for server errors -->
+        <!-- the component for server errors  & pass error as prop -->
         <Error v-bind:error="error" />
       </div>
       <div v-if="taskLength <= 0">
@@ -23,7 +23,7 @@
         <NoTask />
       </div>
       <div v-else>
-        <!-- component for each task item -->
+        <!-- component for displaying tasks -->
         <TaskItem v-bind:paginatedTasks="paginatedTasks" />
       </div>
     </div>
@@ -49,6 +49,7 @@ export default {
     TaskItem
   },
   computed: {
+    // paginates tasks
     paginatedTasks() {
       const firstIndex = (this.page - 1) * this.perPage;
       const lastIndex = this.page * this.perPage;
@@ -57,15 +58,16 @@ export default {
   },
   data() {
     return {
-      serverError: null,
-      error: null,
-      tasks: [],
-      page: 1,
-      perPage: perPageOptions[0],
-      taskLength: undefined
+      serverError: false, // serverError set to null
+      error: undefined, // error message set to undefined
+      tasks: [], // all tasks array
+      page: 1, // starting page
+      perPage: perPageOptions[0], // how many to display per page
+      taskLength: undefined // number of task length
     };
   },
   methods: {
+    // tells the store dispatch all the tasks
     getUserTasks: function() {
       this.$store
         .dispatch("getAllTasks")
@@ -78,13 +80,14 @@ export default {
           this.error = error;
         });
     },
+    // get tasks page from pagination component
     getPage(page, perPage) {
       this.page = page;
       this.perPage = perPage;
     }
   },
-  mounted() {
-    this.getUserTasks();
+  created() {
+    this.getUserTasks(); // gets all the tasks when components is created
   }
 };
 </script>
