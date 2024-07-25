@@ -18,10 +18,10 @@ class TaskFactory extends Factory
     {
 
         return [
-            'task_name' => $this->faker->sentence($nbWords = 3, $variableNbWords = true),
+            'task_name' => $this->faker->sentence($nbWords = 2, $variableNbWords = true),
             'task_date' => $this->faker->dateTimeBetween($startDate = 'now', $endDate = '7 months', $timezone = null),
             'priority' => $this->faker->randomElement(['high', 'medium', 'low']),
-            'supervisor_id' => null,
+            'supervisor_id' => 0,
             'status' => 'incomplete'
         ];
     }

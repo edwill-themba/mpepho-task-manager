@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use DB;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -68,11 +69,15 @@ class AuthController extends Controller
      */
     public function allusers()
     {
-        $users = DB::table('users')
-            ->where('role_id', 2)
-            ->get();
-
-        return response()->json(['users' => $users], 200);
+        // check if the user is a supervisor
+        if (Auth::user()->role_id == 1) {
+            $users = DB::table('users')
+                ->where('role_id', 2)
+                ->get();
+            return response()->json(['users' => $users], 200);
+        } else {
+            return response()->json(['message' => 'Not Authorized'], 401);
+        }
     }
 
     /**
@@ -82,15 +87,14 @@ class AuthController extends Controller
      */
     public function search(string $query)
     {
-        $search_results = DB::table('users')
-            ->where('name', 'like', '%' . $query . '%')
-            ->orWhere('email', 'like', '%' . $query . '%')
-            ->get();
-
-
-        return response()->json(['search_results' => $search_results], 200);
-
+        if (Auth::user()->role_id == 1) {
+            $search_results = DB::table('users')
+                ->where('name', 'like', '%' . $query . '%')
+                ->orWhere('email', 'like', '%' . $query . '%')
+                ->get();
+            return response()->json(['search_results' => $search_results], 200);
+        } else {
+            return response()->json(['message' => 'Not Authorized'], 401);
+        }
     }
-
-
 }

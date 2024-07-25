@@ -7,11 +7,10 @@ use Illuminate\Support\Facades\Auth;
 use DB;
 use App\Models\TaskValidator;
 use App\Models\Task;
+use Illuminate\Database\Query\JoinClause;
 
 class SupervsorTaskController extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      */
@@ -24,7 +23,6 @@ class SupervsorTaskController extends Controller
             return response()->json(['message' => 'UnAuthorized, only supervisors can view other users'], 401);
         }
     }
-
     /**
      * Display a listing of the resource for a user
      * 
@@ -32,14 +30,13 @@ class SupervsorTaskController extends Controller
     public function supervisors_tasks()
     {
         $supervisor_tasks = DB::table('users')
-            ->join('tasks', function ($join) {
-                $join->on('users.id', '=', 'tasks.user_id')
+            ->join('tasks', function (JoinClause $join) {
+                $join->on('users.id', 'tasks.user_id')
                     ->where('tasks.supervisor_id', '=', Auth::user()->id);
             })
             ->get();
         return response()->json(['supervisor_tasks' => $supervisor_tasks], 200);
     }
-
     /**
      * Display the specified resource.
      */
@@ -62,43 +59,31 @@ class SupervsorTaskController extends Controller
             'priority' => 'required|min:3|max:255',
         ]);
         //get user input
-        $task_name = $request->input('task_name');
-        $task_date = $request->input('task_date');
-        $user_id = $id;
-        $supervisor_id = Auth::user()->id;
-        $priority = $request->input('priority');
-        $status = 'incomplete';
-        // checks if user is authorized
-        if (Auth::user()->role_id === 1) {
-            // checks if user has a task on this day
-            $user_has_task = (new TaskValidator())->checkUserTask($user_id, $task_date);
+        $task = new Task;
+        $task->task_name = $request->input('task_name');
+        $task->task_date = $request->input('task_date');
+        $task->user_id = $id;
+        $task->supervisor_id = Auth::user()->id;
+        $task->priority = $request->input('priority');
+        $task->status = 'incomplete';
+        // checks if user is a supervisor and user assign to task is a subordinate
+        if (Auth::user()->role_id == 1) {
+            $user_has_task = (new TaskValidator())->checkUserTask($task->user_id, $task->task_date);
             if ($user_has_task) {
                 return response()->json(['message' => 'choose another date the users has a task on this date'], 422);
             }
             // insert user data
-            $task = DB::table('tasks')->insert([
-                'task_name' => $task_name,
-                'task_date' => $task_date,
-                'priority' => $priority,
-                'user_id' => $user_id,
-                'supervisor_id' => $supervisor_id,
-                'status' => $status,
-                'created_at' => now(),
-                'updated_at' => now()
-            ]);
+            $task->save();
             return response()->json(['task' => $task], 201);
         } else {
             return response()->json(['message' => 'unAuthorized'], 401);
         }
     }
-
-
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-
         $this->validate($request, [
             'task_name' => 'required|min:3|max:255',
             'task_date' => 'required|date|after:today',
@@ -110,23 +95,14 @@ class SupervsorTaskController extends Controller
         //get user input
         $task->task_name = $request->input('task_name');
         $task->task_date = $request->input('task_date');
-        $task->user_id = $id;
-        $task->supervisor_id = Auth::user()->id;
         $task->priority = $request->input('priority');
         $task->status = $request->input('status');
-        //find the task and get user id
-        if (Auth::user()->role_id == 1 && $task->supervisor_id == Auth::user()->id) {
-            // checks if user has a task on this day
-            $user_has_task = (new TaskValidator())->checkUserTask($task->user_id, $task->task_date);
-            $task_id = (new TaskValidator())->getTaskID($task);
-            if ($user_has_task == 1 && $task->id != $task_id[0]->id) {
-                return response()->json(['message' => 'choose another date the users has a task on this date'], 422);
-            }
-            //check status before updating 
+        //check if auth user is a supervisor
+        if ($task->user_id == Auth::user()->id || $task->supervisor_id == Auth::user()->id) {
             // if status is complete it inserts the task to complete_tasks table and delete under tasks
             if ($task->status == 'complete') {
                 $task_status = (new TaskValidator())->checkCompleteTask($id);
-                return response()->json(['task' => $task], 200);
+                return response()->json(['massage' => 'thank you for completing this task'], 200);
             } else {
                 $task->save();
                 return response()->json(['task' => $task], 200);
@@ -135,14 +111,15 @@ class SupervsorTaskController extends Controller
             return response()->json(['message' => 'unAuthorized'], 401);
         }
     }
-
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
+        // find the task
         $task = Task::find($id);
-        if (Auth::user()->role_id == 1 && Auth::user()->id == $task->supervisor_id) {
+        // checks if auth user is supervisor
+        if ($task->user_id == Auth::user()->id || $task->supervisor_id == Auth::user()->id) {
             $results = (new TaskValidator())->incompleteTasks($id);
             if ($results) {
                 return response()->json(['message' => 'task was deleted successfully'], 200);

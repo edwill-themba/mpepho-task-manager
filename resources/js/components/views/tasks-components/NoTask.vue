@@ -1,7 +1,9 @@
 <template>
-  <div class="no-tasks">
-    <h3>Sorry No Tasks Found</h3>
-    <p>You need to create an account and sign in to be able to create tasks.</p>
+  <div class="wrapper">
+    <div class="no-tasks">
+      <h3>Sorry No Tasks Found</h3>
+      <p>You need to create an account and sign in to be able to create tasks.</p>
+    </div>
   </div>
 </template>
 
@@ -12,6 +14,14 @@ export default {
 </script>
 
 <style scoped>
+.wrapper {
+  width: 90%;
+  height: 100%;
+  margin: 0px auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
 .no-tasks {
   display: flex;
   justify-content: center;
@@ -35,7 +45,7 @@ export default {
 
 @media (max-width: 900px) {
   .no-tasks {
-    align-items: flex-start;
+    align-items: center;
     padding: auto 10px;
     width: 100%;
   }

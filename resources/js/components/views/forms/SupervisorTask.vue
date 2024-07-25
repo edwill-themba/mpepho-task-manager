@@ -89,7 +89,6 @@ export default {
           this.formData.task_name = "";
           this.formData.task_date = "";
           this.formData.priority = "";
-          this.$router.push({ path: "/taskforuser" });
         })
         .catch(error => {
           this.serverError = true;
@@ -104,6 +103,7 @@ export default {
           this.formData.task_name = "";
           this.formData.task_date = "";
           this.formData.priority = "";
+          this.$router.push({ path: "/dashboard" });
         });
     }
   }

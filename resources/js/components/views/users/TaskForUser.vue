@@ -57,6 +57,7 @@ export default {
         .then(response => {
           this.supervisedTasks = response.data.supervisor_tasks;
           this.tasksLength = this.supervisedTasks.length;
+          console.log(this.supervisedTasks);
         })
         .catch(error => {
           this.serverError = true;

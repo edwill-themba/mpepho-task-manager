@@ -38,7 +38,6 @@ class TaskController extends Controller
     {
         $myTasks = DB::table('tasks')
             ->where('user_id', Auth::user()->id)
-            ->where('supervisor_id', null)
             ->orderBy('created_at', 'desc')
             ->get();
         return response()->json(['myTasks' => $myTasks], 200);
@@ -58,7 +57,7 @@ class TaskController extends Controller
         $task->task_name = $request->input('task_name');
         $task->task_date = $request->input('task_date');
         $task->user_id = Auth::user()->id;
-        $task->supervisor_id = null;
+        $task->supervisor_id = 0;
         $task->priority = $request->input('priority');
         $task->status = 'incomplete';
         $task->created_at = now();
@@ -99,19 +98,11 @@ class TaskController extends Controller
         $task->task_name = $request->input('task_name');
         $task->task_date = $request->input('task_date');
         $task->user_id = Auth::user()->id;
-        $task->supervisor_id = null;
         $task->priority = $request->input('priority');
         $task->status = $request->input('status');
-
+        // check if user is authorized 
         if (Auth::user()->id == $task->user_id) {
-            // checks if user has a task on this day
-            $user_has_task = (new TaskValidator())->checkUserTask($task->user_id, $task->task_date);
-            $task_id = (new TaskValidator())->getTaskID($task);
-            if ($user_has_task == 1 && $task->id != $task_id[0]->id) {
-                return response()->json(['message' => 'choose another date the users has a task on this date'], 422);
-            }
-            //check status before updating 
-            // if status is complete it inserts the task to complete_tasks table and delete under tasks
+            // check if status is complete
             if ($task->status == 'complete') {
                 $task_status = (new TaskValidator())->checkCompleteTask($id);
                 return response()->json(['massage' => 'thank you for completing this task'], 200);
@@ -139,7 +130,6 @@ class TaskController extends Controller
             return response()->json(['message' => 'UnAuthorized'], 401);
         }
     }
-
     /**
      * Search the specific resource from storage
      * 
@@ -152,5 +142,18 @@ class TaskController extends Controller
             ->get();
 
         return response()->json(['search_results' => $search_results], 200);
+    }
+
+    /**
+     * check user if user have task
+     */
+    public function chechTaskDate($user_id, $task_date)
+    {
+        $user_has_task = (new TaskValidator())->checkUserTask($user_id, $task_date);
+        if ($user_has_task == 1) {
+            return response()->json(['message' => 'user a task please choose another date'], 422);
+        }
+
+        return response()->json(['message' => 'user has no task'], 200);
     }
 }

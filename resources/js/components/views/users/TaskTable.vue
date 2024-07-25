@@ -1,36 +1,25 @@
 <template>
   <div>
-    <div class="container-table">
+    <div class="container-task">
       <div class="my-supervisor-task">
-        <!-- table of the task supervised by the user -->
-        <table class="my-supervisor-task-table">
-          <tr class="row-header">
-            <th class="col-id">Task ID</th>
-            <th class="col-name">Task Name</th>
-            <th class="col-date">Task Date</th>
-            <th class="col-name">Task Assign To</th>
-            <th class="col-name">supervisor Name</th>
-            <th class="col-date">edit task</th>
-            <th class="col-date">delete task</th>
-          </tr>
-          <tr v-for="(task,index) in allSupervisedTasks" :key="index">
-            <td class="id">{{ index + 1 }}</td>
-            <td class="col">{{ task.task_name }}</td>
-            <td class="col-date-body">{{ formatDate(task.task_date) }}</td>
-            <td class="col">{{ task.name }}</td>
-            <td class="col">{{ supervisorName }}</td>
-            <td class="col-date-body" v-on:click="openModal(task)">
-              <span class="edit">
-                <FontAwesomeIcon icon="pencil" /> edit
-              </span>
-            </td>
-            <td class="col-date-body" v-on:click="removeTask(task)">
-              <span class="delete">
-                <FontAwesomeIcon icon="times" /> delete
-              </span>
-            </td>
-          </tr>
-        </table>
+        <!-- supervised tasks -->
+        <div v-for="(task,index) in  allSupervisedTasks" :key="index">
+          <h5>
+            <span>
+              <FontAwesomeIcon icon="header" />
+            </span>
+            {{ task.task_name }}
+          </h5>
+          <p>Task Assigned To : {{ task.name }}</p>
+          <span class="due">Due Date : {{ formatDate(task.task_date) }}</span>
+          <span class="update" v-on:click="openModal(task)">
+            <FontAwesomeIcon icon="pencil" />
+          </span>
+          <span class="delete" v-on:click="removeTask(task)">
+            <FontAwesomeIcon icon="trash" />
+          </span>
+        </div>
+        <!-- end supervised tasks -->
       </div>
     </div>
     <!-- update supervisor user task modal -->
@@ -118,70 +107,85 @@ export default {
 </script>
 
 <style scoped>
-.my-supervisor-task-table {
-  border-collapse: collapse;
-  margin-top: 20px;
+.container-task {
+  width: 90%;
+  height: 100%;
+  margin: 0px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.row-header {
-  background: #ccc;
+.my-supervisor-task {
+  width: 100%;
+  height: 520px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  overflow-y: scroll;
 }
-/** col header styling **/
-.col-id {
-  width: 70px;
-  padding-left: 5px;
-  color: #111111;
-  border: 2px solid #e4e4e4;
-}
-.col-name {
-  width: 180px;
-  padding-left: 5px;
-  color: #111111;
-  border: 2px solid #e4e4e4;
-}
-.col-date {
-  width: 120px;
-  padding-left: 5px;
-  color: #111111;
-  border: 2px solid #e4e4e4;
-}
-/** end of table header styling **/
-/** body column styling **/
-.id {
-  width: 70px;
-  padding-left: 10px;
-  border: 2px solid #e4e4e4;
-}
-.col {
-  width: 180px;
-  padding-left: 5px;
-  border: 2px solid #e4e4e4;
-}
-.col-date-body {
-  width: 120px;
-  padding-left: 5px;
-  border: 2px solid #e4e4e4;
-}
-.col-date-body .edit {
-  color: green;
-  margin-left: 10px;
-  cursor: pointer;
-}
-.col-date-body .delete {
-  color: red;
-  margin-left: 10px;
-  cursor: pointer;
-}
-.create-task {
-  margin-top: 5px 5px;
-  cursor: pointer;
-}
-.create-task a {
+.my-supervisor-task div {
+  width: 81vw;
+  height: 85px;
+  margin: 2px 10px;
+  border: 1px solid #1111;
+  border-radius: 6px;
+  background: #111111;
   color: #e4e4e4;
-  text-decoration: none;
+  padding: 10px 5px 12px 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  position: relative;
 }
-.create-task a:hover {
-  color: coral;
+
+.my-supervisor-task div h5 {
+  font-size: 17px;
+  color: #e4e4e4;
+  font-weight: 300;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5px;
 }
+.my-supervisor-task div h5 span {
+  margin-right: 5px;
+  font-size: 15px;
+  color: purple;
+}
+.my-supervisor-task div p {
+  font-weight: 400;
+  font-size: 15px;
+  color: orange;
+  margin: 1px 0px 5px 0px;
+  padding-bottom: 5px;
+  text-transform: uppercase;
+}
+.my-supervisor-task div .due {
+  color: lime;
+  font-size: 13px;
+  margin-top: -5px;
+  margin-bottom: 2px;
+  padding-bottom: 5px;
+  text-transform: uppercase;
+}
+.my-supervisor-task div .update {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: green;
+  cursor: pointer;
+}
+.my-supervisor-task div .delete {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  color: red;
+  cursor: pointer;
+}
+/** update modal styling **/
 .update-supervisor-task-modal {
   width: 100%;
   height: 100%;
@@ -193,6 +197,7 @@ export default {
   right: 0px;
   bottom: 0px;
 }
+/** modal transition **/
 .update-supervisor-task-enter-active,
 .update-supervisor-task-leave-active {
   transition: 0.8s ease;
@@ -206,5 +211,59 @@ export default {
 }
 .update-supervisor-task-leave-active {
   position: absolute;
+}
+@media (max-width: 1144px) {
+  .my-supervisor-task {
+    height: 500px;
+  }
+  .my-supervisor-task div {
+    height: auto;
+    padding: 5px;
+  }
+  .my-supervisor-task div h5 {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .my-supervisor-task div p {
+    font-size: 13px;
+    margin-top: 10px;
+  }
+  .my-supervisor-task div {
+    font-size: 13px;
+  }
+  .my-supervisor-task div .update {
+    font-size: 14px;
+  }
+  .my-supervisor-task div .delete {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .my-supervisor-task {
+    margin-left: -1px;
+  }
+  .my-supervisor-task div {
+    width: 75vw;
+    height: auto;
+    padding: 10px;
+    margin-left: -1px;
+  }
+  .my-supervisor-task div h5 {
+    font-size: 13.5px;
+    font-weight: 500;
+    margin-left: -1px;
+  }
+  .my-supervisor-task div p {
+    font-size: 13px;
+  }
+
+  .my-supervisor-task div .update {
+    font-size: 14px;
+  }
+  .my-supervisor-task div .delete {
+    font-size: 14px;
+  }
 }
 </style>

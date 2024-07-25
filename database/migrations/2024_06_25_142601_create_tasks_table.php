@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('task_date');
             $table->enum('priority', ['high', 'medium', 'low'])->default('low');
             $table->integer('user_id');
-            $table->integer('supervisor_id')->nullable();
+            $table->integer('supervisor_id')->default(0);
             $table->timestamps();
         });
     }

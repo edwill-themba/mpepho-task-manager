@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
                 ['role_id' => 1],
                 ['role_id' => 2]
             )->has(\App\Models\Task::factory()
-                ->count(3)
+                ->count(6)
                 ->sequence(
                     ['priority' => 'high'],
                     ['priority' => 'medium'],

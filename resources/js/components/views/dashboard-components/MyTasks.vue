@@ -241,7 +241,7 @@ export default {
 /** modal **/
 
 @media (max-width: 1144px) {
-  pending-tasks div {
+  .pending-tasks div {
     height: auto;
     padding: 5px;
   }

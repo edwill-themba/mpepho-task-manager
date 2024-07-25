@@ -46,23 +46,6 @@ class TaskValidator extends Model
         }
     }
     /**
-     * checks task id and id for update purpose
-     * if are ids are same means is a same task
-     * 
-     * @param id
-     * @param task_id
-     * @return integer
-     */
-    public function getTaskID($task)
-    {
-        $task_id = DB::table('tasks')
-            ->select('id')
-            ->where('task_date', $task->task_date)
-            ->get();
-
-        return $task_id;
-    }
-    /**
      * check if users has completed task
      * 
      * @param id

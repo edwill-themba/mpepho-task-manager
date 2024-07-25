@@ -10,13 +10,13 @@
     <div class="update-supervisor-modal">
       <h5>Update this task</h5>
       <div class="input-div">
-        <input type="text" name="task_name" v-model="task.task_name" class="input">
+        <input type="text" v-model="task.task_name" class="input">
       </div>
       <div class="input-div">
-        <input type="datetime-local" name="task_date" v-model="task.task_date" class="input">
+        <input type="datetime-local" v-model="task.task_date" v-on:change="changeTaskDate(task)" class="input">
       </div>
       <div class="input-div">
-        <select name="priority" v-model="task.priority" class="input">
+        <select v-model="task.priority" class="input">
           <option value="">please select task priority</option>
           <option value="high">high</option>
           <option value="medium">medium</option>
@@ -24,13 +24,13 @@
         </select>
       </div>
       <div class="input-div">
-        <select name="status" v-model="task.status" class="input">
+        <select v-model="task.status" class="input">
           <option value="">please select task status</option>
           <option value="incomplete">incomplete</option>
           <option value="complete">complete</option>
         </select>
       </div>
-      <div class="button">
+      <div class="button" v-if="!serverError">
         <button type="button" class="btn-save" v-on:click="updateSupervisorTask(task)">
           {{ !isLoading ? 'save': 'wait...' }}
         </button>
@@ -45,10 +45,11 @@
 <script>
 import validateForm from "@/mixins/validateForm.js";
 import isLoading from "@/mixins/isLoading.js";
+import changeTaskDate from "@/mixins/changeTaskDate.js";
 import Swal from "sweetalert2";
 export default {
   name: "UpdateSupervisorTask",
-  mixins: [validateForm, isLoading],
+  mixins: [validateForm, isLoading, changeTaskDate],
   props: ["task"],
   data() {
     return {
@@ -80,9 +81,9 @@ export default {
             title: error.response.data.message,
             timer: 6000
           });
-          location.reload();
+          this.$router.push({ path: "/dashboard" });
         });
-    }
+     }
   }
 };
 </script>

@@ -1,6 +1,7 @@
 import auth from './auth'
 import tasks from './tasks'
 import axios from 'axios'
+import completeTasks from './completeTasks'
 
 
 export default {
@@ -25,9 +26,9 @@ export default {
         // update the supervisor task
         updateSupervisorTask: (state, task) => {
             if (task.status == 'complete') {
-                tasks.state.complete_tasks.unshift(task);
-                state.supervisedTasks = state.supervisedTasks.filter((t) => t.id !== task.id)
+                completeTasks.state.complete_tasks.unshift(task);
                 tasks.state.tasks = tasks.state.tasks.filter((t) => t.id !== task.id);
+                state.supervisedTasks = state.supervisedTasks.filter((t) => t.id !== task.id);
             }
         },
         // the supervisor 
@@ -85,7 +86,7 @@ export default {
                 axios.post('api/supervisors/task/user/' + formData.userId, {
                         task_name: formData.task_name,
                         task_date: formData.task_date,
-                        priority: formData.priority
+                        priority: formData.priority,
                     }, {
                         headers: {
                             'Authorization': 'Bearer ' + auth.state.$token,

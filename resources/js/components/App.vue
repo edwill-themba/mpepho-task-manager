@@ -282,7 +282,7 @@ body {
   margin: 10px;
   padding: 5px;
   display: flex;
-  justify-content: flex-start;
+  justify-content:center;
   align-items: center;
   flex-wrap: wrap;
 }

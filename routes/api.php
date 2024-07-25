@@ -66,6 +66,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('task/{id}', [SupervsorTaskController::class, 'update']);
         Route::delete('task/{id}', [SupervsorTaskController::class, 'destroy']);
     });
+    // check if user a task if user wants to update
+    Route::get('user_has_task/{user_id}/{task_date}', [TaskController::class, 'chechTaskDate']);
 });
 
 
