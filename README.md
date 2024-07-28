@@ -11,16 +11,21 @@
    linux  /var/www/html/project-folder/
 2. Create a database called taskdb, if you have password and different user name modify 
    the .env file and database username on DB_USERNAME= and password on DB_PASSWORD=
-3. Open terminal or cmd and navigate to project folder eg  C:/xampp/htdocs/projet-folder
+3. Also configure you email settings on .env file because the application sends email if a
+   supervisor creates or updates a task for a user.
+4. Open terminal or cmd and navigate to project folder eg  C:/xampp/htdocs/projet-folder
    or  /var/www/html/project-folder/
    - Run this command: composer install  
    - Run this command: npm install /or yarn install
-4. Run this command: php artisan serve
-5. Run the: php artisan migrate to create the tables
-6. Run the: php artisan db:seed to seed the tables with data.
-7. Open another terminal and navigate to project folder and run this command: npm run dev
-8. After the npm run dev command is executed, open a browser of choice and paste this url
+5. Run this command: php artisan serve
+6. Run the: php artisan migrate to create the tables
+7. Run the: php artisan db:seed to seed the tables with data.
+8. Open another terminal and navigate to project folder and run this command: npm run dev
+9. After the npm run dev command is executed, open a browser of choice and paste this url
    http://localhost:8000/
+# HOW TO LOG IN
+  email = email get from the database
+  password = password
 # HOW THE APPLICATION IS STRUCTURED
 1. Back-end
 - 6 Controllers

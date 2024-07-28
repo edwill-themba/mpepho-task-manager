@@ -17,7 +17,38 @@ class TaskValidator extends Model
     public function removeExpiredTasks()
     {
         $today = now();
-        \DB::table('tasks')->where('task_date', '<', $today)->delete();
+        // calls the insert ignored task
+        $this->insertIgnoredTasks($today);
+        // limits to 100 for in case of many records
+        \DB::table('tasks')->where('task_date', '<', $today)->limit(100)->delete();
+    }
+    /**
+     * inserts all incomplete tasks that are ignored by users
+     * and due dates expires are automatically deleted and
+     * inserted into incomplete tasks table
+     * 
+     * @param today
+     */
+    public function insertIgnoredTasks($today)
+    {
+        //select and chunk into 100 in case of many records
+        \DB::table('tasks')->where('task_date', '<', $today)
+            ->orderBy('id')
+            ->chunk(100, function ($tasks) {
+                foreach ($tasks as $task) {
+                    \DB::table('in_complete_tasks')->insert([
+                        'task_name' => $task->task_name,
+                        'task_date' => $task->task_date,
+                        'priority' => $task->priority,
+                        'status' => $task->status,
+                        'user_id' => $task->user_id,
+                        'supervisor_id' => $task->supervisor_id,
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ]);
+                }
+            });
+
     }
     /**
      * checks if user has task deadline on the date

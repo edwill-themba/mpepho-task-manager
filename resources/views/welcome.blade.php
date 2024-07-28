@@ -4,7 +4,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>edwill task manager</title>
-   </head>
+    </head>
+    <link href="https://fonts.cdnfonts.com/css/poppins" rel="stylesheet">
     <body>
       <div id="app">
           <App />

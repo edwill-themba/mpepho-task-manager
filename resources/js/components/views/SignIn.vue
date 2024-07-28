@@ -2,7 +2,13 @@
   <div class="wrapper">
     <div class="login-container">
       <div class="login-content">
-        <img src="../../../images/gears.jpg">
+        <h3>Welcome To Our New website</h3>
+        <p>
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eligendi dolorem beatae iste consectetur ipsam ratione accusantium placeat tenetur magnam tempore pariatur libero perspiciatis quaerat maxime obcaecati, laborum tempora adipisci id illum corrupti reprehenderit asperiores nisi molestias aut. Quas, culpa consequatur repellendus rem repudiandae deserunt voluptatem reprehenderit sint amet animi cupiditate.
+        </p>
+        <p>
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Illum assumenda expedita, eum itaque non sequi vero. Architecto repellat culpa error.
+        </p>
       </div>
       <transition name="sign-in">
         <div class="sign-in-form" v-if="sign_in">
@@ -78,20 +84,29 @@ export default {
   width: 65%;
   height: 100%;
   position: absolute;
-  background: transparent;
+  background: #111;
+  color: #e4e4e4;
   left: 0;
-  border-top-left-radius: 6px;
-  border-bottom-left-radius: 6px;
+  border: none;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
 }
-.login-content img {
-  width: 100%;
-  height: 100%;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  border-top-left-radius: 0px;
-  border-bottom-left-radius: 0px;
-  position: absolute;
+.login-content h3 {
+  font-size: 40px;
+  margin-left: 20px;
+  font-weight: 300;
+  margin-top: 23px;
+  text-transform: uppercase;
+  color: coral;
+}
+.login-content p {
+  padding: 15px;
+  margin-left: 10px;
+  font-size: 17px;
+  font-weight: 300;
+  margin-top: 15px;
 }
 /** sign in form **/
 .sign-in-form {

@@ -9,9 +9,8 @@
         </h6>
         <p>{{task.name}}</p>
         <span>
-          Creation Date
-          <FontAwesomeIcon icon="calendar" /> {{ formatDate(task.created_at) }} at
-          <FontAwesomeIcon icon="clock" /> {{ formatTime(task.created_at) }}
+          Task Creation Date
+          <FontAwesomeIcon icon="calendar" /> {{ formatDate(task.created_at) }}
         </span>
         <span>Scheduled for
           <FontAwesomeIcon icon="calendar" /> {{ formatDate(task.task_date) }}

@@ -79,6 +79,7 @@ export default {
             title: error.response.data.message,
             timer: 4000
           });
+          location.reload();
           this.$store.dispatch("userTasks");
         });
     }

@@ -77,7 +77,8 @@ export default {
         })
         .catch(error => {
           this.serverError = true;
-          this.error = error;
+          this.error = error.response.data.message;
+          console.log(this.error);
         });
     },
     // get tasks page from pagination component

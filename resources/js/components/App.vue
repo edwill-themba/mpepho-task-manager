@@ -17,6 +17,7 @@ export default {
 
 
 <style>
+@import url("https://fonts.cdnfonts.com/css/poppins");
 * {
   margin: 0;
   padding: 0;
@@ -31,7 +32,7 @@ header {
   background: #111111;
 }
 body {
-  font-family: Poppins, Helvetica, Arial, sans-serif;
+  font-family: "Poppins", sans-serif;
   background: #111111;
   color: #e4e4e4;
   overflow: hidden;
@@ -112,6 +113,7 @@ body {
   margin: 5px auto;
   color: red;
   padding: 2px;
+  font-size: 15px;
 }
 .btn-register-login {
   margin-top: 35px;
@@ -288,9 +290,11 @@ body {
 }
 .no-tasks p {
   color: #e4e4e4;
-  font-size: 17px;
-  font-weight: bold;
+  font-size: 23px;
+  font-weight: 300;
   margin-left: 12px;
+  margin-top: 20px;
+  text-align: center;
 }
 .error p {
   color: red;
@@ -338,6 +342,9 @@ body {
   .frm-register-login {
     width: 280px;
   }
+  .no-tasks {
+    font-size: 17px;
+  }
 }
 @media (max-width: 900px) {
   .sign-in {
@@ -371,6 +378,9 @@ body {
   .input-div .input {
     font-size: 13px;
   }
+  .no-tasks p {
+    font-size: 16px;
+  }
 }
 @media (max-width: 898px) {
   .tasks-list {
@@ -403,6 +413,10 @@ body {
   .btn-close {
     font-size: 14px;
     font-weight: 400;
+  }
+  .no-tasks p {
+    font-size: 14px;
+    margin-left: -10px;
   }
 }
 </style>
