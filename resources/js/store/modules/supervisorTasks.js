@@ -26,9 +26,9 @@ export default {
         // update the supervisor task
         updateSupervisorTask: (state, task) => {
             if (task.status == 'complete') {
+                state.supervisedTasks = state.supervisedTasks.filter((t) => t.id !== task.id);
                 completeTasks.state.complete_tasks.unshift(task);
                 tasks.state.tasks = tasks.state.tasks.filter((t) => t.id !== task.id);
-                state.supervisedTasks = state.supervisedTasks.filter((t) => t.id !== task.id);
             }
         },
         // the supervisor 
@@ -132,7 +132,7 @@ export default {
                         }
                     })
                     .then((response) => {
-                        commit('updateSupervisorTask', response.data.task)
+                        commit('updateSupervisorTask', task)
                         commit('changeIsLoading', false, {
                             root: true
                         })

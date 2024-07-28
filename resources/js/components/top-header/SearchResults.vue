@@ -134,9 +134,29 @@ export default {
 .go-back {
   text-align: center;
   margin-top: 30px;
-  font-size: 15px;
+  font-size: 17px;
   color: coral;
   cursor: pointer;
   text-transform: uppercase;
+}
+@media (max-width: 900px) {
+  .no-results-found h3 {
+    font-size: 19px;
+  }
+  .no-results-found p {
+    font-size: 14px;
+  }
+  .search-results-found h1 {
+    font-size: 18px;
+  }
+  .search-results-found .task-box h4 {
+    font-size: 14.5px;
+  }
+  .results-date-time {
+    font-size: 13.5px;
+  }
+  .go-back {
+    font-size: 15px;
+  }
 }
 </style>

@@ -1,10 +1,6 @@
 <template>
   <div>
-    <!-- set isLoading when component load -->
-    <div v-if="isLoading" class="loading">
-      <p>please wait...</p>
-    </div>
-    <div v-else class="wrapper-container">
+    <div class="wrapper-container">
       <!-- check for server error -->
       <div v-if="serverError" class="error">
         <p>{{ error }}</p>
@@ -45,7 +41,6 @@
 </template>
 
 <script>
-import isLoading from "@/mixins/isLoading.js";
 import SupervisorTask from "../forms/SupervisorTask.vue"; // supervisor add task modal
 import SearchUser from "./SearchUser.vue"; // search user component
 import SearchUserResults from "./SearchUserResults.vue";
@@ -162,16 +157,22 @@ export default {
   right: 0px;
   bottom: 0px;
 }
+.find-user {
+  margin: 20px auto 50px auto;
+  height: auto;
+}
 .search-user-results {
   margin-top: 30px;
-  padding: 10px;
   width: 100%;
-  height: 100%;
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   flex-wrap: wrap;
+}
+.table-wrapper {
+  margin-top: -50px;
 }
 
 .supervisor-task-enter-active,

@@ -25,7 +25,6 @@ export default {
     search: function(e) {
       e.preventDefault();
       this.$emit("search", this.query);
-      this.query = "";
     }
   }
 };

@@ -71,17 +71,16 @@ export default {
             title: "task was successfully updated",
             timer: 4000
           });
-          console.log(response);
         })
         .catch(error => {
           this.serverError = true;
-          this.error = error.response.data.message;
+          this.error = error;
           new Swal({
             icon: "warning",
-            title: error.response.data.message,
+            title: error,
             timer: 6000
           });
-          this.$router.push({ path: "/dashboard" });
+          console.log(error);
         });
     }
   }

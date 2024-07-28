@@ -1,29 +1,23 @@
 <template>
     <div>
-        <div class="search-user-results">
+        <div class="results">
             <div v-if="searchResultsLength <= 0" class="no-user-found">
                 <h3>the user or users you are looking are not found</h3>
             </div>
             <div v-else>
                 <div class="search-resuls-found">
-                    <table class="search-resuls-found-table">
-                        <tr class="row-head">
-                            <th>Full Names</th>
-                            <th>Email Address</th>
-                            <th>Registration Date</th>
-                        </tr>
-                        <tr v-for="(user,index) in searchResults" :key="index">
-                            <td class="table-record">
+                    <div v-for="(user,index) in searchResults" :key="index">
+                        <div class="box">
+                            <p>
+                                <strong>Full Names </strong>
                                 {{ user.name }}
-                            </td>
-                            <td class="table-record">
+                            </p>
+                            <p>
+                                <strong>Email Address </strong>
                                 {{ user.email }}
-                            </td>
-                            <td class="table-record">
-                                {{ formatDate(user.created_at) }}
-                            </td>
-                        </tr>
-                    </table>
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -31,52 +25,62 @@
 </template>
 
 <script>
-import formatDate from "@/mixins/formatDate.js";
 export default {
-  mixins: [formatDate],
   name: "SearchUserResults",
   props: ["searchResults", "searchResultsLength"]
 };
 </script>
 
 <style scoped>
-.search-user-results {
-  width: 100%;
-  height: 100%;
+.no-user-found {
+  width: 70vw;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
+}
+.no-user-found h3 {
+  font-size: 19px;
+  font-weight: 300;
+}
+.results {
+  margin-top: 70px;
 }
 .search-resuls-found {
-  width: 100%;
-  height: 100%;
+  width: 65vw;
+  height: auto;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 25px;
+  margin-left: 5px;
+}
+.search-resuls-found .box {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
-.search-resuls-found-table {
-  border-collapse: collapse;
-  border-collapse: collapse;
-  width: 60vw;
-  margin-top: 30px;
+.search-resuls-found .box p {
+  color: #e4e4e4;
+  padding: 5px;
 }
-.search-resuls-found-table .row-head {
-  background: #111;
-  text-transform: uppercase;
-  height: 40px;
-  text-align: center;
+.email {
+  margin-left: 10px;
 }
-.search-resuls-found-table .row-head th {
-  width: 180px;
-  border: 2px solid;
-}
-.search-resuls-found-table tr .table-record {
-  width: 180px;
-  text-align: center;
-  border: 2px solid;
+@media (max-width: 900px) {
+  .results {
+    margin-top: 60px;
+  }
+  .no-user-found h3 {
+    font-size: 15px;
+  }
+  .search-resuls-found {
+    margin-top: 80px;
+  }
+  .search-resuls-found .box p {
+    display: flex;
+    flex-direction: column;
+    font-size: 13px;
+  }
 }
 </style>

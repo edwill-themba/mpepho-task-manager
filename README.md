@@ -52,7 +52,29 @@ b.Vuex
   I have added four tables to laravel built in tables
   -roles,tasks,complete_tasks and in_complete_tasks.
 # HOW THE APPLICATION WORKS
-
+1. In the home page you will see all the tasks of all users, green are low priority, orange
+   are medium priority and red are high priority
+2. The application will create 20 users, 10 are supervisors with role id 1 and 10 
+   subordinates  with role id 2, each user have six pending tasks.
+   a. To view users,you open phpmyadmin and select taskdb and open users table copy email and go to sign in route  put email under email and password of all users is password
+   b. Open terminal and run mysql -u root -p/ mysql -u dbusername -p and enter password and 
+  select taskdb and then select * from users.
+3. You can also create your own user by going to signup in the bottom of the login form.
+   note all users created manually are subordinates.
+4. Once you have logged in successfully you will be directed to dashboard if user is 
+   supervisor you will have 6 options
+   -Supervsor
+   a view my tasks - are the tasks that are created during db seed and when you add task  manually.
+   b complete tasks - when you start will have no complete task because all you task are pending
+   c.incomplete task- when you start you will no incomplete tasks, will be added if you ignore the task and due date expires or delete the task without completing it.
+   d.add task - when you add your own task will be place under pending task.
+   e.view users - displays all the users that are subordinates and select add task option for you to add task for that user.
+   f.my supervised task - all task you created for users.
+  -Subordinate
+  a. view my task
+  b. complete task
+  c. incomplete task
+  d. add task
 # RULES
  1. This is task management system that allow users(subordinates) and supervisors to manage tasks, for example both subordinates and supervisors can create, read, update and delete their own tasks.
  2. Supervisors can create, read, update and delete tasks for users(subordinates) that they created for that user, but supervisors cannot have an access to a task create by other supervisors to a user and supervisors can create a task for another supervisor.

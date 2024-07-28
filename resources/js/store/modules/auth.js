@@ -9,6 +9,7 @@ export default {
         $users: [],
         $roleId: localStorage.getItem('roleID') || null, // checks if user is a supervisor or subordinates
         $search_results: null,
+        $user: null, // user to be registered
     },
     getters: {
         isLoggin(state) {
@@ -55,7 +56,11 @@ export default {
         // sets search results to current results
         searchUser: (state, search_results) => {
             state.$search_results = search_results;
+        },
+        registerUser: (state, user) => {
+            state.$user = user;
         }
+
     },
     actions: {
         // logs the user in
@@ -136,7 +141,7 @@ export default {
                         password_confirmation: formData.password_confirmation
                     })
                     .then((response) => {
-                        commit('register', response.data)
+                        commit('registerUser', response.data.user)
                         commit('changeIsLoading', false, {
                             root: true
                         });

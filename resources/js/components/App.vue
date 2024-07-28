@@ -396,5 +396,13 @@ body {
   .frm-errors {
     font-size: 13px;
   }
+  .btn-save {
+    font-size: 14px;
+    font-weight: 400;
+  }
+  .btn-close {
+    font-size: 14px;
+    font-weight: 400;
+  }
 }
 </style>
