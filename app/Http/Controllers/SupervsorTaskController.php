@@ -7,7 +7,10 @@ use Illuminate\Support\Facades\Auth;
 use DB;
 use App\Models\TaskValidator;
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Database\Query\JoinClause;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TaskUpdateMail;
 
 class SupervsorTaskController extends Controller
 {
@@ -72,8 +75,21 @@ class SupervsorTaskController extends Controller
             if ($user_has_task) {
                 return response()->json(['message' => 'choose another date the users has a task on this date'], 422);
             }
-            // insert user data
+            // insert and save user data
             $task->save();
+            // gets the user
+            $user = User::where('id', $task->user_id)->get();
+            // gets the supervisor
+            $supervisor = User::where('id', Auth::user()->id)->get();
+            // data to be send with email
+            $data = array(
+                'user_name' => $user[0]->name,
+                'supervisor' => $supervisor[0]->name,
+                'task_name' => $request->input('task_name'),
+                'task_date' => $request->input('task_date')
+            );
+            // sends email to user
+            \Mail::to($user[0]->email)->send(new TaskUpdateMail($data));
             return response()->json(['task' => $task], 201);
         } else {
             return response()->json(['message' => 'unAuthorized'], 401);
@@ -105,6 +121,19 @@ class SupervsorTaskController extends Controller
                 return response()->json(['massage' => 'thank you for completing this task'], 200);
             } else {
                 $task->save();
+                 // gets the user
+                $user = User::where('id', $task->user_id)->get();
+                // gets the supervisor
+                $supervisor = User::where('id', Auth::user()->id)->get();
+                // data to be send with email
+                $data = array(
+                    'user_name' => $user[0]->name,
+                    'supervisor' => $supervisor[0]->name,
+                    'task_name' => $request->input('task_name'),
+                    'task_date' => $request->input('task_date')
+                );
+                // sends email to user
+                \Mail::to($user[0]->email)->send(new TaskUpdateMail($data));
                 return response()->json(['task' => $task], 200);
             }
         } else {

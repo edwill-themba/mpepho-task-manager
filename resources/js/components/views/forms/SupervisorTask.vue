@@ -127,7 +127,7 @@ export default {
   align-items: center;
 }
 .supervisor-task h5 {
- color: olive;
+  color: olive;
   margin-top: 15px;
   font-size: 17px;
   font-weight: 500;
