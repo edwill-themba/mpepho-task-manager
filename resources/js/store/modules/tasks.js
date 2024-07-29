@@ -9,6 +9,7 @@ export default {
         myTasks: [], // all tasks belongs to user
         isloading: false, // loading status
         search_results: null, // task search results
+        myTaskLength: 0, // the current pending task length
     },
     getters: {
         // gets all the current tasks
@@ -18,6 +19,10 @@ export default {
         // gets all the task belongs to a user
         getMyTasks(state) {
             return state.myTasks;
+        },
+        // gets the pending task length
+        getMyTasksLength(state) {
+            return state.myTasks.length;
         },
         // returns the current status of is loading
         isLoading(state) {
@@ -42,6 +47,7 @@ export default {
         addNewTask: (state, task) => {
             state.tasks.unshift(task);
             state.myTasks.unshift(task);
+            state.myTaskLength = myTasks.length;
         },
         // updates task for the authorized user
         updateTask: (state, task) => {

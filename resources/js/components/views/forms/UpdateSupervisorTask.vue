@@ -80,6 +80,7 @@ export default {
             title: error,
             timer: 6000
           });
+          location.reload();
           console.log(error);
         });
     }

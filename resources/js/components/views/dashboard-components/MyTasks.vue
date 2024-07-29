@@ -10,7 +10,7 @@
         {{ error }}
       </div>
       <!-- end server error -->
-      <div v-if="taskLength <= 0" class="no-tasks">
+      <div v-if="mytaskLength <= 0" class="no-tasks">
         <p>no pending tasks are found</p>
       </div>
       <div v-else class="pending-tasks">
@@ -59,6 +59,9 @@ export default {
   computed: {
     mytasks() {
       return this.$store.getters.getMyTasks;
+    },
+    mytaskLength() {
+      return this.$store.getters.getMyTasksLength;
     }
   },
   data() {
@@ -73,7 +76,6 @@ export default {
         status: ""
       },
       tasks: [],
-      taskLength: undefined,
       showModal: false // show edit modal
     };
   },
@@ -109,7 +111,6 @@ export default {
         .dispatch("userTasks")
         .then(response => {
           this.tasks = response.data.myTasks;
-          this.taskLength = this.tasks.length;
         })
         .catch(error => {
           this.serverError = true;
